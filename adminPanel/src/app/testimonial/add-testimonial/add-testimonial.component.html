@@ -1,0 +1,43 @@
+<div class="row">
+	<div class="col-12">
+		<h4 class="card-title">Testimonial Details</h4>
+		<div class="card">
+			<div class="card-body">
+				<form [formGroup]="testimonialForm" (ngSubmit)="onSubmit(testimonialForm.value)">
+					<div class="row">	
+						<div class="col-md-6">
+							<div class="form-group">
+							 	<label>Author Name*</label>
+							    <input formControlName="auther_name" placeholder="Author name" [ngClass]="{ 'is-invalid': submitted && f.auther_name.errors }" class="form-control" type="text">
+							    <div *ngIf="submitted && f.auther_name.errors" class="invalid-feedback">
+							     	<span class="for-sub-name" *ngIf="f.auther_name.errors.required">Author name is required.</span>
+							    </div>
+							</div>
+						</div>
+                        <div class="col-md-6">
+							<div class="form-group">
+							 	<label>Image</label>
+								<input type="file" class="form-control" (change)="fileChange($event)" accept="image/jpeg,image/png" #file name="file">
+								<div *ngIf="test_image != ''" class="mr-2">
+									<img src="{{img_url + test_image}}" width="150px" height="150px">
+								</div>
+							</div>
+						</div>
+                        <div class="col-md-6">
+							<div class="form-group">
+							 	<label>Description*</label>
+								<textarea type="textarea" class="form-control" type="text" formControlName="description" [ngClass]="{ 'is-invalid': submitted && f.description.errors }" rows="5" placeholder="Description"></textarea>
+								<div *ngIf="submitted && f.description.errors" class="invalid-feedback">
+									<span class="for-sub-name" *ngIf="f.description.errors.required">Description is required</span>
+							   </div>
+							</div>
+						</div>
+						<div class="col-lg-2 col-md-4 card-foot-btn">
+                        	<button type="submit" [disabled]="isBtnDisable" class="btn btn-block btn-primary">Save</button>
+                        </div>
+                    </div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

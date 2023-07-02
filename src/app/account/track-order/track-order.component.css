@@ -1,0 +1,46 @@
+.track{position:relative;background-color:#ddd;height:7px;display:-webkit-box;display:-ms-flexbox;display:flex;margin-bottom:60px;margin-top:50px}
+.track .step{-webkit-box-flex:1;-ms-flex-positive:1;flex-grow:1;width:25%;margin-top:-18px;text-align:center;position:relative}
+.track .step.active:before{background:#e4282f}
+.track .step::before{height:7px;position:absolute;content:"";width:100%;left:0;top:18px}
+.track .step.active .icon{background:#e4282f;color:#fff}
+.track .icon{display:inline-block;width:40px;height:40px;line-height:40px;position:relative;border-radius:100%;background:#ddd}
+.track .step.active .text{font-weight:400;color:#000}
+.track .text{display:block;margin-top:7px}
+.billing-shipping-sec{display:flex;flex-wrap:wrap;padding: 25px 0;}
+.billing-shipping-sec span{flex-basis:100%;max-width: calc(33.3% - 20px);width:100%;background-color:#f2f2f2;padding:20px;margin:0 20px 20px 0;}
+
+#pc-track-order .order-des h5 {font-size: 16px;}
+#pc-track-order .order-des .card-body {display: flex;align-items: center;justify-content: space-between;}
+#pc-track-order .order-des .card-body .sap-btn-dark {margin: 0;}
+
+#pc-track-order .dataTable img {
+    width: 150px !important;
+    box-shadow: 0 0 15px 0 rgb(0 0 0 / 15%);
+    border-radius: 20px;
+}
+
+.order-summary-details .osd-inner ul,.order-summary-details .osd-inner ul li{list-style-type:none;padding:0;margin:0}
+.order-summary-details .osd-inner{display:flex;justify-content:space-between}
+.order-summary-details .osd-inner .osd-details{text-align:right}
+#osd-total-heading{font-size:16px;font-weight:600;margin:10px 0 0}
+#osd-total-num{font-size:16px;color:#e25751;font-weight:600;margin:10px 0 0}
+
+
+
+
+
+
+
+
+
+
+
+@media(max-width:991px)
+{
+.billing-shipping-sec span{max-width: calc(50% - 20px);margin: 0 20px 20px 0;}
+}
+
+@media(max-width:767px)
+{
+.billing-shipping-sec span{max-width: calc(100% - 0px);margin: 0 0px 20px 0;}
+}

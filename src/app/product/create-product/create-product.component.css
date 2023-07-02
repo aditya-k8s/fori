@@ -1,0 +1,25 @@
+/*input[type=checkbox] {
+  display: none;
+}
+
+.productImg {
+  width: 150px;
+  height: 150px;
+}
+label {
+  margin: 10px;
+}*/
+
+
+.fetch-prod-form-head {display: flex;padding: 0 0 20px;}
+.fetch-prod-form-head .sap-btn-dark {max-width: 175px;margin: 0 0 0 12px;width: 100%;flex-basis: 100%;}
+#fetch-products .foot-btn {width: 100%;}
+
+
+@media(max-width:499px)
+{
+.fetch-prod-form-head {flex-direction:column;}
+.fetch-prod-form-head .sap-btn-dark {max-width: 180px;margin: 12px 0 0 0px;width: 100%;flex-basis: 100%;max-width: 100%;}
+
+}
+

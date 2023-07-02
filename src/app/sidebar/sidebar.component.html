@@ -1,0 +1,212 @@
+
+      
+                <div class="profile-sidebar">
+                    <!-- SIDEBAR USERPIC -->
+
+                    <div class="profile-userpic">
+                        <label class="hoverable" for="fileInput">
+                            <img  src="{{url}}"  onerror="this.src='./assets/images/shopper_default_icon.jpg'" class="img-responsive" alt="" *ngIf="user_type == 0">
+
+                            <img  src="{{url}}"  onerror="this.src='./assets/images/store_default_icon.jpg'" class="img-responsive" alt="" *ngIf="user_type == 1">
+
+                            <img  src="{{url}}"  onerror="this.src='./assets/images/influencer_default_icon.jpg'" class="img-responsive" alt="" *ngIf="user_type != 0 && user_type != 1">
+
+                            <div class="hover-text">
+                                <button data-toggle="modal" data-target="#profile_imageModal">
+                                    <i class="fas fa-pen"></i></button>
+                            </div>
+                            <div class="hover-text" id="remove-photo" *ngIf="url">
+                                <button type="button" (click)="click_profile()">
+                                    <i class="far fa-trash-alt"></i></button>
+                            </div>
+                        </label>
+                         <!-- <input id="fileInput" type='file' (change)="changeProfile($event)" #file name="file"> -->
+                    </div>
+                    <!-- END SIDEBAR USERPIC -->
+                    <!-- SIDEBAR USER TITLE -->
+                    <div class="profile-usertitle">
+                        <div class="profile-usertitle-name">
+                            {{this.user['first_name']}} {{this.user['last_name']}}
+                        </div>
+                        <div class="profile-usertitle-job">
+                            Joined {{this.user['crdate'] | date: 'EEEE, MMMM dd, yyyy' }}
+                        </div>
+                    </div>
+                    <!-- END SIDEBAR USER TITLE -->
+                    <!-- SIDEBAR BUTTONS -->
+                    <!--<div class="profile-userbuttons">
+                        <button type="button" class="btn btn-success btn-sm">Follow</button>
+                        <button type="button" class="btn btn-danger btn-sm">Message</button>
+                    </div>-->
+                    <!-- END SIDEBAR BUTTONS -->
+                    <!-- SIDEBAR MENU -->
+                    <div class="profile-usermenu">
+                        <ul class="nav">
+                            <li  [class.active]="showMenu == 'profile'">
+                                <a routerLink="/account/profile" (click)="addClass('profile')"><i class="fas fa-user"></i>My Account </a>
+                            </li>
+
+                            <li *ngIf="user_type == '3'" [class.active]="showMenu == 'influencer-Sale-report'">   
+                                <a routerLink="/account/influencer-Sale-report" (click)="addClass('influencer-Sale-report')" ><i class="fas fa-map"></i>Sales Dashboard</a>
+                            </li>
+
+                            <li  *ngIf="user_type == '3'" [class.active]="showMenu == 'recent-live-events'">
+                                <a routerLink="/account/recent-live-events" (click)="addClass('recent-live-events')"><i class="fas fa-stream"></i>My Live Sessions </a>
+                            </li>
+
+                            <li  *ngIf="user_type == '3'" [class.active]="showMenu == 'bank-info'">
+                                <a routerLink="/account/bank-info" (click)="addClass('bank-info')"><i class="fas fa-credit-card"></i>Bank Information </a>
+                            </li>
+
+                            <li  *ngIf="user_type == '3'">
+                                <a [routerLink]="['/influencer', InfluencerName]"><i class="fas fa-grin-stars"></i>My Influencer Page</a>
+                            </li>
+
+                            <li  *ngIf="user_type == '3'">
+                                <a routerLink="/influencer-profile"><i class="fas fa-user-edit"></i>Update Influencer Profile</a>
+                            </li>
+                             <li *ngIf="user_type == '3'" [class.active]="showMenu == 'list'">
+                                <a routerLink="/account/testimonials/list" (click)="addClass('list')"><i class="fas fa-quote-left"></i>Testimonials</a>
+                            </li>
+                            <li *ngIf="user_type == '3'" [class.active]="showMenu == 'invitations'">
+                                <a routerLink="/account/invitations" (click)="addClass('invitations')">
+                                    <i class="fa fa-object-group" aria-hidden="true"></i>Invitations
+                                </a>
+                            </li>
+                            <li  *ngIf="user_type == '3'" [class.active]="showMenu == 'live-session'">   
+                                <a routerLink="/account/accepted-broadcast" (click)="addClass('accepted-broadcast')" ><i class="fas fa-broadcast-tower"></i>Accepted Broadcast </a>
+                            </li>
+
+                            <li *ngIf="user_type == '0'" [class.active]="showMenu == 'orders'">   
+                                <a routerLink="/account/orders" (click)="addClass('orders')" >
+                                <i class="fas fa-shopping-cart"></i>My Orders </a>
+                            </li>
+                            <li *ngIf="user_type == '0'">   
+                                <a routerLink="" >
+                                <i class="fas fa-lock"></i>Login & Security </a>
+                            </li>
+                            <li *ngIf="user_type == '0'" [class.active]="showMenu == 'billing-detail'">   
+                                <a routerLink="/account/billing-detail" >
+                                <i class="fas fa-credit-card"></i>Billing Details </a>
+                            </li>
+                            <li  [class.active]="showMenu == 'address'" *ngIf="user_type == '0'">   
+                                <a routerLink="/account/address" (click)="addClass('address')" ><i class="fas fa-map"></i>Shipping Address </a>
+                            </li>
+                            <li *ngIf="user_type == '0'" [class.active]="showMenu == 'follow-list'">   
+                                <a routerLink="/account/follow-list" (click)="addClass('follow-list')">
+                                <i class="fas fa-user-plus"></i>My Follow List </a>
+                            </li>
+                            <li *ngIf="user_type == '0'" [class.active]="showMenu == 'recommend'">   
+                                <a routerLink="/account/recommend" (click)="addClass('recommend')">
+                                <i class="fas fa-star"></i>Recommendations </a>
+                            </li>
+                           
+                          
+                           <!--  <li>
+                                <a href="#"><i class="far fa-credit-card"></i>Credit Card </a>
+                            </li> -->
+
+                            <li *ngIf="user_type == '1'" [class.active]="showMenu == 'sales-dashboard'">   
+                                <a routerLink="/account/sales-dashboard" (click)="addClass('sales-dashboard')" ><i class="fas fa-map"></i>Sales Dashboard</a>
+                            </li>
+
+                            <li   *ngIf="user_type == '1'" [class.active]="showMenu == 'shipping-fee'">   
+                                <a routerLink="/account/shipping-fee" (click)="addClass('shipping-fee')" ><i class="fas fa-money-bill-alt"></i>Shipping Fee</a>
+                            </li>
+                            <li *ngIf="user_type == '1'" [class.active]="showMenu == 'fori-fee'">   
+                                <a routerLink="/account/fori-fee" (click)="addClass('shipping-fee')" ><i class="fas fa-store"></i>FORI fee</a>
+                            </li>
+                            
+                            <li *ngIf="user_type == '1'" [class.active]="showMenu == 'sales'">   
+                                <a routerLink="/account/sales" (click)="addClass('sales')" >
+                                <i class="fas fa-shopping-cart"></i>Sales History </a>
+                            </li>
+                          <!--   <li  *ngIf="user_type == '1'" [class.active]="showMenu == 'payment'">   
+                                <a routerLink="/account/payment" (click)="addClass('payment')" ><i class="fas fa-money-check-alt"></i>Stripe Payment </a>
+                            </li> -->
+                            <li  *ngIf="user_type == '1'" [class.active]="showMenu == 'live-session'">   
+                                <a routerLink="/account/live-session" (click)="addClass('live-session')" ><i class="fas fa-broadcast-tower"></i>My live sessions </a>
+                            </li>
+                            <!-- <li>
+                                <a href="#"><i class="fas fa-star"></i>Favourites </a>
+                            </li> -->
+                            <!-- <li>
+                                <a href="#" *ngIf="user_type == '1'"><i class="fas fa-tag"></i>Offers | Reward </a>
+                            </li> -->
+                            <!-- <li *ngIf="user_type == '1'">
+                                <a routerLink="/create-store"><i class="fas fa-star"></i>Shopify Sync</a>
+                            </li> -->
+                            <li *ngIf="user_type == '1'" [class.active]="showMenu == 'store-list'">
+                                <a routerLink="/account/store" (click)="addClass('store-list')"><i class="fas fa-star"></i>My Store</a>
+                            </li>
+                            
+                            <!-- <li *ngIf="user_type == '1'">
+                                <a [routerLink]="['/channel', channelName]"><i class="fas fa-store"></i>My Store</a>
+                            </li> -->
+                            <li *ngIf="user_type == '1'" [class.active]="showMenu == 'my-products'">
+                                <a routerLink="/account/my-products" (click)="addClass('my-products')"><i class="fas fa-box"></i>My Products</a>
+                            </li>
+                             <li *ngIf="user_type != '1'">   
+                                <a  (click)="changeUser('1')">
+                                <i class="fas fa-store"></i>Sign Up as a Store</a>
+                            </li>
+                             <li *ngIf="user_type != '0'">   
+                                <a (click)="changeUser('0')">
+                                <i class="fas fa-user"></i>Sign Up as a Shopper</a>
+                            </li>
+                             <li *ngIf="user_type != '3'">   
+                                <a (click)="changeUser('3')" >
+                                <i class="fas fa-grin-stars "></i>Sign Up as an Influencer </a>
+                            </li>
+                    
+                             <li>
+                                <a (click)="logout()"><i class="fas fa-sign-out-alt"></i>Sign Out</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- END MENU -->
+            
+            </div>
+
+                <div  class="modal" id="profile_imageModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Upload New Profile Image</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body Profile-image">
+                            <div class="card-text">
+                              <div class="crop-img-section">
+                                  <ngx-file-drop dropZoneLabel="Drop files here" (onFileDrop)="dropped($event)" 
+                                  >
+                                      <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
+                                        <p>Drop a Banner Image</p>
+                                        <button type="button" (click)="openFileSelector()">Upload Banner</button>
+                                         <div class="text-muted small mt-1">(Recommended Image dimensions are 1280 x 768)</div>
+                                      </ng-template>
+                                  </ngx-file-drop>
+
+                                  <div class="cropArea" [ngClass]="{'dotted-boarder': !isFileSelected}" (drop)="dropHandler($event)"
+                              (dragover)="allowDrop($event)" *ngIf="isFileSelected">
+
+                                    <image-cropper  #cropper [imageChangedEvent]="imageChangedEvent"
+                                      [imageBase64]="droppedImage" (imageLoaded)="imageLoaded($event)" (imageCropped)="imageCropped($event)"
+                                      [maintainAspectRatio]="true" [resizeToWidth]="350" [roundCropper]="false">
+                                    </image-cropper>
+                                  </div>
+                                  <div class="cropped-image">
+                                    <img [src]="croppedImage" />
+                                  </div>
+                                  <div class="sap-btn-dark">
+                                  <button (click)="updateImage()">Update Profile</button>
+                                  </div>
+                              </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+           

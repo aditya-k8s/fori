@@ -1,0 +1,52 @@
+<app-header></app-header>
+ 	<div class="container">
+        <div class="row profile">
+			<div class="col-md-3">
+				<app-sidebar></app-sidebar>
+			</div>
+			 <div class="col-md-9">
+			 	<div class="container">
+			 		<div class="profile-content" id="pc-my-products">
+			 			<div class="card-body">
+				       	<h3 class="card-title text-center sap-small-headings">My Products</h3>
+				       	</div>
+				       	<section class=" inventory-page my-follow-list">
+						      <div class="inventory-container grid-container">
+			 			          <div class="inventory-thumb-inner" *ngFor="let product of shopifyProduct;let i = index">
+				             <!-- <button class="close-btn" (click)="delete_product(product.product_id,i,product.product_title)"><i class="fas fa-times"></i></button> -->
+				            <a [routerLink]="['/view/product', product.product_id_int]" class="inven-thumbs" target="_blank">
+				              <img src="{{product.image_url}}" alt="Product images" onerror="this.src='assets/images/product-icon.jpg'">
+				              <div class="overlay">
+				             <!--  <span class="inventory-tag">Product</span> -->
+				              <span class="thumb-des">
+				                <div class="thumb-title">{{product.product_title}}</div>
+				                <div class="thumb-hours">{{product.create_date | date: 'MMMM dd, yyyy'}}</div>
+				              </span>
+				             
+				            </div>
+				            </a>
+				            <div class="tag-head-main">
+				              <div class="tag-head">
+
+				                  <span class="tags-inner" *ngIf="product.product_category">{{product.product_category}}</span>
+				              </div>
+				              <div class="actions-head">
+				                   <a [routerLink]="['/product', product.product_id_int]"class="edit-btn"><i class="far fa-edit"></i></a>
+				              </div>
+				            </div>
+				          </div>
+				           <div *ngIf="shopifyProduct.length == 0" class="empty-text text-center errorz" >
+					            <p>There are no data available</p>
+					    </div>
+				   </div>
+				</section>
+				<div class="sap-btn-dark" *ngIf="totalProduct"><button [disabled]="loading" (click)="view_products(shopifyProduct.length,6)">view more
+					  <i class="fa fa-spinner fa-spin" *ngIf="loading"></i>
+					</button>
+				</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<app-footer></app-footer>

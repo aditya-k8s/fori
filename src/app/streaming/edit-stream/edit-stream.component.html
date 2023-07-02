@@ -1,0 +1,275 @@
+<app-header></app-header>
+<mat-horizontal-stepper  #stepper [selectedIndex]="selectedIndex">
+  <mat-step [stepControl]="streamForm" [editable]="true" >
+    <section class="create-stream-content">
+      <div class="inventory-container">
+        <div class="sap-med-headings">Edit Streaming Content</div>
+         <form [formGroup]="streamForm" (ngSubmit)="createStreamingChannel(streamForm.value)">
+          <ng-template matStepLabel>Broadcast Content</ng-template>
+            <div class="form-title-head">
+              <div class="form-title">Streaming Content</div>
+              <small id="" class="form-text text-muted">Stream live with or without products and get paid.</small>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-12">
+                <label for=""> Broadcast Title</label>
+                <input type="text" class="form-control" formControlName="stream_title" placeholder="Streaming content title" [ngClass]="{ 'is-invalid': submitted && f.stream_title.errors }">
+
+                <div *ngIf="submitted && f.stream_title.errors" class="invalid-feedback">
+                  <span class="for-sub-name" *ngIf="f.stream_title.errors.required" >Broadcast Title required </span>
+                </div>
+
+                <small id="" class="form-text text-muted">Give your show or series a title that describes what viewers will be watching.</small>
+              </div>
+              <div class="form-group col-md-12">
+                <label for="exampleFormControlTextarea1">Broadcast Description</label>
+                <textarea class="form-control" id="exampleFormControlTextarea1" formControlName="stream_description" rows="3" placeholder="Describe the Product" [ngClass]="{ 'is-invalid': submitted && f.stream_description.errors }"></textarea>
+
+                <div *ngIf="submitted && f.stream_description.errors" class="invalid-feedback">
+                  <span class="for-sub-name" *ngIf="f.stream_description.errors.required" >Broadcast Description required </span>
+                </div>
+                
+                <small id="" class="form-text text-muted">Inform your viewers about what they will be watching. Be as detailed as possible to draw interest from potential viewers.</small>
+              </div>
+              <div class="form-group col-md-12 for-foot-button">
+                <div class="sap-btn-dark grey-btn"><a routerLink="/inventory">Exit</a></div>
+                <div class="sap-btn-dark">
+                  <button *ngIf="!streamForm.invalid" type="submit" class="btn btn-primary btn-block" [disabled]="streamForm.invalid" mat-button matStepperNext>Save & Continue</button>
+                  <button *ngIf="streamForm.invalid"type="submit" class="btn btn-primary btnn-block" mat-button >Save & Continue</button>
+                </div>
+              </div>
+            </div>
+        </form>
+        </div>
+    </section>
+  </mat-step>
+
+   <mat-step [stepControl]="streamingBanner" [editable]="true" [completed]="false">
+    <section class="broadcast-banner">
+      <div class="inventory-container">
+        <div class="sap-med-headings">Edit Broadcast Banner</div>
+          <form [formGroup]="streamingBanner" (ngSubmit)="saveStreamingBanner(streamingBanner.value)">
+            <ng-template matStepLabel>Broadcast Banner</ng-template>
+        <!--  <img class="logoImg" [src]="this.url ? this.url : image_url+channel_data.banner_image">  -->
+            <div class="crop-img-section">
+                <ngx-file-drop dropZoneLabel="Drop files here" (onFileDrop)="dropped($event)" 
+                >
+                    <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
+                      <p>Drop a Banner Image</p>
+                      <button type="button" (click)="openFileSelector()">Upload Banner</button>
+                        <div class="text-muted small mt-1">(Recommended Image dimensions are 1280 x 768)</div>
+                    </ng-template>
+                </ngx-file-drop>
+
+                <div class="cropArea" [ngClass]="{'dotted-boarder': !isFileSelected}" (drop)="dropHandler($event)"
+            (dragover)="allowDrop($event)" *ngIf="isFileSelected">
+          
+                  <image-cropper  #cropper [imageChangedEvent]="imageChangedEvent"
+                    [imageBase64]="droppedImage" (imageLoaded)="imageLoaded($event)" (imageCropped)="imageCropped($event)"
+                    [maintainAspectRatio]="true" [resizeToWidth]="350" [roundCropper]="false">
+                  </image-cropper>
+                </div>
+                <div class="cropped-image">
+                  <img [src]="croppedImage" />
+                </div>
+            </div>
+
+          <!--   <div class="sap-btn-dark grey-btn">
+            <button class="imgDelete" *ngIf="url" (click)="delete()" >delete</button>
+            </div>
+ -->
+            <div class="form-group col-md-12 for-foot-button">
+              <div class="sap-btn-dark grey-btn">
+                <button mat-button matStepperPrevious>Back</button>
+              </div>
+              <div class="sap-btn-dark">
+                <span *ngIf="stepDisabled == true" >
+                  <button type="submit" class="btn" mat-button matStepperNext >Save & Continue</button>
+                </span>
+                 <span *ngIf="stepDisabled == false" >
+                  <button type="submit" class="btn" mat-button >Save & Continue</button>
+                </span>
+            </div>
+          </div>
+            <!-- <div class="foot-btn sap-btn-dark">
+               
+              
+            </div> -->
+          </form>
+        </div>
+      </section>
+  </mat-step>
+
+  <mat-step [stepControl]="streamingDetail" [editable]="true" [completed]="false">
+    <section class="broadcast-details">
+      <div class="inventory-container">
+        <div class="sap-med-headings">Edit Broadcast Details</div>
+        <form [formGroup]="streamingDetail" (ngSubmit)="saveStreamingDetail(streamingDetail.value)">
+          <ng-template matStepLabel>Broadcast Details</ng-template>
+           <div class="form-row">
+              <div class="form-group col-md-12">
+                  <label for="exampleFormControlTextarea1">Pay-to-Watch <span id="text-red">(optional)</span></label>          
+                  <div class="toggle-head">
+                    <small id="" class="form-text text-muted">If enabled, charge viewers a fee to watch your show or series. Or you can keep it free to watch, but you must sell a product in your show.</small>
+                    <div class="custom-control custom-switch">
+                    <input type="checkbox" class="custom-control-input" id="pay_to_watch"  formControlName="pay_to_watch" disable>
+                    <label class="custom-control-label" for="pay_to_watch"></label>
+                    </div>
+                 </div>
+                  <a href="#" id="text-red" class="pay-to-link"><small id="" class="form-text">You must first add a payout account before you can enable Pay-to-Watch</small></a>
+              </div>
+               <div class="form-group col-md-12">
+                  <label for="exampleFormControlTextarea2">Text On Screen <span id="text-red">(optional)</span></label>          
+                  <div class="toggle-head">
+                    <small id="" class="form-text text-muted">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, </small>
+                    <div class="custom-control custom-switch">
+                    <input type="checkbox" class="custom-control-input" formControlName="text_on_screen" id="text_on_screen" disable>
+                    <label class="custom-control-label" for="textscreen"></label>
+                    </div>
+                 </div>
+               </div>
+
+                               <div class="form-group col-md-12">
+                  <label for="exampleFormControlTextarea3">Pick up from Store <span id="text-red">(optional)</span></label>          
+                  <div class="toggle-head">
+                    <small id="" class="form-text text-muted">Collect it at a FORI Pickup Store. No home delivery </small>
+                    <div class="custom-control custom-switch">
+                    <input type="checkbox" class="custom-control-input" formControlName="pickupStore" id="pickupStore" [(ngModel)]="showPickupAddress">
+                    <label class="custom-control-label" for="pickupStore"></label>
+                    </div>
+                 </div>
+               </div>
+                <div class="form-group col-md-12" *ngIf="showPickupAddress">
+                  <label>Store Address</label>
+                  <textarea matInput   class="form-control" formControlName="store_address" [ngClass]="{ 'is-invalid': submitted && fe.store_address.errors }" >
+                  </textarea>
+                    <div *ngIf="submitted && fe.store_address.errors" class="invalid-feedback">
+                          <span class="for-sub-name" *ngIf="fe.store_address.errors.required">Store_address is required</span>
+                  </div>
+                </div>
+
+                <div class="form-group col-md-12 hash-tag-box-form" >
+                    <label>Hash Tags for search <span id="text-red">(optional)</span></label>
+                        <tag-input [ngModel]="hashtagValue" class="form-control"[ngModel]=""
+                        [theme]="'bootstrap3-info'"
+                        formControlName="chips" (onAdd)="onItemAdded($event)" (onRemove)="onItemRemoved($event)">
+                    </tag-input>
+                </div>
+
+                <div class="form-group col-md-12">
+                  <label for="resolution_type">Resolution Type <span id="text-red">(optional)</span></label>          
+                    <select id="resolution_type" class="form-control" formControlName="resolution_type">
+                      <option value="480">480p</option>
+                      <option value="720">720p</option>
+                      <option value="1080">1080p</option>
+                    </select>
+              </div> 
+              <div class="form-group col-md-12 broadcast-edit-promo" *ngIf="promoVideo">
+                 
+                 <iframe width="560" height="315" [src]="promoVideo | safe" title="video player" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                 
+                 <div class="sap-btn-dark grey-btn"><button (click)="delete_promo()" type="button">Remove Video</button></div>
+              </div>
+              <div class="form-group col-md-12" >
+                 <label>Promo Video</label>
+                  <input id="promo_video" type="file" class="form-control"  (change)="handleFileInput($event)" file name="file" >
+              </div>
+              <div class="form-group col-md-12">
+                <label for="resolution_type">Streaming Start Time <span id="text-red">(optional)</span></label>          
+                 <input formControlName="broadcast_time" [owlDateTime]="dt1" [owlDateTimeTrigger]="dt1" [min]="minDate" dateFormat="MM/DD/YYYY,HH:MM" [ngClass]="{ 'is-invalid': submitted && fe.broadcast_time.errors }" class="form-control" placeholder="Streaming Start Time">
+                 <owl-date-time #dt1 [hour12Timer] = "true"></owl-date-time>
+                <div *ngIf="submitted && fe.broadcast_time.errors" class="invalid-feedback">
+                      <span class="for-sub-name" *ngIf="fe.broadcast_time.errors.required" >Streaming Time required </span>
+                </div>
+              </div>
+
+            <!--   <div class="form-group col-md-12">
+                <label for="resolution_type">Streaming Lenght (In minutes)</label>          
+                 <input placeholder="Streaming Lenght" formControlName="broadcast_video_length" [ngClass]="{ 'is-invalid': submitted && fe.broadcast_video_length.errors }" class="form-control">
+               
+                <div *ngIf="submitted && fe.broadcast_video_length.errors" class="invalid-feedback">
+                      <span class="for-sub-name" *ngIf="fe.broadcast_video_length.errors.required" >Streaming video lenght required </span>
+                </div>
+              </div> -->
+
+            </div>  
+
+            <div class="form-group col-md-12 for-foot-button">
+                  <div class="sap-btn-dark grey-btn">
+                    <button class="btn" mat-button matStepperPrevious>Back</button>
+                  </div>
+                  <div class="sap-btn-dark">
+                    <button *ngIf="!streamingDetail.invalid" type="submit" class="btn btn-primary btn-block" [disabled]="streamingDetail.invalid" mat-button matStepperNext>Save & Continue</button>
+                    <button *ngIf="streamingDetail.invalid"type="submit" class="btn btn-primary btnn-block" mat-button >Save & Continue</button>
+                </div>
+              </div>
+
+           <!--  <div class="sap-btn-dark">
+               <button class="btn" mat-button matStepperPrevious>Back</button>
+              <button *ngIf="!streamingDetail.invalid" type="submit" class="btn btn-primary btn-block" [disabled]="streamingDetail.invalid" mat-button matStepperNext>Save & Continue</button>
+              <button *ngIf="streamingDetail.invalid"type="submit" class="btn btn-primary btnn-block" mat-button >Save & Continue</button>
+            </div> -->
+
+        </form>
+      </div>
+    </section>
+  </mat-step>
+
+  <mat-step [stepControl]="streamingProducts" [editable]="true" [completed]="false">
+    <section class="inventory-page broadcast-select-prods">
+      <div class="inventory-container grid-container">
+        <div class="sap-med-headings">Select Products</div>
+          <form [formGroup]="streamingProducts" (ngSubmit)="saveStreamingProducts(streamingProducts.value)">
+            <ng-template matStepLabel>Select Products</ng-template>
+              <div class="inventory-thumb-head">
+                <div class="inventory-thumb-inner" *ngFor="let product of products;let i = index">
+                  <div class="inven-thumbs">
+                        <img src="{{product.image_url}}" alt="Product Image" onerror="this.src='assets/images/product-icon.jpg'">
+                        <div class="overlay">
+                     <!--    <span class="inventory-tag">Product</span> -->
+                        <span class="thumb-des">
+                        <div class="thumb-title">{{product.product_title}}</div>
+                        <!-- <div class="thumb-hours">Updated 5 hours ago</div> -->
+                        </span>
+                            <label class="check-btn-sap" for="{{product.product_id}}">
+                             
+                               <input type="checkbox"  [checked]="product.checked"  id="{{product.product_id}}" [value]="product.product_id" (change)="onChecked(product, $event)"  />
+                                <span class="checkmark"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+              </div>
+
+              <div class="sap-btn-dark" *ngIf="totalProduct">
+                <button [disabled]="loading" (click)="view_products(products.length,10)">view more
+                  <i class="fa fa-spinner fa-spin" *ngIf="loading"></i>
+                </button>
+              </div>
+
+             <!--  <div class="form-group col-md-12 for-foot-button foot-btn">
+                  <div class="sap-btn-dark grey-btn">
+                    <button class="btn" mat-button matStepperPrevious>Back</button>
+                  </div>
+                  <div class="sap-btn-dark">
+                    <button type="submit"  class="btn" mat-button matStepperNext>Save & Continue</button>
+                </div>
+                <a class="skipnstart" id="text-red" routerLink="/inventory"> Skip & Get Started</a>
+              </div> -->
+
+          <div class="form-group col-md-12 for-foot-button">
+               <div class="sap-btn-dark grey-btn"><a href="javascript:void(0)">Skip & Get Started</a></div>
+               
+                <div class="sap-btn-dark">
+                  <button type="submit"  class="btn" mat-button matStepperNext>Save & Continue</button>
+                </div>
+
+                 
+          </div>
+
+          </form>
+        </div>
+      </section>
+  </mat-step>
+</mat-horizontal-stepper>
+<app-footer></app-footer>

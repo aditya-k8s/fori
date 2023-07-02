@@ -1,0 +1,71 @@
+<div class="row userslistpage">
+    <div class="col-12">
+        <div class="card">
+            <div class="col-md-12">
+				<div class="row mt-2">
+					<div class="col-md-3">
+						<h4 class="card-title"><span class="lstick"></span>Broadcast Details</h4>
+					</div>
+				</div>
+			</div>
+            <div class="col-md-12">
+                <div class="row mt-2">
+                    <div class="col-md-3">
+                        <img src="{{img_url+stream_data?.cover_image}}" style="height: 100px; width: 100px;">
+                        <!-- <div class="title-head">
+                            <div class="timer">
+                              <div class="days"><span><countdown [config]="{ leftTime:  stream_data?.timestamp-86400, format: 'd' }"></countdown></span><span>days</span></div>
+                              <div class="hours"><span><countdown [config]="{ leftTime:  stream_data?.timestamp, format: 'HH' }">$!d!:$!h!:$!m!:$!s!</countdown></span><span>hours</span></div>
+                              <div class="mins"><span><countdown [config]="{ leftTime:  stream_data?.timestamp, format: 'm' }">$!d!:$!h!:$!m!:$!s!</countdown></span><span>mins</span></div>
+                              <div class="secs"><span><countdown [config]="{ leftTime:  stream_data?.timestamp, format: 's' }">$!d!:$!h!:$!m!:$!s!</countdown></span><span>secs</span></div>
+                            </div>
+                        </div> -->
+                    </div>
+                    <div class="col-md-6">
+                        <h5>Channel Name : <b>{{stream_data?.channel_name}}</b></h5>
+                        <h5>Main Channel Name : <b>{{stream_data?.main_channelName}}</b></h5>
+                    </div>
+                    <div class="col-md-3">
+                        <h5>Followers : <b>{{stream_data?.followers}}</b></h5>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table vm no-th-brd pro-of-month mb-0 v-middle">
+                        <thead>
+                            <tr>
+                                <th>Product Image</th>
+                                <th>Product Name</th>
+                                <th>On Air Price</th>
+                                <th>Off Air Price</th>
+                                <th>Available Color</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let product of product_list">
+                                <td>
+                                    <img src="{{product.image_url}}" style="height: 100px; width: 100px;">
+                                </td>
+                                <td>{{product.product_title | titlecase}}</td>
+                                <td>{{product.on_air_price | currency}}</td>
+                                <td>{{product.off_air_price | currency}}</td>
+                                <td>
+                                    <select class="form-control">
+                                        <option *ngFor="let veri of product.variants">{{veri.title}}</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr *ngIf="isLoading == true">
+                                <td colspan="5" class="text-center"><i class="fa fa-spinner fa-spin fa-2x"></i><br>loading data....</td>
+                            </tr>
+                            <tr *ngIf="isRecord == true">
+                                <td colspan="5" class="text-center">No record found!!</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,48 @@
+<app-header></app-header>
+  <div class="container">
+      <div class="row profile">
+        <div class="col-md-3">
+          <app-sidebar></app-sidebar>
+        </div>
+        <div class="col-md-9">
+          <div class="profile-content" id="pc-testimonial-list">
+            <div class="card-body">
+              <h3 class="card-title text-center sap-small-headings">Invitations</h3>
+
+              <div class="card-text">
+                <!-- <div class="sap-med-headings">Testimonial List</div> -->
+                <table datatable class="table-responsive row-border hover" [dtOptions]="dtOptions"*ngIf="influencerData.length > 0">
+                    <thead>
+                      <tr>
+                        <th>Broadcast Name</th>
+                        <th>Broadcast Date</th>
+                        <!-- <th>Brodacast Length</th>  -->
+                        <th>View</th>
+                        <th>Accept/Reject Request</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                     <tr *ngFor="let channel of influencerData">
+                           <td>{{channel.channel_name}}</td>
+                           <td>{{channel.broadcast_time | date:'MMMM dd, yyyy HH:MM'}}</td>
+                          <!--  <td>{{channel.broadcast_video_length}} Min</td> -->
+                           <td><a [routerLink]="['/view-stream', channel.channel_id]" class="title-text">View Broadacst</a></td>
+                           <td>
+	                           	<div class="actions-head sap-btn-light" *ngIf="channel.status == 0">
+	                              <button (click)="acceptRequest(channel.request_id)">Accept</button>
+	                            </div>
+                              <div class="actions-head sap-btn-light">
+                                <button (click)="rejectRequest(channel.request_id)">Reject</button>
+                              </div>
+                              <div *ngIf="channel.status == 1">Accepted</div>
+                          </td>
+                       </tr>
+                    </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+<app-footer></app-footer>

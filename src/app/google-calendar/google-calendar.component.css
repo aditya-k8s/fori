@@ -1,0 +1,11 @@
+/* override day number color and size */
+.fc-daygrid-day-number {
+  font-size: 1.5em;
+  color: #5c005c;
+}
+
+/* override day title color and size */
+.fc-col-header-cell {
+  font-size: 1.5em;
+  color: #00b294;
+}

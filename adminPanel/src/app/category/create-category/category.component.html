@@ -1,0 +1,25 @@
+<div class="row">
+	<div class="col-12">
+		<h4 class="card-title">Create New Category</h4>
+		<div class="card">
+			<div class="card-body">
+				<form [formGroup]="categoryForm" (ngSubmit)="onSubmit(categoryForm.value)">
+					<div class="row">	
+						<div class="col-md-12">
+							<div class="form-group">
+							 	<label for="category_title">Category Name</label>
+							    <input class="form-control" type="text" formControlName="category_name" placeholder="Category Name" [ngClass]="{ 'is-invalid': submitted && f.category_title.errors }">
+							    <div *ngIf="submitted && f.category_name.errors" class="invalid-feedback">
+							     	<span class="for-sub-name" *ngIf="f.category_name.errors.required" >Category name required </span>
+							    </div>
+							</div>
+						</div>
+						<div class="col-lg-2 col-md-4 card-foot-btn">
+                        	<button type="submit" class="btn btn-block btn-primary">Save</button>
+                        </div>
+                    </div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

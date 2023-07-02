@@ -1,0 +1,95 @@
+<div class="row userslistpage">
+	<div class="col-12">
+		<div class="card">
+			<div class="col-md-12">
+				<div class="row mt-2">
+					<div class="col-md-3">
+						<h4 class="card-title"><span class="lstick"></span>Influencer List</h4>
+					</div>
+					<div class="col-md-3">
+						<input [(ngModel)]="search" class="form-control" placeholder="Search">
+					</div>
+					<div class="col-md-3" *ngIf="!isLoading && !isRecord">
+						<button title="Export to Excel" class="btn btn-success btn-xs mr-2" (click)="exportexcel()">
+							<i class="fa fa-file-excel fa-2x"></i>
+						</button>
+						<button title="Download PDF" class="btn btn-success btn-xs" (click)="downloadPDF()">
+							<i class="fa fa-file-pdf fa-2x"></i>
+						</button>
+					</div>
+				</div>
+			</div>
+			<div class="card-body">
+				<div class="table-responsive" #epltable>
+					<table class="table vm no-th-brd pro-of-month mb-0 v-middle">
+						<thead>
+						<tr>
+							<th>#</th>
+							<th>FullName</th>
+							<th>Email</th>
+							<th>Phone</th>
+							<th>Login Type</th>
+							<th>User Status</th>
+							<th>Action</th>
+						</tr>
+						</thead>
+						<tbody>
+						<tr *ngFor="let data of influencer_list | filter : search; let i=index">
+							<td>{{i+1}}</td>
+							<td>{{data.first_name + ' ' + data.last_name}}</td>
+							<td>{{data.email}}</td>
+							<td>{{data.phone}}</td>
+							<td>{{data.social_type}}</td>
+							<td>
+								<span *ngIf="data.active ==1">
+										<button type="button" class="btn btn-success btn-xs">Active</button>
+									</span>
+									<span *ngIf="data.active!=1">
+										<button type="button" class="btn btn-danger btn-xs">Deactived</button>
+									</span>
+								</td>
+							<td>
+								<div class="btn-group multi-btns">
+								<a (click)="influencerDetails(data)"> <button type="button" class="btn btn-info btn-xs"><i class="far fa-eye"></i></button></a>&nbsp;&nbsp;
+								</div>
+							</td>
+						</tr>
+						<tr *ngIf="isLoading == true">
+							<td colspan="7" class="text-center"><i class="fa fa-spinner fa-spin fa-2x"></i><br>loading data....</td>
+						</tr>
+						<tr *ngIf="isRecord == true">
+							<td colspan="7" class="text-center">No record found!!</td>
+						</tr>	    				    				    
+						</tbody>
+					</table>
+					<table class="table vm no-th-brd pro-of-month mb-0 v-middle" style="display: none;" id="epltable">
+						<thead>
+						<tr>
+							<th>#</th>
+							<th>FullName</th>
+							<th>Email</th>
+							<th>Phone</th>
+							<th>Login Type</th>
+							<th>User Status</th>
+						</tr>
+						</thead>
+						<tbody>
+							<tr *ngFor="let data of influencer_list | filter : search; let i=index">
+								<td>{{i+1}}</td>
+								<td>{{data.first_name + ' ' + data.last_name}}</td>
+								<td>{{data.email}}</td>
+								<td>{{data.phone}}</td>
+								<td>{{data.social_type}}</td>
+								<td>
+									<span *ngIf="data.active ==1">Active</span>
+										<span *ngIf="data.active!=1">Deactived</span>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+

@@ -1,0 +1,70 @@
+<app-header></app-header> 
+  <section class="pattern-back login-page">
+    <div class="global-container container">
+      <div id="all-set-text">You’re all set! Sign In to Shop Now.</div>
+        <div class="card login-form">
+
+        <div class="card-body">
+          <h3 class="card-title text-center sap-small-headings">Log in</h3>
+          <div class="card-text">
+            <!--
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">Incorrect username or password.</div> -->
+            <form  [formGroup]="loginForm" (ngSubmit)="onSubmit(loginForm.value)">
+              <!-- to error: add class "has-danger" -->
+              <div class="form-group">
+                <label for="exampleInputEmail1">Username</label>
+                <input class="form-control" type="text" formControlName="username" placeholder="Username" [ngClass]="{ 'is-invalid': submitted && f.username.errors }">
+                <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
+                  <span class="for-sub-name" *ngIf="f.username.errors.required">Username is required</span>
+                </div>
+              </div>
+
+              
+              <div class="form-group">
+                <label for="exampleInputPassword1">Password</label>
+                <a routerLink="/forgotPassword" style="float:right;font-size:12px;">Forgot password?</a>
+                <!-- <input type="password" class="form-control form-control-sm" id="exampleInputPassword1"> -->
+                 <input id="password" placeholder="Password" type="password"  class="form-control form-control-sm"  formControlName="password" [ngClass]="{ 'is-invalid': submitted && f.password.errors }">
+                <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                    <span class="for-sub-name" *ngIf="f.password.errors.required" >Password required </span>
+                    <span *ngIf="f.password.errors.minlength">Password must be at least 8 characters</span><br>
+                    <span *ngIf="f.password.errors.maxLength">Password length must be less than 15 characters.</span>
+                </div>
+              </div>
+              <!-- <div class="form-group">
+                <re-captcha (resolved)="resolved($event)" siteKey="6LfveqYUAAAAAMwrDGcv9d8By10pfx4BZ_bjlqbU"></re-captcha>
+                <div *ngIf="is_captcha == true">
+                    <span style="color: #d04545;font-size: 15px;" class="for-sub-name">Captcha is required</span>
+                </div> -->
+              <!-- </div> -->
+              <button type="submit" class="btn btn-primary btn-block" [disabled]="loading">Sign in
+                <i class="fa fa-spinner fa-spin" *ngIf="loading"></i>
+              </button>
+              
+              <div class="sign-up">
+                Don't have an account? <a routerLink="/register">Create One</a>
+              </div>
+            </form>
+
+               <div *ngIf="user" class="card text-center sign-in-with-sec">
+        <!--           <h6 class="card-header">
+                    Social Login Demo
+                  </h6> -->
+                  <div class="card-block">
+                    <!-- <h4 class="card-title">Not signed in</h4> -->
+                    <p class="card-text">Sign in with</p>
+                  </div>
+                  <div class="card-block">
+                    <button class="btn btn-social-icon btn-google" (click)="signInWithGoogle()"><i class="fab fa-google"></i></button>
+                    <button class="btn btn-social-icon btn-facebook" (click)="signInWithFB()"><i class="fab fa-facebook-f"></i></button>
+                   <!--  <button class="btn btn-social-icon btn-linkedin" (click)="signInWithLinkedIn()"><span class="fa fa-linkedin"></span></button> -->
+                  </div>
+                </div>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+<app-footer></app-footer>

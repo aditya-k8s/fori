@@ -1,0 +1,146 @@
+<div class="row orderlistpage">
+    <div class="col-md-12">
+        <div class="card card-inverse">
+            <div class="col-md-12">
+                <div class="row mt-2">
+					<div class="col-md-3">
+						<h4 class="card-title"><span class="lstick"></span>Order Details</h4>
+					</div>
+				</div>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <ngb-tabset>
+                        <ngb-tab title="">
+                            <ng-template ngbTabTitle>
+                                <div>Basic Details</div>
+                            </ng-template>
+                            <ng-template ngbTabContent>
+                                <div class="table-responsive">
+                                    <table class="table vm no-th-brd pro-of-month mb-0 v-middle">
+                                        <thead>
+                                            <tr>
+                                                <th>Order Id</th>
+                                                <th>Total Items</th>
+                                                <th>Paid Amount</th>
+                                                <th>Coupon Discount</th>
+                                                <th>Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>{{order_details?.order_id}}</td>
+                                                <td>{{order_details?.total_items}}</td>
+                                                <td>{{order_details?.total_amount}}</td>
+                                                <td>{{order_details?.coupon_discount}}</td>
+                                                <td>{{order_details?.status | titlecase}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </ng-template>
+                        </ngb-tab>
+                        <ngb-tab>
+                            <ng-template ngbTabTitle>
+                                <div>Order Items</div>
+                            </ng-template>
+                            <ng-template ngbTabContent>
+                                <div class="table-responsive">
+                                    <table class="table vm no-th-brd pro-of-month mb-0 v-middle">
+                                        <thead>
+                                            <tr>
+                                                <th>Product Title</th>
+                                                <th>Product Quantity</th>
+                                                <th>Product Image</th>
+                                                <th>Variant</th>
+                                                <th>Purchasing Price</th>
+                                                <th>Off Air Price</th>
+                                                <th>On Air Price</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let items of order_details.orderItems">
+                                                <td>{{items.product_title | titlecase}}</td>
+                                                <td>{{items.product_quantity}}</td>
+                                                <td>
+                                                    <img src="{{items.product_images}}" style="height: 100px; width: 100px;">
+                                                </td>
+                                                <td>{{items.variant}}</td>
+                                                <td>{{items.product_price | currency}}</td>
+                                                <td>{{items.off_air_price | currency}}</td>
+                                                <td>{{items.on_air_price | currency}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </ng-template>
+                        </ngb-tab>
+                        <ngb-tab>
+                            <ng-template ngbTabTitle>
+                                <div>Order Payment Info</div>
+                            </ng-template>
+                            <ng-template ngbTabContent>
+                                <div class="table-responsive">
+                                    <table class="table vm no-th-brd pro-of-month mb-0 v-middle">
+                                        <thead>
+                                            <tr>
+                                                <th>Payment Gateway</th>
+                                                <th>Payment Type</th>
+                                                <th>Transaction Id</th>
+                                                <th>Amount Received</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>{{order_details?.orderPaymentInfo.payment_gateway}}</td>
+                                                <td>{{order_details?.orderPaymentInfo.payment_type}}</td>
+                                                <td>{{order_details?.orderPaymentInfo.client_secret}}</td>
+                                                <td>{{order_details?.orderPaymentInfo.amount_received | currency}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </ng-template>
+                        </ngb-tab>
+                        <ngb-tab>
+                            <ng-template ngbTabTitle>
+                                <div>Shipping Address</div>
+                            </ng-template>
+                            <ng-template ngbTabContent>
+                                <div class="table-responsive">
+                                    <table class="table vm no-th-brd pro-of-month mb-0 v-middle">
+                                        <thead>
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Address</th>
+                                                <th>City</th>
+                                                <th>State</th>
+                                                <th>Country</th>
+                                                <th>Zip Code</th>
+                                                <th>Contact Number</th>
+                                                <th>Address Type</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>{{order_details?.shippingAddress.fullname | titlecase}}</td>
+                                                <td>{{order_details?.shippingAddress.address + ' '+ order_details?.shippingAddress.address_1}}</td>
+                                                <td>{{order_details?.shippingAddress.city}}</td>
+                                                <td>{{order_details?.shippingAddress.state}}</td>
+                                                <td>{{order_details?.shippingAddress.country | titlecase}}</td>
+                                                <td>{{order_details?.shippingAddress.pin_code}}</td>
+                                                <td>{{order_details?.shippingAddress.contact_no}}</td>
+                                                <td>{{order_details?.shippingAddress.address_type}}</td>
+                                                <td>{{order_details?.shippingAddress.channel_name}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </ng-template>
+                        </ngb-tab>
+                    </ngb-tabset>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

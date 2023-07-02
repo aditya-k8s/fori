@@ -1,0 +1,40 @@
+<app-header></app-header> 
+  <section class="pattern-back email-verify-page">
+    <div class="global-container container">
+        <div class="card email-verify-page-inner">
+
+        <div class="card-body">
+			<div class="email-svg" *ngIf="success">
+				<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="Capa_1" enable-background="new 0 0 512 512" viewBox="0 0 512 512"><linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="256" x2="256" y1="496.757" y2="15.243"><stop offset="0" stop-color="#fd5900"></stop><stop offset="1" stop-color="#ffde00"></stop></linearGradient><g><g><path d="m497 15.243h-482c-8.284 0-15 6.716-15 15v330c0 8.284 6.716 15 15 15h121.019c-.006.505-.019 1.008-.019 1.515 0 66.168 53.832 120 120 120s120-53.832 120-120c0-.506-.013-1.01-.019-1.515h121.019c8.284 0 15-6.716 15-15v-330c0-8.285-6.716-15-15-15zm-43.122 30-197.878 147.792-197.878-147.792zm-197.878 421.514c-49.626 0-90-40.374-90-90s40.374-90 90-90 90 40.374 90 90-40.374 90-90 90zm226-121.514h-110.208c-13.876-50.929-60.527-88.485-115.792-88.485-55.266 0-101.916 37.557-115.792 88.485h-110.208v-283.56l217.024 162.092c2.662 1.988 5.819 2.982 8.976 2.982s6.314-.994 8.976-2.982l217.024-162.092zm-191.606 5.908-49.394 49.393-19.394-19.393c-5.857-5.858-15.355-5.858-21.213 0s-5.858 15.355 0 21.213l30 30c2.929 2.929 6.768 4.394 10.606 4.394s7.678-1.464 10.606-4.394l60-60c5.858-5.858 5.858-15.355 0-21.213-5.856-5.859-15.354-5.859-21.211 0z" fill="currentColor"></path></g></g></svg>
+			</div>
+
+			<div class="email-svg" *ngIf="error">
+				<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+					 viewBox="0 0 512 481.5" style="enable-background:new 0 0 512 481.5;" xml:space="preserve">
+				<g>
+					<path d="M296.5,320.8c-5.9-5.9-15.4-5.9-21.2,0l-19.4,19.4l-19.4-19.4c-5.9-5.9-15.4-5.9-21.2,0s-5.9,15.4,0,21.2l19.4,19.4
+						l-19.4,19.4c-5.9,5.9-5.9,15.4,0,21.2s15.4,5.9,21.2,0l19.4-19.4l19.4,19.4c5.9,5.9,15.4,5.9,21.2,0s5.9-15.4,0-21.2l-19.4-19.4
+						l19.4-19.4C302.4,336.2,302.4,326.7,296.5,320.8z"/>
+					<path d="M497,0H15C6.7,0,0,6.7,0,15v330c0,8.3,6.7,15,15,15h121c0,0.5,0,1,0,1.5c0,66.2,53.8,120,120,120s120-53.8,120-120
+						c0-0.5,0-1,0-1.5h121c8.3,0,15-6.7,15-15V15C512,6.7,505.3,0,497,0z M453.9,30L256,177.8L58.1,30H453.9z M256,451.5
+						c-49.6,0-90-40.4-90-90c0-49.6,40.4-90,90-90s90,40.4,90,90C346,411.1,305.6,451.5,256,451.5z M482,330H371.8
+						c-13.9-50.9-60.5-88.5-115.8-88.5c-55.3,0-101.9,37.6-115.8,88.5H30V46.4l217,162.1c2.7,2,5.8,3,9,3c3.2,0,6.3-1,9-3L482,46.4V330z
+						"/>
+				</g>
+				</svg>
+			</div>
+
+          	<h3 class="card-title text-center sap-med-headings text-success" *ngIf="success">		 {{success}}
+          	</h3>
+    
+          	<h3 class="card-title text-center sap-med-headings text-red" *ngIf="error">
+          	{{error}}
+          	</h3>
+          	<div class="sign-up">
+            	Already have an account? <a class="text-red" routerLink="/login">Sign in</a>
+          	</div>
+        </div>
+      </div>
+    </div>
+  </section>
+<app-footer></app-footer>

@@ -1,0 +1,44 @@
+<app-header></app-header>
+ 	<div class="container">
+        <div class="row profile">
+			<div class="col-md-3">
+				<app-sidebar></app-sidebar>
+			</div>
+			 <div class="col-md-9">
+			 	<div class="container">
+			 		<div class="profile-content" id="pc-followers-list">
+				      
+				       	<section class=" inventory-page my-follow-list">
+				       		<div>
+				       <h3 class="card-title text-center sap-small-headings">My Follows: Stores</h3>
+				       	</div>
+				       	<div *ngIf="myfollowList.length == 0" class="empty-text text-center errorz" >
+					            		<p>There are no data available</p>
+					    		</div>
+						      <div class="inventory-container grid-container">
+
+						      	 <div class="inventory-thumb-inner" *ngFor="let channel of myfollowList;let i = index">
+
+						            <a [routerLink]="['/channel', channel.channel_name]" class="inven-thumbs">
+						              <img src="{{image_url+channel.channel_logo}}" alt="Channel" onerror="this.src='assets/images/channel-icon.jpg'">
+						              <div class="overlay">
+
+						              <span class="thumb-des">
+						                <div class="thumb-title">{{channel.channel_org_name}}</div>
+						                <!-- <div class="thumb-hours">{{stream.update_date | date: 'MMMM dd, yyyy'}}</div> -->
+						              </span>
+						             
+						            </div>
+						            </a>
+						          </div>
+						          
+						        
+						      </div>
+	
+						 </section>
+				   </div>
+				</div>
+			</div>
+		</div>
+	</div>
+<app-footer></app-footer>

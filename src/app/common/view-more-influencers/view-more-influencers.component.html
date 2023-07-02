@@ -1,0 +1,27 @@
+<app-header></app-header>
+<section class="featured-influencers">
+    <div class="container">
+      <div class="sap-small-headings featured-influencers-inner">featured influencers</div>
+      <div class="thumb-head">
+        <div class="thumb-inner" *ngFor="let influ of influencer_data">
+          <a class="thumb-img"><img src="{{influ.profile_pic}}" alt="Broaadcast" onerror="src='assets/images/channel-icon.jpg'"></a>
+          <div class="title-head">
+            <a class="title-text">{{influ.first_name + ' ' + influ.last_name}}</a>
+          <div class="followers-num">
+            <ng-container *ngIf="influ.totalFolower > 1">{{influ.totalFolower}} Followers</ng-container>
+            <ng-container *ngIf="influ.totalFolower <= 1">{{influ.totalFolower}} Follower</ng-container>
+          </div>
+          <div class="influencers-tag">
+            <a href="javascript:void(0)" *ngFor="let tag of splitTags(influ.category_name)">{{tag}}</a>
+          </div>
+          </div>
+        </div>
+      </div>
+      <div class="sap-btn-dark">
+        <button [disabled]="loading" (click)="viewInfluencer(influencer_data.length,6)">view more
+            <i class="fa fa-spinner fa-spin" *ngIf="loading"></i>
+           </button>
+      </div>
+    </div>
+  </section>
+<app-footer></app-footer>

@@ -1,0 +1,209 @@
+<app-header></app-header>
+	<mat-horizontal-stepper  #stepper [selectedIndex]="selectedIndex" >
+	  <mat-step [stepControl]="firstFormGroup" [editable]="true">
+	    <section class="create-influencer-profile">
+	      <div class="inventory-container ">
+	        <form [formGroup]="firstFormGroup" (ngSubmit)="onSubmit(firstFormGroup.value)" >
+	          <ng-template matStepLabel>Create Profile</ng-template>
+	           <h4>Enable Your Influencer Profile</h4>
+	          	<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. </p>
+	          
+	            <div class="form-group">
+	            	<label>Designation</label>
+		            <select matInput id="designation" class="form-control" formControlName="designation">
+	                      <option value="Celebrity">Celebrity</option>
+	                      <option value="Influencer">Influencer</option>
+	                      <option value="Micro-Influencer">Micro-Influencer</option>
+	                      <option value="Ambassador">Ambassador</option>
+	                      <option value="Brand Ambassador">Brand Ambassador</option>
+	                </select>
+	            </div>
+
+	         	<div class="form-group">
+	              <label>Facebook Link</label>
+	              <input matInput   class="form-control" formControlName="fb_link" [ngClass]="{ 'is-invalid': submitted && f.fb_link.errors }" >
+	              <div *ngIf="submitted && f.fb_link.errors" class="invalid-feedback">
+	                      <span class="for-sub-name" >Please enter correct facebook account URL.</span>
+	              </div>
+            	</div>
+            	
+            	<div class="form-group">
+	              <label>Instagram Link</label>
+	              <input matInput   class="form-control" formControlName="insta_link" [ngClass]="{ 'is-invalid': submitted && f.insta_link.errors }" >
+	              <div *ngIf="submitted && f.insta_link.errors" class="invalid-feedback">
+	                      <span class="for-sub-name">Please enter correct Instagram account URL.</span>
+	              </div>
+            	</div>
+
+            	<!-- <div class="form-group">
+	              <label>Welcome Video Link</label>
+	              <input matInput   class="form-control" formControlName="welcome_video" [ngClass]="{ 'is-invalid': submitted && f.welcome_video.errors }" >
+	              <div *ngIf="submitted && f.welcome_video.errors" class="invalid-feedback">
+	                      <span class="for-sub-name">Please enter correct Video Link.</span>
+	              </div>
+            	</div> -->
+
+            	<div class="form-group" >
+            		 <label>Welcome Video</label>
+                      <input id="welcome_video" type="file" class="form-control"  (change)="handleFileInput($event)" file name="file" >
+       
+                 </div>
+
+
+	          <br/>
+
+	            <div class="sap-btn-dark">
+	            <button *ngIf="!firstFormGroup.invalid" type="submit" [disabled]="firstFormGroup.invalid" mat-button matStepperNext>Save & Continue
+	                <i class="fa fa-spinner fa-spin" *ngIf="loading"></i>
+	            </button>
+
+	            <button *ngIf="firstFormGroup.invalid"type="submit" mat-button >Save & Continue
+	                <i class="fa fa-spinner fa-spin" *ngIf="loading"></i>
+	            </button>
+	          </div>
+
+
+	        </form>
+	      </div>
+	    </section>
+	  </mat-step>
+
+	  <mat-step [stepControl]="secondFormGroup" [editable]="isEditable" [completed]="false">
+		  <section class="Influencer-banner">
+		  	 <ng-template matStepLabel>Banner Image</ng-template>
+		      <div class="inventory-container">
+			    <form [formGroup]="secondFormGroup" (ngSubmit)="imageSubmit(secondFormGroup.value)">
+			     
+			      <div class="crop-img-section">
+			          <ngx-file-drop dropZoneLabel="Drop files here" (onFileDrop)="dropped($event)" 
+			          >
+			              <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
+			                <p>Drop a Banner Image</p>
+			                <button type="button" (click)="openFileSelector()">Upload Banner</button>
+			                 <div class="text-muted small mt-1">(Recommended Image dimensions are 1280 x 768)</div>
+			              </ng-template>
+			          </ngx-file-drop>
+
+			          <div class="cropArea" [ngClass]="{'dotted-boarder': !isFileSelected}" (drop)="dropHandler($event)"
+			          (dragover)="allowDrop($event)" *ngIf="isFileSelected">
+
+			            <image-cropper  #cropper [imageChangedEvent]="imageChangedEvent"
+			              [imageBase64]="droppedImage" (imageLoaded)="imageLoaded($event)" (imageCropped)="imageCropped($event)"
+			              [maintainAspectRatio]="true" [resizeToWidth]="350" [roundCropper]="false">
+			            </image-cropper>
+			          </div>
+			          <div class="cropped-image">
+			            <img [src]="croppedImage" />
+			          </div>
+			      </div>
+			     <div class="form-group col-md-12 for-foot-button">
+		            <div class="sap-btn-dark grey-btn">
+		                <button mat-button matStepperPrevious>Back</button>
+		            </div>
+				    <div class="sap-btn-dark">
+				       <span *ngIf="stepDisabled == true" >
+					        <button type="submit" mat-button matStepperNext>Save & Continue
+					            <i class="fa fa-spinner fa-spin" *ngIf="loading1"></i>
+					        </button>
+				       </span>
+				       <span *ngIf="stepDisabled == false" >
+				        <button type="submit" mat-button >Save & Continue
+				          <i class="fa fa-spinner fa-spin" *ngIf="loading1"></i>
+				        </button>
+				      </span>
+				      </div>
+			  	</div>
+			    </form>
+			  </div>
+			</section>
+		  </mat-step>
+
+		<mat-step [stepControl]="thirdFormGroup" [editable]="isEditable" [completed]="false">
+		  <section class="infulencer-category"> 
+		  		<ng-template matStepLabel>Select Categories</ng-template>
+		  		<form [formGroup]="fourthFormGroup" (ngSubmit)="saveCategory()"> 
+
+		   		<div class="inventory-container">
+		   			<div  class="sap-med-headings">Categories</div>
+			        	<div class="categories-inner">
+						    <div class="nested-checkbox">
+							  	<ul>
+								    <li *ngFor="let category of categoryList; let i = index">
+								    	<input class="form-check-input" name="category.id"  type="checkbox"  id="{{category.id}}" (change)="__onChangeCategory(category.id,$event)" [checked]="category.isSelect">
+								        <label for="{{category.id}}">{{category.category_name}}</label>
+							      	</li>
+						 		</ul>
+				   			</div>
+				   		</div>
+				<div class="form-group col-md-12 for-foot-button">
+		            <div class="sap-btn-dark grey-btn">
+		                <button mat-button matStepperPrevious>Back</button>
+		            </div>
+					<div class="sap-btn-dark">
+				    	<button type="submit" mat-button matStepperNext>
+			                    Save & Continue 
+			                    <i class="fa fa-spinner fa-spin" *ngIf="loading"></i>
+			            </button>
+				    </div>
+				</div>
+			</div>
+		</form>
+			  
+			    
+			</section>
+		  </mat-step>
+
+
+	<mat-step [stepControl]="fourthFormGroup" [editable]="isEditable" [completed]="false">
+		<section  class="inventory-page broadcast-select-prods ng-star-inserted broadcast-select-prods-cloned-store-list-head influencer-store-list">
+		 	<ng-template matStepLabel>Favourite Stores</ng-template>
+	 		<form [formGroup]="fourthFormGroup" (ngSubmit)="favouriteStoreSubmit()">  
+			    <div  class="inventory-container grid-container">
+			        <div  class="sap-med-headings">Favourite Stores</div>
+			        <div class="favourite-store-inner">
+				        <div class="nested-checkbox">
+						  	<ul>
+							    <li *ngFor="let category of categoryCountList; let i = index">
+							    	<input class="form-check-input" name="category.id"  type="checkbox"  id="{{category.category_name}}" (change)="__onChangeStoreCategory(category.id,$event)" >
+							        <label for="{{category.category_name}}">{{category.category_name}} ({{category.channelcount}})</label>
+						      	</li>
+					 		</ul>
+					   </div>
+			            <div  class="inventory-thumb-head" *ngIf="storeData.length > 0">
+			                <div  class="inventory-thumb-inner" *ngFor="let channel of storeData">
+			                    <div  class="inven-thumbs"  [class.starred]="channel.isFav">
+
+			                        <img  alt="channel image" src="{{image_url+channel.channel_logo}}" *ngIf="channel.channel_logo"/>
+			                        <img  alt="channel image" src="./assets/img/no-photo.jpg" *ngIf="!channel.channel_logo"/>
+			                        <div class="overlay">
+			                            <span class="thumb-des"><div class="thumb-title">{{channel.channel_name}}</div></span>
+			                         		<label  class="check-btn-sap" for="{{channel.id}}">
+			                                <input type="checkbox" id="{{channel.id}}" value="{{channel.id}}" (change)="onChecked(channel.id, $event)" [checked]="channel.isFav" />
+			                                <span class="checkmark"></span>
+			                            </label>
+			                        </div>
+			                    </div>
+			                </div>
+			            </div>
+
+			            <div *ngIf="storeData.length == 0" class="empty-text text-center errorz" >
+					            <p>There are no data available</p>
+					    </div>
+		            </div>
+			        <div class="form-group col-md-12 for-foot-button">
+			            <div class="sap-btn-dark grey-btn">
+			                <button mat-button matStepperPrevious>Back</button>
+			            </div>
+			            <div class="sap-btn-dark">
+			                <button type="submit" mat-button matStepperNext>
+			                    Save & Continue 
+			                   <!--  <i class="fa fa-spinner fa-spin" *ngIf="loading"></i> -->
+			                </button>
+			            </div>
+			        </div>
+		   		</div>
+			</form>
+		</section>
+	</mat-step>
+  </mat-horizontal-stepper>
+<app-footer></app-footer>

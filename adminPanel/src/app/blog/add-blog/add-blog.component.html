@@ -1,0 +1,37 @@
+<div class="row">
+	<div class="col-12">
+		<h4 class="card-title">Create Blog</h4>
+		<div class="card">
+			<div class="card-body">
+				<form [formGroup]="blogForm" (ngSubmit)="onSubmit(blogForm.value)">
+					<div class="row">	
+						<div class="col-md-12">
+							<div class="form-group">
+							 	<label>Title*</label>
+							    <input class="form-control" type="text" formControlName="title" placeholder="Title" [ngClass]="{ 'is-invalid': submitted && f.title.errors }">
+							    <div *ngIf="submitted && f.title.errors" class="invalid-feedback">
+							     	<span class="for-sub-name" *ngIf="f.title.errors.required" >Title required </span>
+							    </div>
+							</div>
+						</div>
+                        <div class="col-md-12">
+							<div class="form-group">
+							 	<label>Description*</label>
+							    <!-- <textarea type="textarea" class="form-control" type="text" formControlName="description" [ngClass]="{ 'is-invalid': submitted && f.description.errors }" placeholder="Description"></textarea> -->
+								<ckeditor tagName="textarea" (change) = "inputDesc($event)"
+								id="description" formControlName="description" 
+								[ngClass]="{ 'is-invalid': submitted && f.description.errors }" ></ckeditor>
+								<div *ngIf="submitted && f.description.errors" class="invalid-feedback">
+									<span class="for-sub-name" *ngIf="f.description.errors.required" >Description is required </span>
+							   	</div>
+							</div>
+						</div>
+						<div class="col-lg-2 col-md-4 card-foot-btn">
+                        	<button type="submit" class="btn btn-block btn-primary">Save</button>
+                        </div>
+                    </div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

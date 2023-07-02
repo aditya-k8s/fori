@@ -1,0 +1,27 @@
+<app-header></app-header> 
+
+<section class="internet-error-sec">
+    <div class="inventory-container grid-container" id="internet-error-sec-inner">
+        <div class="internet-error-img"><img src="./assets/images/404-img.png" alt=""></div>
+        <div class="sap-small-headings">You didn't break the Internet, but we can't find what you're looking for.</div>
+        <div class="internet-error-search">
+            <span class="search-subtitle">We can help you find another way!</span>
+            <div class="form-group">
+
+                <input [formControl]="queryField" class="form-control" type="text" id="keyword" autocomplete="off" placeholder="Search..." autofocus/>
+                 <a [routerLink]="" (click)="closeSearch()" class="search-close-btn"><i class="fas fa-times"></i></a>
+                <!-- <div class="sap-btn-dark grey-btn">
+                    <button>CLICK! CLICK!</button>
+                </div> -->
+            </div>
+             <ul class="filter-select">
+                  <li *ngFor="let result of searchResults" class="filter-select-list">
+                    <a [routerLink]="['/view-stream', result.id]"  data-dismiss="modal" class="artist-name">
+                    {{result.channel_name}}</a>
+            </ul>
+
+        </div>
+    </div>
+</section>
+
+<app-footer></app-footer>

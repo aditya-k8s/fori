@@ -1,0 +1,1323 @@
+<!-- <app-header></app-header> -->
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous"/>
+
+
+
+    
+    <!-- Pick This both files -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css">
+    <!-- Pick This both files  -->
+
+<!-- Initial meeting authentication screen with meeting and name inputs -->
+<div id="flow-authenticate" class="flow text-center p-2" style="display: none;">
+  <div class="text-muted" style="position:fixed;right:3px;bottom:3px" id="sdk-version"></div>
+  <div class="container" style="visibility: hidden;">
+    <form  id="form-authenticate">
+      <h1 class="h3 mb-3 font-weight-normal">Start a Broadcast</h1>
+      <div class="row mt-3">
+        <label for="inputMeeting" class="sr-only">Broadcast Title</label>
+        <input readonly="" value="aaaa" type="name" id="inputMeeting" class="form-control" placeholder="Meeting Title" required autofocus>
+      </div>
+      <div class="row mt-3">
+        <label for="inputName" class="sr-only">Your Name</label>
+        <input type="name" readonly="" id="inputName" class="form-control" placeholder="Your Name" required>
+      </div>
+      <div class="row mt-3">
+        <label for="inputRegion" class="sr-only">Media Region</label>
+        <select id="inputRegion" class="custom-select" style="width:100%">
+          <option value="us-east-1" selected>United States (N. Virginia)</option>
+          <option value="ap-northeast-1">Japan (Tokyo)</option>
+          <option value="ap-southeast-1">Singapore</option>
+          <option value="af-south-1">South Africa (Cape Town)</option>
+          <option value="eu-south-1">Italy (Milan)</option>
+          <option value="ap-south-1">India (Mumbai)</option>
+          <option value="ap-northeast-2">South Korea (Seoul)</option>
+          <option value="ap-southeast-2">Australia (Sydney)</option>
+          <option value="ca-central-1">Canada</option>
+          <option value="eu-central-1">Germany (Frankfurt)</option>
+          <option value="eu-north-1">Sweden (Stockholm)</option>
+          <option value="eu-west-1">Ireland</option>
+          <option value="eu-west-2">United Kingdom (London)</option>
+          <option value="eu-west-3">France (Paris)</option>
+          <option value="sa-east-1">Brazil (São Paulo)</option>
+          <option value="us-east-2">United States (Ohio)</option>
+          <option value="us-west-1">United States (N. California)</option>
+          <option value="us-west-2">United States (Oregon)</option>
+        </select>
+      </div>
+      <div class="row mt-3" style="display: none;">
+        <div class="col-12">
+          <fieldset>
+            <legend>Choose your optional features</legend>
+            <div class="custom-control custom-checkbox" style="text-align: left;">
+              <input type="checkbox"  id="webaudio" class="custom-control-input">
+              <label for="webaudio" class="custom-control-label">Use WebAudio</label>
+            </div>
+            <div class="custom-control custom-checkbox" style="text-align: left;">
+              <input type="checkbox"  id="fullband-speech-mono-quality" class="custom-control-input">
+              <label for="fullband-speech-mono-quality" class="custom-control-label">Set fullband speech (mono) quality</label>
+            </div>
+            <div class="custom-control custom-checkbox" style="text-align: left;">
+              <input type="checkbox"id="fullband-music-mono-quality" class="custom-control-input">
+              <label for="fullband-music-mono-quality" class="custom-control-label">Set fullband music (mono) quality</label>
+            </div>
+            <div class="custom-control custom-checkbox" style="text-align: left;">
+              <input type="checkbox"  id="simulcast" class="custom-control-input">
+              <label for="simulcast" class="custom-control-label">Enable Simulcast for Chrome</label>
+            </div>
+            <div class="custom-control custom-checkbox" style="text-align: left;">
+              <input type="checkbox"  id="planB" class="custom-control-input">
+              <label for="planB" class="custom-control-label">Disable Unified Plan for Chrome</label>
+            </div>
+          </fieldset>
+        </div>
+      </div>
+      <div class="row mt-3">
+        <button id="authenticate" class="btn btn-lg btn-primary btn-block" type="submit">Continue</button>
+      </div>
+      <div class="row mt-3">
+        <p>Anyone with access to the Broadcast link can join.</p>
+      </div>
+      <a id="to-sip-flow" class="row mt-3" href="#">Joining via SIP? Click here.</a>
+      <div class="row mt-3">
+        <div id="progress-authenticate" class="w-100 progress progress-hidden">
+          <div class="w-100 progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+
+
+<!-- Device management and preview screen -->
+<!--
+<div id="flow-devices" style="display: none;" class="flow">
+  <div class="container">
+    <form id="form-devices"  >
+     <div class="row mt-3">
+        <label for="sip-inputMeeting" class="sr-only">Text on Screen</label>
+        <input type="text" id="screentext" class="form-control" placeholder="Text.."  autofocus>
+      </div>
+
+      <h1 class="h3 mb-3 font-weight-normal text-center">Select devices</h1>
+      <div class="row mt-3">
+        <div class="col-12 col-sm-4">
+          <label for="audio-input block">Microphone</label>
+          <select id="audio-input"   class="custom-select" style="width:100%"></select>
+        </div>
+
+        <div class="text-center col-sm-4 d-sm-block">
+          <label>Preview</label>
+          <div class="w-100 progress" style="margin-top:0.75rem">
+            <div id="audio-preview" class="progress-bar bg-success" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-3">
+        <div id="voice-focus-setting" class="col-12 col-sm-8 hidden">
+          <input autocomplete="off"   type="checkbox" id="add-voice-focus">
+          <label style="margin-left: 0.5em" for="voice-focus-setting block">Add Voice Focus</label>
+        </div>
+      </div>
+      <div class="row mt-3">
+        <div class="col-12 col-sm-4">
+          <label for="video-input block">Camera</label>
+          <select  id="video-input" class="custom-select" style="width:100%"></select>
+        </div>
+        
+      </div>
+      <div class="row mt-3">
+        <div class="col-12 col-sm-4">
+          <select  id="video-input-quality" class="custom-select" style="width:100%">
+            <option value="360p" selected="">360p (nHD) @ 15 fps (600 Kbps max)</option>
+            <option value="540p" selected>540p (qHD) @ 15 fps (1.4 Mbps max)</option>
+            <option value="720p">720p (HD) @ 15 fps (1.4 Mbps max)</option>
+          </select>
+        </div>
+      </div>
+      <div class="row mt-3">
+        <div class="col-12 col-sm-4">
+          <label for="audio-output block">Speaker</label>
+          <select   
+     id="audio-output" class="custom-select" style="width:100%"></select>
+        </div>
+        <div class="col-sm-4" style="display: none;">
+          <button id="button-test-sound" class="btn btn-outline-secondary btn-block h-50 d-sm-block" style="margin-top:2rem">Test</button>
+        </div>
+      </div>
+
+      <div class="row mt-3">
+        <div class="col-lg">
+          <button id="joinButton"  class="btn btn-lg btn-primary btn-block" type="submit">Start</button>
+        </div>
+      </div>
+      <div class="row mt-3">
+        <div class="col-lg">
+          <p>Ready to Live <b><span id="info-meeting"></span></b> as <b><span id="info-name"></span></b>.</p>
+        </div>
+      </div>
+    </form>
+    <div id="progress-join" class="w-100 progress progress-hidden">
+      <div class="w-100 progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+    </div>
+  </div>
+</div>-->
+    <!-- <audio id="meeting-audio" style="display:none"></audio> -->
+
+      <div class="row mb-3 mb-lg-0" id="toolbar" style="flex: unset; display: none;">
+      <div class="col-12 col-lg-3 order-1 order-lg-1 text-center text-lg-left">
+        <div id="meeting-id" class="navbar-brand text-muted m-0 m-lg-2"></div>
+        <div id="mobile-chime-meeting-id" class="text-muted d-block d-sm-none" style="font-size:0.65rem;"></div>
+        <div id="mobile-attendee-id" class="text-muted d-block d-sm-none mb-2" style="font-size:0.65rem;"></div>
+      </div>
+      <div class="col-8 col-lg-6 order-2 order-lg-2 text-left text-lg-center">
+        <div class="btn-group mx-1 mx-xl-2 my-2" role="group" aria-label="Toggle microphone">
+          <!--    <button id="button-microphone" type="button" class="btn btn-success" title="Toggle microphone"> 
+            <i class="fa fa-microphone"></i>                     
+          </button>    
+          <div class="btn-group" role="group"> 
+            <button id="button-microphone-drop" type="button" class="btn btn-success"  aria-haspopup="true" aria-expanded="false" title="Select microphone"></button>
+            <div id="dropdown-menu-microphone" class="dropdown-menu dropdown-menu-right" aria-labelledby="button-microphone-drop" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 38px, 0px); top: 0px; left: 0px; will-change: transform;">
+              <a class="dropdown-item" href="#">Default microphone</a>
+            </div>                                                             
+          </div>  -->
+        </div>
+        <div class="btn-group mx-1 mx-xl-2 my-2" role="group" aria-label="Toggle camera">
+         <!--<button  style="visibility: hidden;" id="button-camera"  type="button" class="btn btn-success" title="Toggle camera">
+            <i class="fas fa-camera"></i>
+          </button> -->
+          <!--<div class="btn-group" ngbDropdown role="group">
+            <button BsDropdownModule id="button-camera-drop"  type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Select camera"></button>
+            <div ngbDropdownMenu id="dropdown-menu-camera" class="dropdown-menu dropdown-menu-right" aria-labelledby="button-camera-drop" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 38px, 0px); top: 0px; left: 0px; will-change: transform;">
+              <a class="dropdown-item" href="#">Default camera</a>
+            </div>
+          </div>--->
+        </div>
+        <div style="display: none;" class="btn-group mx-1 mx-xl-2 my-2" role="group" aria-label="Apply filter">
+          <button id="button-video-filter" type="button" class="btn btn-success" title="Apply filter">
+            contrast
+          </button>
+          <div class="btn-group" role="group">
+            <button id="button-video-filter-drop" type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Select filter"></button>
+            <div id="dropdown-menu-filter" class="dropdown-menu dropdown-menu-right" aria-labelledby="button-video-filter-drop" x-placement="bottom-start">
+              <a class="dropdown-item" href="#">No filter</a>
+            </div>
+          </div>
+        </div>
+        <div class="btn-group mx-1 mx-xl-2 my-2" role="group" aria-label="Toggle content share">
+         <!--  <button id="button-content-shares" type="button" class="btn btn-success" title="Toggle content share">
+            camera-slr
+            
+            <i class="fas fa-file-video"></i>
+          </button> -->
+          <div class="btn-group" role="group">
+            <button id="button-content-share-drop" type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Select content to share"></button>
+            <div id="dropdown-menu-content-share" class="dropdown-menu dropdown-menu-right" aria-labelledby="button-content-share-drop" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 38px, 0px); top: 0px; left: 0px; will-change: transform;">
+             <!--  <span id="dropdown-item-content-share-screen-capture" class="dropdown-item" >Screen Capture...</span> -->        
+               <a style="visibility: hidden;" id="dropdown-item-content-share-screen-test-video" class="dropdown-item" href="#">Test Video</a>
+              <!-- <span id="dropdown-item-content-share-file-item" class="dropdown-item"><input id="content-share-item" type="file"></span> -->
+             
+            </div>
+          </div>
+        </div>
+        <!-- <button id="button-pause-content-share" type="button" class="btn btn-success mx-1 mx-xl-2 my-2" title="Pause and unpause content share">
+          <-- media-pause --
+          <i class="far fa-stop-circle"></i>
+          
+        </button> -->
+        <div class="btn-group mx-1 mx-xl-2 my-2" role="group" aria-label="Toggle speaker">
+          
+          <!-- 
+          <button id="button-speaker" type="button" class="btn btn-success" title="Toggle speaker">               
+             <i class="fas fa-volume-up"> </i> 
+          </button>
+           -->
+          <div class="btn-group" role="group">
+            <button id="button-speaker-drop" type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Select speaker"></button>
+            <div id="dropdown-menu-speaker" class="dropdown-menu dropdown-menu-right" aria-labelledby="button-speaker-drop" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 38px, 0px); top: 0px; left: 0px; will-change: transform;">
+              <a class="dropdown-item" href="#">Default speaker</a>
+            </div>
+          </div>
+        </div>
+        <button id="button-video-stats"  type="button" class="btn btn-success mx-1 mx-xl-2 my-2" title="Toggle video WebRTC stats display" data-toggle="button" aria-pressed="false" autocomplete="off">
+          <!-- signal -->
+          <i class="fa fa-signal"></i>
+            
+        </button>
+      </div>
+      <div class="col-4 col-lg-3 order-3 order-lg-3 text-right text-lg-right">
+        <button id="button-meeting-leave" type="button" class="btn btn-outline-success mx-1 mx-xl-2 my-2 px-4" title="Leave meeting">
+          <!-- account-logout -->
+         Logout  
+        </button>
+        <button id="button-meeting-end" type="button" class="btn btn-outline-danger mx-1 mx-xl-2 my-2 px-4" title="End meeting">
+        <--  power-standby --
+         <i class="fas fa-power-off"></i>
+        </button> StartBroadcast autoJoin
+      </div>
+    </div>
+
+<section class="merch-page">
+    <div class="merch-inner">
+        <div class="left-bar">
+          <div class="dropright us" id="puseVideo">
+              <div class="rowmt-3">
+                <div class="dropright">
+                  <button id="video-pause-16" class="btn btn-primary" style="background-color: #e25751 !important;color: #fff !important;/"  >
+                    <label class="ico">
+                      <i class="fa fa-pause"></i>
+                    </label>
+                    <label class="text">Pause</label>
+                  </button>
+              </div>
+            </div>
+          </div>
+            <div class="dropright  uk" id="showStart">
+              <div id="flow-devices"  class="">
+                <div class="">
+                  <form id="form-devices"  name="form-devices-start" style="margin: 0px; padding: 0px;"  >
+                   
+                   <div style="display: none;">
+                    <h1 class="h3 mb-3 font-weight-normal text-center">Select devices</h1>
+                    <div class="row mt-3">
+                      <div class="col-12 col-sm-4">
+                        <label for="audio-input block">Microphone</label>
+                        <select id="audio-input"   class="custom-select" style="width:100%"></select>
+                      </div>
+
+                      <div class="text-center col-sm-4 d-sm-block">
+                        <label>Preview</label>
+                        <div class="w-100 progress" style="margin-top:0.75rem">
+                          <!-- <div id="audio-preview" class="progress-bar bg-success" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div> -->
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row mt-3">
+                      <div id="voice-focus-setting" class="col-12 col-sm-8 hidden">
+                        <input autocomplete="off"   type="checkbox" id="add-voice-focus">
+                        <label style="margin-left: 0.5em" for="voice-focus-setting block">Add Voice Focus</label>
+                      </div>
+                    </div>
+                    <div class="row mt-3">
+                      <div class="col-12 col-sm-4">
+                        <label for="video-input block">Camera</label>
+                        <select  id="video-input" class="custom-select" style="width:100%"></select>
+                      </div>
+                      
+                    </div>
+                    <div class="row mt-3">
+                      <div class="col-12 col-sm-4">
+                        <!-- <select  id="video-input-quality" class="custom-select" style="width:100%">
+                          <option value="360p" selected="">360p (nHD) @ 15 fps (600 Kbps max)</option>
+                          <option value="540p">540p (qHD) @ 15 fps (1.4 Mbps max)</option>
+                          <option value="720p">720p (HD) @ 15 fps (1.4 Mbps max)</option>
+                        </select> -->
+                      </div>
+                    </div>
+                    <div class="row mt-3">
+                      <div class="col-12 col-sm-4">
+                        <label for="audio-output block">Speaker</label>
+                        <select   
+                   id="audio-output" class="custom-select" style="width:100%"></select>
+                      </div>
+                      <div class="col-sm-4" style="display: none;">
+                        <button id="button-test-sound" class="btn btn-outline-secondary btn-block h-50 d-sm-block" style="margin-top:2rem">Test</button>
+                      </div>
+                    </div>
+                  </div>
+                   <button  class="btn btn-primary active"  >
+                        <label class="ico">
+                          <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 163.861 163.861" style="enable-background:new 0 0 163.861 163.861;" xml:space="preserve"><g><path d="M34.857,3.613C20.084-4.861,8.107,2.081,8.107,19.106v125.637c0,17.042,11.977,23.975,26.75,15.509L144.67,97.275   c14.778-8.477,14.778-22.211,0-30.686L34.857,3.613z"></path></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g></svg>
+                        </label>
+                        <label class="text">start</label>
+                      </button>      
+                    <div class="rowmt-3" style=" display: none;">
+                      <div class="collg">
+                        <p>Ready to Live <b><span id="info-meeting"></span></b> as <b><span id="info-name"></span></b>.</p>
+                      </div>
+                    </div>
+                  </form>
+                  <div style="display: none;" id="progress-join" class="w-100 progress progress-hidden">
+                    <div class="w-100 progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                  </div>
+                </div>
+              </div> 
+
+
+                  
+          </div>
+          <div class="dropright us" id="hideStart">
+                
+                    <div class="rowmt-3">
+                      <div class="dropright">
+
+                        <!-- <button id="joinButton"  class="btn btn-lg btn-primary btn-block" type="submit">Start</button> -->
+                        <button id="StartBroadcast" class="btn btn-primary active"  >
+                        <label class="ico">
+                          <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 163.861 163.861" style="enable-background:new 0 0 163.861 163.861;" xml:space="preserve"><g><path d="M34.857,3.613C20.084-4.861,8.107,2.081,8.107,19.106v125.637c0,17.042,11.977,23.975,26.75,15.509L144.67,97.275   c14.778-8.477,14.778-22.211,0-30.686L34.857,3.613z"></path></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g></svg>
+                        </label>
+                        <label class="text">start</label>
+                      </button>
+
+
+                             
+                   
+              </div>
+            </div>
+          </div>
+
+              <div class="dropright us" id="hideForm" >
+                <div id="flow-devices"  class="">
+                <div class="">
+                  <form id="form-devices-camera"  name="form-devices" style="margin: 0px; padding: 0px;"  >
+                   
+                   <div style="display: none;">
+                    <h1 class="h3 mb-3 font-weight-normal text-center">Select devices</h1>
+                    <div class="row mt-3">
+                      <div class="col-12 col-sm-4">
+                        <label for="audio-input block">Microphone</label>
+                        <select id="audio-input"   class="custom-select" style="width:100%"></select>
+                      </div>
+
+                      <div class="text-center col-sm-4 d-sm-block">
+                        <label>Preview</label>
+                        <div class="w-100 progress" style="margin-top:0.75rem">
+                          <!-- <div id="audio-preview" class="progress-bar bg-success" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div> -->
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row mt-3">
+                      <div id="voice-focus-setting" class="col-12 col-sm-8 hidden">
+                        <input autocomplete="off"   type="checkbox" id="add-voice-focus">
+                        <label style="margin-left: 0.5em" for="voice-focus-setting block">Add Voice Focus</label>
+                      </div>
+                    </div>
+                    <div class="row mt-3">
+                      <div class="col-12 col-sm-4">
+                        <label for="video-input block">Camera</label>
+                        <select  id="video-input" class="custom-select" style="width:100%"></select>
+                      </div>                                                                                        
+                      
+                    </div>
+                    <div class="row mt-3">
+                      <div class="col-12 col-sm-4">
+                        <!-- <select  id="video-input-quality" class="custom-select" style="width:100%">
+                          <option value="360p" selected="">360p (nHD) @ 15 fps (600 Kbps max)</option>
+                          <option value="540p">540p (qHD) @ 15 fps (1.4 Mbps max)</option>
+                          <option value="720p">720p (HD) @ 15 fps (1.4 Mbps max)</option>
+                        </select> -->
+                      </div>
+                    </div>
+                    <div class="row mt-3">
+                      <div class="col-12 col-sm-4">
+                        <label for="audio-output block">Speaker</label>
+                        <select   
+                   id="audio-output" class="custom-select" style="width:100%"></select>
+                      </div>
+                      <div class="col-sm-4" style="display: none;">
+                        <button id="button-test-sound" class="btn btn-outline-secondary btn-block h-50 d-sm-block" style="margin-top:2rem">Test</button>
+                      </div>
+                    </div>
+                  </div>
+                <button  type="submit" class="btn btn-primary">
+                  <label class="ico">
+                      <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve"><g><g><path d="M256,40c-5.52,0-10,4.48-10,10s4.48,10,10,10s10-4.48,10-10S261.52,40,256,40z"></path></g></g><g><g><path d="M466,210C466,94.206,371.794,0,256,0S46,94.206,46,210c0,96.488,66.579,180.855,159.516,203.859    c-1.591,14.119-6.958,31.441-13.568,38.051l-0.131,0.131c-18.899,0.353-32.638,3.149-42.999,8.73    C133.677,468.949,126,482.82,126,502c0,5.522,4.478,10,10,10h240c5.522,0,10-4.478,10-10c0-19.187-7.68-33.058-22.824-41.229    c-10.344-5.58-24.082-8.378-42.992-8.731l-0.132-0.132c-6.61-6.609-11.977-23.931-13.568-38.05    C399.423,390.853,466,306.486,466,210z M316,472c33.23,0,45.303,7.689,48.794,20H147.226c2.172-7.762,6.862-11.345,11.087-13.626    C166.274,474.085,178.603,472,196,472H316z M215.517,452c5.068-10.601,8.238-23.466,9.638-34.27    C235.326,419.232,245.658,420,256,420c10.342,0,20.674-0.768,30.845-2.27c1.401,10.804,4.57,23.67,9.638,34.27H215.517z     M294.015,396.179c-0.019,0.004-0.037,0.007-0.056,0.011c-24.788,5.056-51.127,5.057-75.922-0.001    c-0.017-0.004-0.035-0.007-0.052-0.01C129.918,378.227,66,299.929,66,210c0-104.767,85.233-190,190-190s190,85.233,190,190    C446,299.929,382.082,378.227,294.015,396.179z"></path></g></g><g><g><path d="M389.606,104.994c-23.072-29.303-55.544-50.505-91.434-59.701c-5.355-1.374-10.799,1.855-12.17,7.205    c-1.37,5.35,1.855,10.798,7.205,12.169c31.66,8.112,60.314,26.828,80.686,52.7c3.426,4.352,9.716,5.077,14.043,1.67    C392.275,115.621,393.023,109.333,389.606,104.994z"></path></g></g><g><g><path d="M256,100c-60.654,0-110,49.346-110,110s49.346,110,110,110s110-49.346,110-110S316.654,100,256,100z M256,300    c-49.626,0-90-40.374-90-90c0-49.626,40.374-90,90-90c49.626,0,90,40.374,90,90C346,259.626,305.626,300,256,300z"></path></g></g><g><g><path d="M256,140c-38.598,0-70,31.402-70,70c0,38.598,31.402,70,70,70c38.598,0,70-31.402,70-70C326,171.402,294.598,140,256,140z     M256,260c-27.57,0-50-22.43-50-50s22.43-50,50-50s50,22.43,50,50S283.57,260,256,260z"></path></g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g></svg>
+                  </label>
+                  <label class="text">camera</label>
+                </button> 
+                    <div class="rowmt-3" style=" display: none;">
+                      <div class="collg">
+                        <p>Ready to Live <b><span id="info-meeting"></span></b> as <b><span id="info-name"></span></b>.</p>
+                      </div>
+                    </div>
+                  </form>
+                  <div style="display: none;" id="progress-join" class="w-100 progress progress-hidden">
+                    <div class="w-100 progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                  </div>
+                </div>
+              </div>       
+              </div>
+
+              <div class="dropright uk" id="hideCamera">
+                <button   (click)="opendropmenu('cameraid')" type="button" class="btn btn-primary">
+                  <label class="ico">
+                      <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve"><g><g><path d="M256,40c-5.52,0-10,4.48-10,10s4.48,10,10,10s10-4.48,10-10S261.52,40,256,40z"></path></g></g><g><g><path d="M466,210C466,94.206,371.794,0,256,0S46,94.206,46,210c0,96.488,66.579,180.855,159.516,203.859    c-1.591,14.119-6.958,31.441-13.568,38.051l-0.131,0.131c-18.899,0.353-32.638,3.149-42.999,8.73    C133.677,468.949,126,482.82,126,502c0,5.522,4.478,10,10,10h240c5.522,0,10-4.478,10-10c0-19.187-7.68-33.058-22.824-41.229    c-10.344-5.58-24.082-8.378-42.992-8.731l-0.132-0.132c-6.61-6.609-11.977-23.931-13.568-38.05    C399.423,390.853,466,306.486,466,210z M316,472c33.23,0,45.303,7.689,48.794,20H147.226c2.172-7.762,6.862-11.345,11.087-13.626    C166.274,474.085,178.603,472,196,472H316z M215.517,452c5.068-10.601,8.238-23.466,9.638-34.27    C235.326,419.232,245.658,420,256,420c10.342,0,20.674-0.768,30.845-2.27c1.401,10.804,4.57,23.67,9.638,34.27H215.517z     M294.015,396.179c-0.019,0.004-0.037,0.007-0.056,0.011c-24.788,5.056-51.127,5.057-75.922-0.001    c-0.017-0.004-0.035-0.007-0.052-0.01C129.918,378.227,66,299.929,66,210c0-104.767,85.233-190,190-190s190,85.233,190,190    C446,299.929,382.082,378.227,294.015,396.179z"></path></g></g><g><g><path d="M389.606,104.994c-23.072-29.303-55.544-50.505-91.434-59.701c-5.355-1.374-10.799,1.855-12.17,7.205    c-1.37,5.35,1.855,10.798,7.205,12.169c31.66,8.112,60.314,26.828,80.686,52.7c3.426,4.352,9.716,5.077,14.043,1.67    C392.275,115.621,393.023,109.333,389.606,104.994z"></path></g></g><g><g><path d="M256,100c-60.654,0-110,49.346-110,110s49.346,110,110,110s110-49.346,110-110S316.654,100,256,100z M256,300    c-49.626,0-90-40.374-90-90c0-49.626,40.374-90,90-90c49.626,0,90,40.374,90,90C346,259.626,305.626,300,256,300z"></path></g></g><g><g><path d="M256,140c-38.598,0-70,31.402-70,70c0,38.598,31.402,70,70,70c38.598,0,70-31.402,70-70C326,171.402,294.598,140,256,140z     M256,260c-27.57,0-50-22.43-50-50s22.43-50,50-50s50,22.43,50,50S283.57,260,256,260z"></path></g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g></svg>
+                  </label>
+                  <label class="text">camera</label>
+                </button>
+                <div class="dropdown-menu" id="cameraid">
+                    <button type="button" (click)="closedropmenu('cameraid')" class="close" aria-label="Close"><label aria-hidden="true">&times;</label></button>
+                    <div class="create-new-agenda-list"  role="group">
+                      
+                      <div id="dropdown-menu-camera" class="show" aria-labelledby="button-camera-drop" x-placement="bottom-start" >
+                        <button class="dropdown-item" >Default camera</button>
+                      </div>
+                    </div>
+                  <select  id="video-input" class="custom-select" style="width:100%;visibility: hidden;"></select>
+  
+                </div>
+                <!-- <div class="dropdown-menu">
+                    <button type="button" class="close" aria-label="Close"><label aria-hidden="true">&times;</label></button>
+                    Hello
+                </div> -->
+              </div>
+              <div class="dropright">
+                <button (click)="opendropmenu('microphone')" type="button" class="btn btn-primary">
+                  <label class="ico">
+                     <i class="fa fa-microphone"></i>
+                  </label>
+                  <label class="text">Micro phone</label>
+                </button>
+                <div class="dropdown-menu" id="microphone">
+                    <button type="button" (click)="closedropmenu('microphone')" class="close" aria-label="Close"><label aria-hidden="true">&times;</label></button>
+                    <div class="create-new-agenda-list"  role="group">
+                      <div id="dropdown-menu-microphone" class="show"  >
+                        <button class="dropdown-item" >Default microphone</button>
+                      </div>
+                    </div>
+                </div>
+               
+              </div>
+              <div class="dropright">
+                <button type="button" (click)="opendropmenu('guest')" class="btn btn-primary" aria-haspopup="true" aria-expanded="false">
+                  <label class="ico">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="-42 0 512 512.001"><path d="m210.351562 246.632812c33.882813 0 63.21875-12.152343 87.195313-36.128906 23.96875-23.972656 36.125-53.304687 36.125-87.191406 0-33.875-12.152344-63.210938-36.128906-87.191406-23.976563-23.96875-53.3125-36.121094-87.191407-36.121094-33.886718 0-63.21875 12.152344-87.191406 36.125s-36.128906 53.308594-36.128906 87.1875c0 33.886719 12.15625 63.222656 36.128906 87.195312 23.980469 23.96875 53.316406 36.125 87.191406 36.125zm-65.972656-189.292968c18.394532-18.394532 39.972656-27.335938 65.972656-27.335938 25.996094 0 47.578126 8.941406 65.976563 27.335938 18.394531 18.398437 27.339844 39.980468 27.339844 65.972656 0 26-8.945313 47.578125-27.339844 65.976562-18.398437 18.398438-39.980469 27.339844-65.976563 27.339844-25.992187 0-47.570312-8.945312-65.972656-27.339844-18.398437-18.394531-27.34375-39.976562-27.34375-65.976562 0-25.992188 8.945313-47.574219 27.34375-65.972656zm0 0"></path><path d="m426.128906 393.703125c-.691406-9.976563-2.089844-20.859375-4.148437-32.351563-2.078125-11.578124-4.753907-22.523437-7.957031-32.527343-3.3125-10.339844-7.808594-20.550781-13.375-30.335938-5.769532-10.15625-12.550782-19-20.160157-26.277343-7.957031-7.613282-17.699219-13.734376-28.964843-18.199219-11.226563-4.441407-23.667969-6.691407-36.976563-6.691407-5.226563 0-10.28125 2.144532-20.042969 8.5-6.007812 3.917969-13.035156 8.449219-20.878906 13.460938-6.707031 4.273438-15.792969 8.277344-27.015625 11.902344-10.949219 3.542968-22.066406 5.339844-33.042969 5.339844-10.96875 0-22.085937-1.796876-33.042968-5.339844-11.210938-3.621094-20.300782-7.625-26.996094-11.898438-7.769532-4.964844-14.800782-9.496094-20.898438-13.46875-9.753906-6.355468-14.808594-8.5-20.035156-8.5-13.3125 0-25.75 2.253906-36.972656 6.699219-11.257813 4.457031-21.003906 10.578125-28.96875 18.199219-7.609375 7.28125-14.390625 16.121094-20.15625 26.273437-5.558594 9.785157-10.058594 19.992188-13.371094 30.339844-3.199219 10.003906-5.875 20.945313-7.953125 32.523437-2.0625 11.476563-3.457031 22.363282-4.148437 32.363282-.679688 9.777344-1.023438 19.953125-1.023438 30.234375 0 26.726562 8.496094 48.363281 25.25 64.320312 16.546875 15.746094 38.4375 23.730469 65.066406 23.730469h246.53125c26.621094 0 48.511719-7.984375 65.0625-23.730469 16.757813-15.945312 25.253906-37.589843 25.253906-64.324219-.003906-10.316406-.351562-20.492187-1.035156-30.242187zm-44.90625 72.828125c-10.933594 10.40625-25.449218 15.464844-44.378906 15.464844h-246.527344c-18.933594 0-33.449218-5.058594-44.378906-15.460938-10.722656-10.207031-15.933594-24.140625-15.933594-42.585937 0-9.59375.316406-19.066407.949219-28.160157.617187-8.921874 1.878906-18.722656 3.75-29.136718 1.847656-10.285156 4.199219-19.9375 6.996094-28.675782 2.683593-8.378906 6.34375-16.675781 10.882812-24.667968 4.332031-7.617188 9.316407-14.152344 14.816407-19.417969 5.144531-4.925781 11.628906-8.957031 19.269531-11.980469 7.066406-2.796875 15.007812-4.328125 23.628906-4.558594 1.050781.558594 2.921875 1.625 5.953125 3.601563 6.167969 4.019531 13.277344 8.605469 21.136719 13.625 8.859375 5.648437 20.273437 10.75 33.910156 15.152344 13.941406 4.507812 28.160156 6.796875 42.273437 6.796875 14.113282 0 28.335938-2.289063 42.269532-6.792969 13.648437-4.410156 25.058594-9.507813 33.929687-15.164063 8.042969-5.140624 14.953125-9.59375 21.121094-13.617187 3.03125-1.972656 4.902344-3.042969 5.953125-3.601563 8.625.230469 16.566406 1.761719 23.636719 4.558594 7.636719 3.023438 14.121093 7.058594 19.265625 11.980469 5.5 5.261719 10.484375 11.796875 14.816406 19.421875 4.542969 7.988281 8.207031 16.289062 10.886719 24.660156 2.800781 8.75 5.15625 18.398438 7 28.675782 1.867187 10.433593 3.132812 20.238281 3.75 29.144531v.007812c.636719 9.058594.957031 18.527344.960937 28.148438-.003906 18.449219-5.214844 32.378906-15.9375 42.582031zm0 0"></path></svg>
+                  </label>
+                  <label class="text">guest</label>
+                </button>
+                <div class="dropdown-menu" id="guest">
+                    <button type="button" (click)="closedropmenu('guest')" class="close" aria-label="Close"><label aria-hidden="true">&times;</label></button>
+                    <div class="drop-right-heading">Add Guest</div>
+                    <div class="clipboard">
+                        <input  class="copy-input" value="{{meetingURL}}" id="copyClipboard" readonly>
+                        <button class="copy-btn" id="copyButton" (click)="copyLink()"><i class="far fa-copy"></i></button>
+                    </div>
+                    <!-- <button class="create-new-link"><i class="fas fa-sync-alt"></i> Create new link</button> -->
+                </div>
+              </div>
+ 
+              <div class="dropright" id="screen-form" >
+                <div id="flow-devices"  class="">
+                  <form id="form-devicesscreen"  name="form-devices-screen" style="margin: 0px; padding: 0px;"  >
+                   
+                   
+                    <button type="submit" class="btn btn-primary">
+
+                      <label class="ico">
+                        <svg xmlns="http://www.w3.org/2000/svg" id="Capa_1" enable-background="new 0 0 512 512" viewBox="0 0 512 512"><g><path d="m482 25h-452c-16.542 0-30 13.458-30 30v298c0 16.542 13.458 30 30 30h147v74h-81c-8.284 0-15 6.716-15 15s6.716 15 15 15h320c8.284 0 15-6.716 15-15s-6.716-15-15-15h-81v-74h147c16.542 0 30-13.458 30-30v-298c0-16.542-13.458-30-30-30zm-177 432h-98v-74h98zm177-104c-13.157 0-441.456 0-452 0v-298h452c.019 304.472.1 298 0 298z"></path></g></svg>
+                      </label>
+                      <label class="text">screen</label>
+                    </button>
+                    
+                  </form>
+                 
+              </div>
+               
+              </div>
+               <div class="dropright"  id="screenAction">
+                <button type="button" class="btn btn-primary" id="dropdown-item-content-share-screen-capture" aria-haspopup="true" aria-expanded="false">
+                  <label class="ico">
+                    <svg xmlns="http://www.w3.org/2000/svg" id="Capa_1" enable-background="new 0 0 512 512" viewBox="0 0 512 512"><g><path d="m482 25h-452c-16.542 0-30 13.458-30 30v298c0 16.542 13.458 30 30 30h147v74h-81c-8.284 0-15 6.716-15 15s6.716 15 15 15h320c8.284 0 15-6.716 15-15s-6.716-15-15-15h-81v-74h147c16.542 0 30-13.458 30-30v-298c0-16.542-13.458-30-30-30zm-177 432h-98v-74h98zm177-104c-13.157 0-441.456 0-452 0v-298h452c.019 304.472.1 298 0 298z"></path></g></svg>
+                  </label>
+                  <label class="text">screen</label>
+                </button>
+               
+              </div>
+             
+             
+              <div class="dropright media-head">
+                <button type="button" (click)="opendropmenu('media-head')" class="btn btn-primary" aria-haspopup="true" aria-expanded="false">
+                  <label class="ico">
+                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve"><g><g><path d="M340.636,307.787l-120.5-80.334c-4.602-3.069-10.521-3.355-15.398-0.745c-4.877,2.61-7.922,7.693-7.922,13.226v160.667    c0,5.532,3.045,10.615,7.922,13.225c2.218,1.186,4.65,1.774,7.077,1.774c2.91,0,5.812-0.846,8.321-2.52l120.5-80.333    c4.173-2.781,6.68-7.465,6.68-12.48S344.809,310.569,340.636,307.787z M226.816,372.574V267.962l78.458,52.306L226.816,372.574z"></path></g></g><g><g><path d="M497,128.533H15c-8.284,0-15,6.716-15,15V497c0,8.284,6.716,15,15,15h482c8.284,0,15-6.716,15-15V143.533    C512,135.249,505.284,128.533,497,128.533z M482,482H30V158.533h452V482z"></path></g></g><g><g><path d="M448.801,64.268h-385.6c-8.284,0-15,6.716-15,15s6.716,15,15,15h385.6c8.284,0,15-6.716,15-15    S457.085,64.268,448.801,64.268z"></path></g></g><g><g><path d="M400.6,0H111.4c-8.284,0-15,6.716-15,15s6.716,15,15,15h289.2c8.284,0,15-6.716,15-15S408.884,0,400.6,0z"></path></g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g></svg>
+                  </label>
+                  <label class="text">media</label>
+                </button>
+                <div class="dropdown-menu" id="media-head">
+                    <button type="button" (click)="closedropmenu('media-head')" class="close" aria-label="Close"><label aria-hidden="true">&times;</label></button>
+                    <div class="media-inner">
+                        <button id="dropdown-item-content-share-file-item" type="button">
+                          <input id="content-share-item" type="file" (change)="onSelectFile($event)" #file name="file" hidden="">
+                          <i  (click)="file.click()" class="fas fa-file-upload" type='button' ></i>
+                          <label class="text">upload</label></button>
+
+                        <button type="button" (click)="openLinkBox('on-link-open','youtube')"><i class="fas fa-link"></i><label class="text">youtube</label></button>
+                        <button type="button" (click)="openLinkBox('on-link-open','fb')"><i class="fab fa-facebook-square"></i><label class="text">facebook</label></button>
+                    </div>
+                </div>
+                <div class="dropdown-menu" id="on-link-open" style="margin-left: 170px;margin-top: 0px;">
+                  <button type="button" (click)="closeLinkBox('on-link-open')" class="close"><label >&times;</label></button>
+                  <div class="drop-right-heading">Video Link</div>
+                  <div class="create-new-agenda-list">
+                    <div class="create-list-btn-head">
+                      <input type="text" [(ngModel)]="videoLink" name="videoLink" id="videoLink" placeholder="please enter video url">
+                      <button id="createTxt" type="button" class="btn btn-warning" (click)="saveLink()">Save <i class="fas fa-caret-right"></i></button>
+                    </div>
+                    <small>https://www.youtube.com/embed/<code style="border: dotted;">jDV5q37rGlg</code></small>
+                    <small>https://www.youtube.com/watch?v=<code style="border: dotted;">qvaEpk52Y4o</code></small>
+                  </div>
+                </div>
+              </div>
+
+              <div class="dropright live-sales-head">
+                <button type="button" (click)="opendropmenu('live-sales-head')"  class="btn btn-primary"  aria-haspopup="true" aria-expanded="false">
+                  <label class="ico">
+                    <svg xmlns="http://www.w3.org/2000/svg" id="Capa_1" enable-background="new 0 0 512 512" viewBox="0 0 512 512"><g><path d="m203.556 345.012 70.71-212.133c2.619-7.859-1.628-16.354-9.487-18.974-7.858-2.619-16.354 1.628-18.974 9.487l-70.71 212.133c-2.619 7.859 1.628 16.354 9.487 18.974 1.573.524 3.173.773 4.745.773 6.28.001 12.133-3.974 14.229-10.26z"></path><path d="m309.533 279.203c24.813 0 45-20.187 45-45s-20.187-45-45-45-45 20.187-45 45 20.187 45 45 45zm0-60c8.271 0 15 6.729 15 15s-6.729 15-15 15-15-6.729-15-15 6.729-15 15-15z"></path><path d="m139.827 189.203c-24.813 0-45 20.187-45 45s20.187 45 45 45 45-20.187 45-45-20.186-45-45-45zm0 60c-8.271 0-15-6.729-15-15s6.729-15 15-15 15 6.729 15 15-6.728 15-15 15z"></path><path d="m509 186-52.307-69.743 2.041-14.283c.667-4.674-.904-9.39-4.243-12.728l-31.82-31.82 31.819-31.82c5.858-5.857 5.858-15.355 0-21.213-5.857-5.857-15.355-5.857-21.213 0l-31.819 31.82-31.82-31.82c-3.338-3.339-8.054-4.905-12.728-4.243l-148.493 21.213c-3.213.459-6.19 1.948-8.485 4.243l-183.848 183.848c-21.445 21.444-21.445 56.338 0 77.782l155.563 155.564c3.182 3.182 6.666 5.881 10.353 8.118v6.082c0 30.327 24.673 55 55 55h220c30.327 0 55-24.673 55-55v-262c0-3.245-1.053-6.404-3-9zm-471.703 80.023c-9.748-9.748-9.748-25.608 0-35.356l180.312-180.312 136.118-19.445 26.517 26.517-21.213 21.213-10.607-10.607c-5.857-5.857-15.355-5.857-21.213 0s-5.858 15.355 0 21.213l42.427 42.427c2.929 2.929 6.768 4.394 10.606 4.394s7.678-1.465 10.606-4.394c5.858-5.857 5.858-15.355 0-21.213l-10.607-10.607 21.213-21.213 26.517 26.517-19.446 136.118-180.311 180.312c-4.722 4.722-11 7.322-17.678 7.322s-12.956-2.601-17.678-7.322zm444.703 190.977c0 13.785-11.215 25-25 25h-220c-13.164 0-23.976-10.228-24.925-23.154 13.567-.376 27.022-5.714 37.353-16.046l183.848-183.848c2.295-2.295 3.784-5.272 4.243-8.485l13.173-92.21 31.308 41.743z"></path></g></svg>
+                  </label>
+                  <label class="text">live products</label>
+                </button>
+                <div class="dropdown-menu" id="live-sales-head">
+                    <button type="button" class="close" (click)="closedropmenu('live-sales-head')" aria-label="Close"><label aria-hidden="true">&times;</label></button>
+                    <div class="drop-right-heading">Live Sales List</div>
+                    <div class="create-new-head">
+                      <button *ngFor="let product of broadcastData.productList ;let i = index" id="product{{i}}" class="create-new-inner products">
+                        <input type="checkbox"[(ngModel)]="product.isSelected" name="list_name" value="{{i+1}}" (change)="isAllSelected($event,product)">&nbsp;&nbsp;
+                        <div class="create-list-img">
+                          <img src="{{product.image_url}}" alt="">
+                        </div>
+                        <div class="create-list-text">{{product.product_title}}</div>
+                      </button>
+                    </div>
+                    <div class="drop-right-foot sap-btn-dark"><button class="add-new-list " (click)="liveSales()"><i class="fas fa-plus"></i> Add To Live Steam</button><button class="add-new-list " (click)="hideliveSales()"><i class="fas fa-eye-slash"></i>  Remove</button></div>
+                </div>
+              </div>
+
+              <div class="dropright on-screen-agenda" >
+                <button type="button" (click)="opendropmenu('on-screen-agenda-open')" id="on-screen-agenda" class="btn btn-primary">
+                  <label class="ico">
+                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 27.855 27.855" style="enable-background:new 0 0 27.855 27.855;" xml:space="preserve"><g><path d="M27.604,6.751L14.176,20.18c-0.338,0.336-0.885,0.336-1.223,0l-0.27-0.27l0,0l-0.293-0.293l-1.268-1.268l-0.018-0.027   L5.297,12.47c-0.336-0.336-0.336-0.885,0-1.221l1.83-1.828c0.338-0.339,0.883-0.339,1.221,0l5.223,5.262L24.551,3.7   c0.338-0.337,0.885-0.337,1.221,0l1.832,1.832C27.939,5.867,27.939,6.415,27.604,6.751z"></path><path d="M21.795,22.613c0,0.973-0.793,1.766-1.768,1.766H3.535c-0.975,0-1.768-0.793-1.768-1.766V5.241   c0-0.973,0.793-1.766,1.768-1.766h16.492c0.975,0,1.768,0.793,1.768,1.766l0,0l1.256-1.162c0.203-1.43-1.242-2.369-3.024-2.369   H3.535C1.582,1.71,0,3.29,0,5.241v17.372c0,1.951,1.582,3.533,3.535,3.533h16.492c1.953,0,3.535-1.582,3.535-3.533V12.257   l-1.768,1.924L21.795,22.613L21.795,22.613z"></path><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g></svg>
+                  </label>
+                  <label class="text">on screen agenda</label>
+                </button>                     
+                <div class="dropdown-menu" id="on-screen-agenda-open">
+                    <button type="button" (click)="closedropmenu('on-screen-agenda-open')" class="close"><label >&times;</label></button>
+                    
+                    <div class="drop-right-heading">On screen agenda</div>
+                    <div class="create-new-agenda-list">
+                      <!-- <button type="button" class="btn btn-warning" id="agenda-new-list-btn"><i class="fas fa-plus"></i> New List</button>  -->
+                      <div class="create-list-btn-head">
+                        <input type="text" placeholder="Type something..." value="" maxlength="150" name="screentext" id="screenagendaId">
+                        <button (click)="saveAgendatext()" id="createTxt" type="button" class="btn btn-warning">Create <i class="fas fa-caret-right"></i></button> </div>                                                                                                                                                                                                                                     
+
+                   <!-- <div class="create-new-agenda-list-head" *ngFor="let testname of  textlist ;let j = index">
+                      <div class="create-new-agenda-list-inner">
+                        <i class="bi bi-arrows-expand"></i>
+                        <button type="button" class="title">{{testname.text}}</button>
+                        <label class="badge badge-pill badge-green"></label>
+
+                        <div class="dropdown">
+                          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-ellipsis-v"></i>
+                          </button>
+                          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="#">Edit</a>
+                            <a class="dropdown-item" href="#">Delete</a>
+                          </div>
+                        </div>
+
+                      </div>
+                      
+                    </div>-->
+                    <div class="add-new-agenda-item-head">
+                     <!-- <div class="add-new-agenda-item-inner">
+                        <button type="button" class="btn btn-warning" id="add-new-agenda-item-btn"><i class="fas fa-plus"></i> Add Items</button> 
+                        <div class="add-edit-new-agenda-item-head">
+                          <div class="add-edit-new-agenda-item">
+                            <label for="">Show as:</label>
+                            <div class="show-as">
+                              <button>Title</button>
+                              <button>Crawler</button>
+                            </div>
+                            <label for="">Shown text:</label><input type="text" name="" id="shown-text" placeholder="Add title">
+                            <label for="">Private note:</label><input type="text" name="" id="private-note" placeholder="Add private note">
+                            <button class="btn btn-warning update-item">Update</button>
+                          </div>
+                        </div>
+                      </div>-->
+                      <div cdkDropList class="example-list" (cdkDropListDropped)="drop($event)">
+                      <div class="agenda-item-updated"  *ngFor="let testname of  textlist ;let j = index"cdkDrag  id="rowhideagenda-{{j}}">
+                       <!--  <div class="agenda-item-updated-top-bar">
+                        <i class="bi bi-arrows-expand"></i>
+                        <span class="badge badge-pill badge-light">Crawler</span>
+                      </div> -->
+                        <label for="" id="shown-text-output">{{testname.agenda}}</label>
+                        <!-- <label for="" id="private-note-output">Private note</label> -->
+                      <div class="actions">
+                        <button type="button">
+                          <!-- <i  *ngIf="textshowId==testname.id" id="text{{testname.id}}" class="far fa-eye"></i>  -->
+                          <i *ngIf="testname.status==0"  id="textid{{testname.id}} hidetext" (click)="showtext(testname.text, testname.id)"   class="far fa-eye-slash"></i>
+                        </button>
+                        <button type="button" (click)="deletetextagenda(testname.id)"><i class="far fa-trash-alt"></i></button>
+                        <button type="button" (click)="opendropmenu('on-screen-open');getagendaDetail(j,testname.id)"><i class="fas fa-ellipsis-v"></i></button>
+                      </div>
+                        
+                      </div>
+                      </div>
+                      
+
+
+                    </div>  
+
+
+
+
+                    </div>
+                    
+
+                </div>                    
+                <div class="dropdown-menu" id="on-screen-open" >
+                    <button type="button" (click)="closedropmenu('on-screen-open')" class="close"><label >&times;</label></button>
+                    
+                    <div class="drop-right-heading">On screen Text</div>
+                    <div class="create-new-agenda-list">
+                     
+                      <div class="create-list-btn-head">
+                        <input placeholder="Type something..." maxlength="150" type="text" value="" name="screentext" id="screentextId">
+                        <button (click)="savetext()" id="createTxt" type="button" class="btn btn-warning">Create <i class="fas fa-caret-right"></i></button> </div>                         
+                    <div class="add-new-agenda-item-head">
+                      <div  *ngFor="let testname of  agendaDetail ;let j = index">
+                      <div class="agenda-item-updated" id="rowhide-{{j}}">
+                       
+                        <label for="" id="shown-text-output">{{testname.text}}</label>
+                        
+                      <div class="actions">
+                        <button type="button">
+                          
+                          <i *ngIf="testname.status==0" id="textid{{testname.id}}" (click)="showtext(testname.text, testname.id,testname.text_agenda)" class="showeyetext far fa-eye-slash"></i>
+                        </button>
+                        <button type="button" (click)="deletetext(testname.id, testname.text_agenda,j)"><i class="far fa-trash-alt"></i></button>
+                      </div>
+                        
+                      </div>
+                      </div>
+                    </div>  
+
+
+
+
+                    </div>
+                    
+
+                </div>
+              </div>
+
+              <!-- <div class="dropright">
+                <button type="button" class="btn btn-primary" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <label class="ico">
+                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 511.999 511.999" style="enable-background:new 0 0 511.999 511.999;" xml:space="preserve"><g><g><path d="M505.562,6.752c-13.298-13.303-34.774-2.552-50.858,7.176c-16.559,10.017-38.354,26.164-64.781,47.994    c-56.335,46.536-120.414,107.515-172.207,159.311l-0.049-0.031c-29.104,29.378-56.786,58.12-89.148,95.548    c-14.94-2.252-31.88-0.335-47.596,6.256l-0.36,0.157c-32.348,14.573-53.481,46.966-53.838,82.525v0.151    c0,39.443-6.867,71.156-13.649,82.096L0,509.023l24.748,1.777c6.072,0.436,12.434,0.66,18.993,0.66    c48.183,0,106.94-12.101,138.623-41.167l0.086-0.08c16.334-15.222,24.274-36.279,24.274-64.375c0-3.357-0.203-6.69-0.603-10.05    c37.324-32.277,66.067-59.798,95.99-89.172l-0.057-0.096c61.123-61.118,115.605-125.408,154.634-179.145    c19.632-27.03,34.857-50.875,44.029-68.956C510.122,39.88,518.052,19.242,505.562,6.752z M162.038,448.228    c-21.268,19.471-67.946,32.623-114.347,33.24c5.668-19.905,9.026-46.957,9.032-75.549c0.267-23.818,14.376-45.505,35.981-55.322    c12.829-5.332,25.726-6.146,39.373-2.357c1.649,0,15.504,3.471,27.138,15.105C184.093,388.222,180.547,430.932,162.038,448.228z     M196.582,364.287c-4.177-8.126-9.613-15.614-16.153-22.155c-6.246-6.246-13.202-11.39-20.798-15.417    c19.514-22.191,40.678-45.002,62.29-67.121c7.862,5.64,15.296,11.952,22.194,18.851l0.147,0.146    c7.291,7.094,13.903,14.915,19.744,23.342C241.348,323.915,218.767,344.785,196.582,364.287z M424.357,120.686    c-38.692,51.833-89.104,109.891-138.767,159.859c-6.143-8.358-12.942-16.184-20.335-23.385    c-6.884-6.878-14.235-13.25-21.962-19.071c55.34-55.198,110.038-106.065,154.357-143.526c45.014-38.049,68.9-53.497,80.983-59.763    C468.191,60.07,440.724,98.76,424.357,120.686z"></path></g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g></svg>
+                  </label>
+                  <label class="text">branding</label>
+                </button>
+                <div class="dropdown-menu">
+                    <button type="button" class="close" aria-label="Close"><label aria-hidden="true">&times;</label></button>
+                    Sample Text Here button-meeting-end
+                </div>
+              </div> -->
+               <div class="dropright">
+                <button  id="stop" type="button" class="btn btn-primary" aria-haspopup="true" aria-expanded="false" title="End Broadcast">
+                  <label class="ico">
+                    <i class="fas fa-power-off"></i>
+                  </label>
+                  <label class="text">End Broadcast</label>
+                </button>
+              </div>
+
+        </div>
+
+        <!-- Middle section -->
+        <div class="merch-vid-sec">
+             <div id="flow-need-permission" class="flow">
+              <div class="container">
+                <form id="form-need-permission">
+                  <div class="card border-info mb-12" style="margin-bottom: 15px;">
+                    <div class="card-header">Permissions check</div>
+                    <div class="card-body">
+                      <h4 class="card-title">Please allow the permission Camera and Mic</h4>
+                      <p class="card-text">In order to select media devices, we need to do a quick permissions check of your mic and camera. When the pop-up appears, choose <b>Allow</b>.</p>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+         
+            <!-- Failure card if meeting is invalid   -->
+            
+            <div id="flow-failed-meeting" class="flow">
+              <div class="container">
+                <form id="form-failed-meeting">
+                  <div class="card border-warning mb-3" style="max-width: 20rem;">
+                    <div id="failed-meeting" class="card-header"></div>
+                    <div class="card-body">
+                      <h4 class="card-title">Unable to find Broadcast</h4>
+                      <p class="card-text">There was an issue finding that Broadcast. The Broadcast may have already ended, or your authorization may have expired.</p>
+                      <small id="failed-meeting-error" class="text-muted"></small>
+                    </div>
+                  </div>
+                  <button class="btn btn-lg btn-outline-warning btn-block" type="submit">OK</button>
+                </form>
+              </div>
+            </div>
+                                          
+            <div id="flow-failed-meeting" class="flow">
+              <div class="container">
+                <form id="form-failed-meeting">
+                  <div class="card border-warning mb-3" style="max-width: 20rem;">
+                    <div id="failed-meeting" class="card-header"></div>
+                    <div class="card-body">
+                      <h4 class="card-title">Unable to find Broadcast</h4>
+                      <p class="card-text">There was an issue finding that Broadcast. The Broadcast may have already ended, or your authorization may have expired.</p>
+                      <small id="failed-meeting-error" class="text-muted"></small>
+                    </div>
+                  </div>
+                  <button class="btn btn-lg btn-outline-warning btn-block" type="submit">OK</button>
+                </form>
+              </div>
+            </div> 
+            <div class="col-sm-8 text-center d-sm-block video-preview">
+              <video id="video-preview" class="w-100 h-100" style="max-width:100%;max-height:100%;border-radius:8px;visibility: hidden;"></video>
+              <div id="attendeeidemo" style="visibility:hidden;" class="video-tile-attendeeid"></div>
+<!-- 
+
+  <div class="video-tile-attendeeid logo-img" id="attendeeid-logo-demo">
+    <img src="https://fori.kindlebit.com/assets/images/logo.png">
+  </div> 
+
+-->
+            </div>
+
+            <div id="flow-meeting" >
+              <div class="" style="visibility: hidden !important;">
+                <div class="row align-items-end">
+                  <div class="col">
+                    <div id="chime-meeting-id" class="text-muted"></div>
+                    <div id="desktop-attendee-id" class="text-muted"></div>
+                  </div>
+                  <div class="">
+                    <div id="video-uplink-bandwidth" class="text-muted text-right"></div>
+                    <div id="video-downlink-bandwidth" class="text-muted text-right"></div>
+                  </div>
+                </div>
+              </div>
+             <div id="tile-container" class="col-12 h-100" >
+                    <div style="display:none;" class="live-img" id='liveimg'>
+                      <img alt="live" src="./assets/images/live.png" style="width: 6%">
+                    </div>
+                    <div id="tile-area" class="v-grid">
+                      <div id="tile-0" class="video-tile">
+                        <video id="video-0" class="video-tile-video" muted crossOrigin="anonymous" ></video>
+                        <div id="attendeeid-0" class="video-tile-attendeeid" style="position: relative;float: right;"></div>
+                        <!-- <div  class="video-tile-attendeeid logo-img" id="attendeeid-logo-0" ><img  src="https://fori.kindlebit.com/assets/images/logo.png"></div> -->
+                        <div id="nameplate-044" class="videotile-nameplate"></div>
+                          
+                        <!--<button id="video-pause-0"    class="video-tile-pause">Pause</button> -->                     
+                      </div>
+                      <div class="youtube-video video-tile" id="u-video" style="display: none;width: 50%;">
+                        <div *ngIf="youtubevideoURL != ''">
+                          <iframe *ngIf="youtubevideoURL != ''" style="width: 100%; height: 374px;" [src]="sanitizerURL(youtubevideoURL)"></iframe>
+                        </div>
+                      </div>  
+                      <div id="tile-1" class="video-tile">
+                        <video id="video-1" class="video-tile-video"></video>
+                        <div id="attendeeid-1" class="video-tile-attendeeid"></div>
+                       <!--  <div  class="video-tile-attendeeid logo-img" id="attendeeid-logo-1"><img  src="https://fori.kindlebit.com/assets/images/logo.png"></div> -->
+                        <div id="nameplate-561" class="video-tile-nameplate"></div>
+                        <button id="video-pause-1" class="video-tile-pause">Pause</button>
+                      </div>
+                      <div id="tile-2" class="video-tile">
+                        <video id="video-2" class="video-tile-video"></video>
+                        <div id="attendeeid-2" class="video-tile-attendeeid"></div>
+                        <div  class="video-tile-attendeeid" id="attendeeid-logo-2"><img  src="https://fori.kindlebit.com/assets/images/logo.png"></div>
+                        <div id="nameplate-2" class="video-tile-nameplate"></div>
+                        <button id="video-pause-2" class="video-tile-pause">Pause</button>
+                      </div>
+                      <div id="tile-3" class="video-tile">
+                        <video id="video-3" class="video-tile-video"></video>
+                        <div id="attendeeid-3" class="video-tile-attendeeid"></div>
+                        <div  class="video-tile-attendeeid" id="attendeeid-logo-3"><img  src="https://fori.kindlebit.com/assets/images/logo.png"></div>
+                        <div id="nameplate-3" class="video-tile-nameplate"></div>
+                        <button id="video-pause-3" class="video-tile-pause">Pause</button>
+                      </div>
+                      <div id="tile-4" class="video-tile">
+                        <video id="video-4" class="video-tile-video"></video>
+                        <div id="attendeeid-4" class="video-tile-attendeeid"></div>
+                        <div  class="video-tile-attendeeid" id="attendeeid-logo-4"><img  src="https://fori.kindlebit.com/assets/images/logo.png"></div>
+                        <div id="nameplate-4" class="video-tile-nameplate"></div>
+                        <button id="video-pause-4" class="video-tile-pause">Pause</button>
+                      </div>
+                      <div id="tile-5" class="video-tile">
+                        <video id="video-5" class="video-tile-video"></video>
+                        <div id="attendeeid-5" class="video-tile-attendeeid"></div>
+                        <div  class="video-tile-attendeeid" id="attendeeid-logo-5"><img  src="https://fori.kindlebit.com/assets/images/logo.png"></div>
+                        <div id="nameplate-5" class="video-tile-nameplate"></div>
+                        <button id="video-pause-5" class="video-tile-pause">Pause</button>
+                      </div>
+                      <div id="tile-6" class="video-tile">
+                        <video id="video-6" class="video-tile-video"></video>
+                        <div id="attendeeid-6" class="video-tile-attendeeid"></div>
+                        <div  class="video-tile-attendeeid" id="attendeeid-logo-6"><img  src="https://fori.kindlebit.com/assets/images/logo.png"></div>
+                        <div id="nameplate-6" class="video-tile-nameplate"></div>
+                        <button id="video-pause-6" class="video-tile-pause">Pause</button>
+                      </div>
+                      <div id="tile-7" class="video-tile">
+                        <video id="video-7" class="video-tile-video"></video>
+                        <div id="attendeeid-7" class="video-tile-attendeeid"></div>
+                        <div  class="video-tile-attendeeid" id="attendeeid-logo-7"><img  src="https://fori.kindlebit.com/assets/images/logo.png"></div>
+                        <div id="nameplate-7" class="video-tile-nameplate"></div>
+                        <button id="video-pause-7" class="video-tile-pause">Pause</button>
+                      </div>
+                      <div id="tile-8" class="video-tile">
+                        <video id="video-8" class="video-tile-video"></video>
+                        <div id="attendeeid-8" class="video-tile-attendeeid"></div>
+                        <div  class="video-tile-attendeeid" id="attendeeid-logo-8"><img  src="https://fori.kindlebit.com/assets/images/logo.png"></div>
+                        <div id="nameplate-8" class="video-tile-nameplate"></div>
+                        <button id="video-pause-8" class="video-tile-pause">Pause</button>
+                      </div>
+                      <div id="tile-9" class="video-tile">
+                        <video id="video-9" class="video-tile-video"></video>
+                        <div id="attendeeid-9" class="video-tile-attendeeid"></div>
+                        <div  class="video-tile-attendeeid" id="attendeeid-logo-9"><img  src="https://fori.kindlebit.com/assets/images/logo.png"></div>
+                        <div id="nameplate-9" class="video-tile-nameplate"></div>
+                        <button id="video-pause-9" class="video-tile-pause">Pause</button>
+                      </div>
+                      <div id="tile-10" class="video-tile">
+                        <video id="video-10" class="video-tile-video"></video>
+                        <div id="attendeeid-10" class="video-tile-attendeeid"></div>
+                        <div  class="video-tile-attendeeid" id="attendeeid-logo-10"><img  src="https://fori.kindlebit.com/assets/images/logo.png"></div>
+                        <div id="nameplate-10" class="video-tile-nameplate"></div>
+                        <button id="video-pause-10" class="video-tile-pause">Pause</button>
+                      </div>
+                      <div id="tile-11" class="video-tile">
+                        <video id="video-11" class="video-tile-video"></video>
+                        <div id="attendeeid-11" class="video-tile-attendeeid"></div>
+                        <div  class="video-tile-attendeeid" id="attendeeid-logo-11"><img  src="https://fori.kindlebit.com/assets/images/logo.png"></div>
+                        <div id="nameplate-11" class="video-tile-nameplate"></div>
+                        <button id="video-pause-11" class="video-tile-pause">Pause</button>
+                      </div>
+                      <div id="tile-12" class="video-tile">
+                        <video id="video-12" class="video-tile-video"></video>
+                        <div id="attendeeid-12" class="video-tile-attendeeid"></div>
+                        <div  class="video-tile-attendeeid" id="attendeeid-logo-12"><img  src="https://fori.kindlebit.com/assets/images/logo.png"></div>
+                        <div id="nameplate-12" class="video-tile-nameplate"></div>
+                        <button id="video-pause-12" class="video-tile-pause">Pause</button>
+                      </div>
+                      <div id="tile-13" class="video-tile">
+                        <video id="video-13" class="video-tile-video"></video>
+                        <div id="attendeeid-13" class="video-tile-attendeeid"></div>
+                        <div  class="video-tile-attendeeid" id="attendeeid-logo-13"><img  src="https://fori.kindlebit.com/assets/images/logo.png"></div>
+                        <div id="nameplate-13" class="video-tile-nameplate"></div>
+                        <button id="video-pause-13" class="video-tile-pause">Pause</button>
+                      </div>
+                      <div id="tile-14" class="video-tile">
+                        <video id="video-14" class="video-tile-video"></video>
+                        <div id="attendeeid-14" class="video-tile-attendeeid"></div>
+                        <div  class="video-tile-attendeeid" id="attendeeid-logo-14"><img  src="https://fori.kindlebit.com/assets/images/logo.png"></div>
+                        <div id="nameplate-14" class="video-tile-nameplate"></div>
+                        <button id="video-pause-14" class="video-tile-pause">Pause</button>
+                      </div>
+                      <div id="tile-15" class="video-tile">
+                        <video id="video-15" class="video-tile-video"></video>
+                        <div id="attendeeid-15" class="video-tile-attendeeid"></div>
+                        <div  class="video-tile-attendeeid" id="attendeeid-logo-15"><img  src="https://fori.kindlebit.com/assets/images/logo.png"></div>
+                        <div id="nameplate-15" class="video-tile-nameplate"></div>
+                        <button id="video-pause-15" class="video-tile-pause">Pause</button>
+                      </div>
+                      <div id="tile-16" class="video-tile video-width">
+                        <video id="video-16" class="video-tile-video"></video>
+                        <div id="attendeeid-16" class="video-tile-attendeeid"></div>
+                        <div  class="video-tile-attendeeid" id="attendeeid-logo-16"><!-- <img  src="https://fori.kindlebit.com/assets/images/logo.png"> --></div>
+                        <!-- <button id="video-pause-16" class="video-tile-pause" class="btn">Pause</button> -->
+                      </div>
+                      <div id="tile-17" class="video-tile">
+                        <video id="video-17" class="video-tile-video"></video>
+                        <div id="nameplate-17" class="video-tile-nameplate"></div>
+                        <div  class="video-tile-attendeeid" id="attendeeid-logo-17"><img  src="https://fori.kindlebit.com/assets/images/logo.png"></div>
+                        <button id="video-pause-17" class="video-tile-pause" class="btn">Pause</button>
+                      </div>
+                      
+
+        <!---Producr list start ----->
+                  <div class="slide-time-chime">
+                    <div *ngIf="selected_product != ''"  class="left-vid-sec-prod-info-head" [class.drag-down]="!streamTitle">
+                      <owl-carousel-o [options]="customOptions">
+                      <ng-container *ngFor="let pro of selected_product;let i = index" class="prod-info-inner">
+                        <ng-template class="slide" carouselSlide [id]="pro.id">
+                            <div class="prod-info-thumb">
+                              <div class="prod-info-thumb-inner">
+                                 <ng-container>
+                                  <span class="prod-left-count" *ngIf="pro.available_stock <= 5 && pro.available_stock > 0">Only {{pro.available_stock}} left</span>
+                                  <span class="prod-left-count" *ngIf="pro.available_stock > 5">{{pro.available_stock}}</span>
+                                  <span class="prod-left-count" *ngIf="pro.available_stock <= 0">Out of Stock</span>
+                                 </ng-container>
+                                <img src="" alt="" src="{{pro.image_url}}" [alt]="pro.id" [title]="pro.id" class="img-owl-slider">
+                              </div>
+                            
+                        
+                            <div class="prod-info-action-buttons">
+                              <div class="thumb-title" [innerHTML]="pro.product_title | titlecase"></div>
+                                <ng-container *ngIf="pro.variants != ''">
+                                  <select name="" id="selectme{{i}}" class="form-control">
+                                    <option selected value="noValue">Select Color</option>
+                                    <option *ngFor="let variant of pro.variants; let i = index"  [value]="variant.product_variant_id">{{variant.title}} </option>
+                                  </select>
+                                  <span *ngIf="productIndex == i" [ngClass]="{
+                                    'color-alert': !selectColor,
+                                    'color-success': selectColor }">Please Select color</span>
+                                </ng-container>
+                                
+                                <div class="sap-btn-dark">
+                                  <!-- (click)="_addItemToCart(pro,i)" -->
+                                  <button class="buy-btn">from {{pro.on_air_price | currency}}</button>
+                                </div>
+                            </div>
+                          </div>
+                        </ng-template>
+                      </ng-container>
+                      </owl-carousel-o> 
+                    </div>
+
+                    <div id="nameplate-16" style="display: none;" class="video-tile-nameplate ">{{streamTitle}}</div>
+                  </div>
+
+
+                  <!--End product list------>
+                    </div>
+                  </div>
+                  <video muted id="content-share-video" class="col-12" playsinline crossOrigin="anonymous" style="display:none"></video>
+
+                
+
+                  </div>
+
+
+
+ <section class="in-stream-sec" id="toggle-list-container" >
+        <div class="in-strem-sec-inner">
+            <div class="current-stream-counter">In stream (<span class="in-stream-count">{{ broadcastVidoes?.length || '0' }}</span>)</div>
+            <div class="current-stream-counter-icon" id="toggle-list" (click)="streamMedialist()"> <i class="fas fa-caret-up"></i></div>
+            <div class="stream-thumb-head">
+                <div class="stream-thumb-inner" id="screen-share-bot-action-view">
+                    <div class="strem-thumb-top-bar">
+                        <div class="stream-thumb-title">
+                         
+                          <svg xmlns="http://www.w3.org/2000/svg" id="Capa_1" enable-background="new 0 0 512 512" viewBox="0 0 512 512"><g><path d="m482 25h-452c-16.542 0-30 13.458-30 30v298c0 16.542 13.458 30 30 30h147v74h-81c-8.284 0-15 6.716-15 15s6.716 15 15 15h320c8.284 0 15-6.716 15-15s-6.716-15-15-15h-81v-74h147c16.542 0 30-13.458 30-30v-298c0-16.542-13.458-30-30-30zm-177 432h-98v-74h98zm177-104c-13.157 0-441.456 0-452 0v-298h452c.019 304.472.1 298 0 298z"></path></g></svg>
+
+                            <span>Screen Share</span>
+                        </div>
+                        <div class="stream-thumb-actions">
+                            <!-- Default dropup button  -->
+                            <div class="btn-group dropup" id="settings-cog">
+                                
+                                
+                            </div> 
+                          <!--   <button  id="dropdown-item-content-share-screen-capture"  type="button" class="close" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>           -->                 
+                        </div>
+                    </div>
+                    <div class="stream-thumb-vid">
+                    
+                      <ng-container >
+                        <div class="live-vid">
+                          <svg xmlns="http://www.w3.org/2000/svg" id="Capa_1" enable-background="new 0 0 512 512" viewBox="0 0 512 512"><g><path d="m482 25h-452c-16.542 0-30 13.458-30 30v298c0 16.542 13.458 30 30 30h147v74h-81c-8.284 0-15 6.716-15 15s6.716 15 15 15h320c8.284 0 15-6.716 15-15s-6.716-15-15-15h-81v-74h147c16.542 0 30-13.458 30-30v-298c0-16.542-13.458-30-30-30zm-177 432h-98v-74h98zm177-104c-13.157 0-441.456 0-452 0v-298h452c.019 304.472.1 298 0 298z"></path></g></svg>
+                        </div>                
+                          <!-- <button class="btn solo-btn"><i class="fas fa-circle"></i></button>  -->                          
+                          <button type="button" id="dropdown-item-content-share-screen-capture-box" class="btn hide-btn share-uploaded-video" >Show</button>     
+                          <button class="btn mute-btn" (click)="microphone('video-0')" id="button-pause-content-share video-pause-1 "><i class="fas fa-microphone"></i> Mute</button> 
+                                  
+                          <button id="button-content-share" (click)="hidestopuploadedvideo()"  type="button" class="btn stop-vid-btn"><i class="fas fa-video"></i> Stop</button>
+                      </ng-container>
+                     
+                    </div>    
+                </div>  
+                <div class="stream-thumb-inner"  *ngFor="let videolist of  broadcastVidoes ;let i = index">
+                    <div class="strem-thumb-top-bar">
+                        <div class="stream-thumb-title">
+                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve"><g><g><path d="M256,40c-5.52,0-10,4.48-10,10s4.48,10,10,10s10-4.48,10-10S261.52,40,256,40z"></path></g></g><g><g><path d="M466,210C466,94.206,371.794,0,256,0S46,94.206,46,210c0,96.488,66.579,180.855,159.516,203.859    c-1.591,14.119-6.958,31.441-13.568,38.051l-0.131,0.131c-18.899,0.353-32.638,3.149-42.999,8.73    C133.677,468.949,126,482.82,126,502c0,5.522,4.478,10,10,10h240c5.522,0,10-4.478,10-10c0-19.187-7.68-33.058-22.824-41.229    c-10.344-5.58-24.082-8.378-42.992-8.731l-0.132-0.132c-6.61-6.609-11.977-23.931-13.568-38.05    C399.423,390.853,466,306.486,466,210z M316,472c33.23,0,45.303,7.689,48.794,20H147.226c2.172-7.762,6.862-11.345,11.087-13.626    C166.274,474.085,178.603,472,196,472H316z M215.517,452c5.068-10.601,8.238-23.466,9.638-34.27    C235.326,419.232,245.658,420,256,420c10.342,0,20.674-0.768,30.845-2.27c1.401,10.804,4.57,23.67,9.638,34.27H215.517z     M294.015,396.179c-0.019,0.004-0.037,0.007-0.056,0.011c-24.788,5.056-51.127,5.057-75.922-0.001    c-0.017-0.004-0.035-0.007-0.052-0.01C129.918,378.227,66,299.929,66,210c0-104.767,85.233-190,190-190s190,85.233,190,190    C446,299.929,382.082,378.227,294.015,396.179z"></path></g></g><g><g><path d="M389.606,104.994c-23.072-29.303-55.544-50.505-91.434-59.701c-5.355-1.374-10.799,1.855-12.17,7.205    c-1.37,5.35,1.855,10.798,7.205,12.169c31.66,8.112,60.314,26.828,80.686,52.7c3.426,4.352,9.716,5.077,14.043,1.67    C392.275,115.621,393.023,109.333,389.606,104.994z"></path></g></g><g><g><path d="M256,100c-60.654,0-110,49.346-110,110s49.346,110,110,110s110-49.346,110-110S316.654,100,256,100z M256,300    c-49.626,0-90-40.374-90-90c0-49.626,40.374-90,90-90c49.626,0,90,40.374,90,90C346,259.626,305.626,300,256,300z"></path></g></g><g><g><path d="M256,140c-38.598,0-70,31.402-70,70c0,38.598,31.402,70,70,70c38.598,0,70-31.402,70-70C326,171.402,294.598,140,256,140z     M256,260c-27.57,0-50-22.43-50-50s22.43-50,50-50s50,22.43,50,50S283.57,260,256,260z"></path></g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g></svg>
+
+                            <span id="{{i+1}}">Uploaded Media Files </span>
+                        </div>
+                        <div class="stream-thumb-actions">
+                            <!-- Default dropup button  -->
+                            <div class="btn-group dropup" id="settings-cog">
+                                <button type="button"  (click)="opendropmenu('opensettings'+i)" class="btn btn-secondary"  aria-haspopup="true" aria-expanded="false">
+                                    <i class="fas fa-cog"></i>
+                                </button>
+                                <div class="dropdown-menu" id="opensettings{{i}}">
+                                <select  id="main-video-input-quality{{i}}" class="custom-select" style="width:100%">
+                                <option value="360p" selected="">360p (nHD) @ 15 fps (600 Kbps max)</option>
+                                <option value="540p" selected>540p (qHD) @ 15 fps (1.4 Mbps max)</option>
+                                <option value="720p">720p (HD) @ 15 fps (1.4 Mbps max)</option>
+                              </select>
+                              <button type="button" (click)="closedropmenu('opensettings'+i)" class="close" aria-label="Close">
+                                <span aria-hidden="true">&times;</span></button>
+                                </div>
+                                
+                            </div> 
+                            <button (click)="deletebroadcastvideos(videolist.id)" type="button" class="close" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>                                  
+                        </div>
+                    </div>
+                    <div class="stream-thumb-vid">
+
+                      <ng-container *ngIf="videolist.vid_type == 'uploaded'">
+                        <div class="live-vid">
+                          <!-- Place Live Video Here {{image_url+videolist.video_url}} -->
+                            <video  #videoPlayer  preload="metadata">
+                            <source src="{{videolist.video_url}}#t=0.5" type="video/mp4" />
+                            Browser not supported 
+                          </video>
+                        </div>                
+                          <button class="btn solo-btn" id="button-pause-content-share "><i class="fas fa-circle"></i> Pause</button>                           
+                          <button type="button" id="showbtn-{{i}}" (click)="shareuploadedvideo(videolist.video_url,i)" class="btn hide-btn share-uploaded-video"  >Show</button>     
+                          <button class="btn mute-btn" (click)="microphone('video-0')" id=" video-pause-1 "><i class="fas fa-microphone"></i> Mute</button>                      
+                          <button id="button-content-share" (click)="hidestopuploadedvideo()"  type="button" class="btn stop-vid-btn"><i class="fas fa-video"></i> Stop video</button>
+                      </ng-container>
+                      <ng-container *ngIf="videolist.vid_type != 'uploaded'">
+                        <div class="live-vid">
+                          <iframe width="240" height="150" [src]="sanitizerURL(videolist.video_url)"></iframe>
+                        </div>
+                        <button class="btn solo-btn"><i class="fas fa-circle"></i> Solo OFF</button>                           
+                            <button type="button" id="showbtn-{{i}}" (click)="shareuploadedvideo(videolist.video_url,i)"  class="btn hide-btn share-uploaded-video" >Show</button>     
+                            <button class="btn mute-btn" (click)="microphone('button-microphone')" id="button-pause-content-share video-pause-1"><i class="fas fa-microphone"></i> Mute</button>          
+                            <button id="button-content-share" (click)="hidestopuploadedvideo()"  type="button" class="btn stop-vid-btn"><i class="fas fa-video"></i> Stop video</button>
+
+                      </ng-container>
+                    </div>    
+                </div>    
+                <div class="loader" *ngIf="loading">
+<!--                   <button type="button" class="btn btn-success btn-sm" (click)="cancelVideoRequest()">X</button>
+ -->                  <img src="./assets/img/loader.gif">          
+                </div>               
+            </div>
+        </div>
+    </section>
+
+        </div>
+        <!---Producr list start ----->
+                <!--  <div class="tab-pane" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+
+                    <div *ngIf="selected_product != ''"  class="left-vid-sec-prod-info-head merch-vid-sec">
+                      <owl-carousel-o [options]="customOptions">
+                      <ng-container *ngFor="let pro of selected_product;let i = index" class="prod-info-inner">
+                        <ng-template class="slide" carouselSlide [id]="pro.id">
+                            <div class="prod-info-thumb">
+                              <div class="prod-info-thumb-inner">
+                                <img src="" alt="" src="{{pro.image_url}}" [alt]="pro.id" [title]="pro.id" class="img-owl-slider">
+                              </div>
+                            
+                        
+                            <div class="prod-info-action-buttons">
+                              <div class="thumb-title" [innerHTML]="pro.product_title | titlecase"></div>
+
+                                <select name="" id="selectme{{i}}" class="form-control">
+                                  <option selected value="noValue">Select Color</option>
+                                  <option *ngFor="let variant of pro.variants; let i = index"  [value]="variant.product_variant_id">{{variant.title}} </option>
+                                </select>
+                                <span *ngIf="productIndex == i" [ngClass]="{
+                                  'color-alert': !selectColor,
+                                  'color-success': selectColor }">Please Select color</span>
+
+                                <div class="sap-btn-dark">
+                                  <button class="buy-btn" (click)="_addItemToCart(pro,i)">from {{pro.on_air_price | currency}}</button>
+                                </div>
+                            </div>
+                          </div>
+                        </ng-template>
+                      </ng-container>
+                      </owl-carousel-o> 
+                    </div>
+
+
+                  </div>-->
+                  <!--End product list------> 
+        <!-- Right section--->
+        <div class="right-sec">
+         <!--  <div class="broadcasr-resolution">
+            <div class="col-3"> <label>Resolution:</label></div>
+            <div class=" col-9">
+              <select  id="video-input-quality" class="custom-select" >
+                <option value="360p" selected="">360p (nHD) @ 15 fps (600 Kbps max)</option>
+                <option value="540p">540p (qHD) @ 15 fps (1.4 Mbps max)</option>
+                <option value="720p">720p (HD) @ 15 fps (1.4 Mbps max)</option>
+              </select>
+            </div>
+          </div> -->
+            <div id="roster-message-container" class="d-flex flex-column col-12 col-sm-6 col-md-5 col-lg-4 h-100">
+             <div class="chat-right-tools">
+                <div class="merch-recording-notify-head">
+                <div class="merch-recording-notify">
+                                                                                                                                                            
+                    <div class="timer-counter-label"> 
+                      <div *ngIf="counters" [ngClass]="{blink: !running}">
+                        <span>{{minutes}}:</span><span>{{seconds}}:</span> <span>{{milliseconds}}</span> 
+                      </div>
+                      <div *ngIf="!counters">
+                        <span>{{minutes}}:</span><span>{{seconds}}:</span> <span>{{milliseconds}}</span>
+                      </div>
+                        </div>
+                        <button id="button-record-self" type="button" class="btn btn-success " title="Record my audio and video" style="visibility: hidden;display: none;">
+                      <i class="fas fa-circle" style="color: red;"></i> Stop Rec.
+                          </button> 
+                      <!-- <div class="timer-button-container" >
+                          <button class="timer-button">
+                            {{ startText }}
+                          </button> 
+                      </div>  -->
+                    </div>
+                <audio id="meeting-audio"></audio>
+                <div class="text-center microphone-view">
+                  <i class="fa fa-microphone"></i>
+                  <div class="w-100 progress" style="margin-top:0.75rem">
+                    <div id="audio-preview" class="progress-bar bg-success" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>         
+                  </div>   
+                </div> 
+
+                </div>                             
+                <div class="user-gazette-head"> 
+                <div class="user-gazette">
+                  <div class="action-media">
+                    <div class="btn-group dropup" id="video-settings-cog">
+                      <button type="button"  (click)="opendropmenu('openQualitysettings')" class="btn btn-secondary"  aria-haspopup="true" aria-expanded="false">
+                          <i class="fas fa-cog"></i>
+                      </button>
+                      <div class="dropdown-menu" id="openQualitysettings">
+                      <select  id="video-input-quality" class="custom-select" >
+                      <option value="360p" selected="">360p (nHD) @ 15 fps (600 Kbps max)</option>
+                      <option value="540p">540p (qHD) @ 15 fps (1.4 Mbps max)</option>
+                      <option value="720p">720p (HD) @ 15 fps (1.4 Mbps max)</option>
+                    </select>
+                    <button type="button" (click)="closedropmenu('openQualitysettings')" class="close" aria-label="Close">
+                      <span aria-hidden="true">&times;</span></button>
+                      </div>
+                      
+                  </div> 
+                  <button id="button-microphone" type="button" class="btn btn-success" title="Toggle microphone">      
+                    <i class="fa fa-microphone"></i>
+                  </button>             
+                  <button id="button-camera"  type="button" class="btn btn-success" title="Toggle camera">
+                    <i class="fas fa-video"></i>                                     
+                  </button>
+                  <button id="button-speaker"  type="button" class="btn btn-success" title="Toggle speaker">                      
+                    <i class="fas fa-volume-up"></i>                                      
+                  </button> 
+
+                </div>
+            
+                      <div class="user-gazette">
+                    <div id="viwer" class=""><i class='fas fa-eye'></i> 0</div>
+                    <div id="live" class=""><i class="fas fa-thumbs-up"></i> {{likes_data}}</div>
+                  </div>
+                  </div>
+                </div>
+                <div class="bs-component"  style="flex: 1 1 auto;overflow-y: auto;height: 50%;">
+                  
+                  <ul id="roster" class="list-group"></ul>
+                </div>
+            </div>
+              <div class="message d-flex flex-column pt-3" >
+                <div class="list-group receive-message" id="receive-message" style="flex: 1 1 auto; overflow-y: auto;border: 1px solid rgba(0, 0, 0, 0.125); background-color: #fff">
+                  
+                </div>
+
+
+                <div class="input-group send-message" style="display:flex;flex:0 0 auto;margin-top:0.2rem">
+                  <textarea class="form-control shadow-none" id="send-message" rows="1" placeholder="Type a message (markdown supported)" style="display:inline-block; width:100%;
+                    resize:none; border-color: rgba(0, 0, 0, 0.125); outline: none; padding-left: 1.4rem"></textarea>
+                    <button (click)="toggleEmojiPicker()" class="btn btn-warning mr-2 chat-emoji">😀</button>
+
+                    <div class="btn-group dropup">
+                        <button (click)="opendropmenu('openQualitysettingsImg')" class="btn btn-warning mr-2 chat-sticker">
+                          <img src="assets/chat-stickers/sticker-icon.svg">
+                        </button>
+
+                        <div class="dropdown-menu" id="openQualitysettingsImg">
+                          <button type="button" (click)="closedropmenu('openQualitysettingsImg')" class="close" aria-label="Close">
+                            <span aria-hidden="true">&times;</span></button>
+
+                            <div style="width: 300px; height: 200px; overflow: auto">
+                              <ul>
+                                <li class="nav-item dropdown" (click)=" addImage('assets/chat-stickers/party-popper.svg')"><img _ngcontent-nsl-c2="" src="assets/chat-stickers/party-popper.svg"></li>
+                                <li class="nav-item dropdown" (click)=" addImage('assets/chat-stickers/party-popper.svg')"><img _ngcontent-nsl-c2="" src="assets/chat-stickers/party-popper.svg"></li>
+                                <li class="nav-item dropdown" (click)=" addImage('assets/chat-stickers/party-popper.svg')"><img _ngcontent-nsl-c2="" src="assets/chat-stickers/party-popper.svg"></li>
+                                <li class="nav-item dropdown" (click)=" addImage('assets/chat-stickers/party-popper.svg')"><img _ngcontent-nsl-c2="" src="assets/chat-stickers/party-popper.svg"></li>
+                              </ul>
+                            </div>
+                      </div>   
+                    </div>
+
+                    <button class="btn btn-success" id="send-messageBtn"><i class="fas fa-paper-plane"></i></button>
+                    <br>
+
+                    <emoji-mart class="emoji-mart" tooltip="false" set="twitter" *ngIf="showEmojiPicker"
+                        (emojiSelect)="addEmoji($event)" title="Pick your emoji…"
+                        perview = "false" [style]="{ position : 'absolute', bottom: '20px', right: '20px' }"></emoji-mart>
+                </div>
+                
+              </div>
+            </div>
+
+
+        </div>
+    </div>
+
+  <div class="modal" style="display: block; background-color: rgba(0, 0, 0, 0.32); z-index: 111;" *ngIf="isntAccepted" [style.display]="isntAccepted ? 'block' : 'none'">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+        </div>
+        <div class="modal-body">
+            <h6>Do you want accept the Invitation for broadcast?</h6>
+        </div>
+        <div class="modal-footer">
+            <div class="sap-btn-dark grey-btn">
+                <button type="button" class="btn btn-secondary" (click)="closeDelete()">No</button>
+            </div>
+            <div class="sap-btn-dark">
+                <button type="button" class="btn btn-primary" (click)="yesConfirm()">Yes</button>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+  <div class="modal stream-start" style="display: block; background-color: rgba(0, 0, 0, 0.8); z-index: 111;" *ngIf="isCountDown" [style.display]="isCountDown ? 'block' : 'none'">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-body">
+            <h1 class="m-10 text-center" style="font-size: 100px;margin: 20px;">{{counter}}</h1>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal stream-stop" style="display: block; background-color: rgba(0, 0, 0, 0.8); z-index: 111;" *ngIf="isAlertMsg" [style.display]="isAlertMsg ? 'block' : 'none'">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-body">
+            <div class="sap-small-headings" >{{alertmsg}}</div>
+            <div class="m-10 text-center" style="text-align: center;"><i class="fa fa-spinner fa-spin" style="color: red;font-size: 45px;"></i></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div style="visibility:hidden;">
+<div >
+    <button id="start">Start Streaming</button>
+    <!-- <button id="stop">Stop Streaming</button> -->
+  </div>
+
+  <div>
+    <span>Recorded: <span id="bytesRecorded">0</span> bytes</span>;
+    <span>Uploaded: <span id="bytesUploaded">0</span> bytes</span>
+  </div>
+
+  <div>
+    <span id="location"></span>
+  </div>
+</div>

@@ -1,0 +1,53 @@
+<div class="row">
+	<div class="col-12">
+		<h4 class="card-title">Create News</h4>
+		<div class="card">
+			<div class="card-body">
+				<form [formGroup]="newsForm" (ngSubmit)="onSubmit(newsForm.value)">
+					<div class="row">	
+						<div class="col-md-6">
+							<div class="form-group">
+							 	<label>Title-</label>
+							    <input class="form-control" type="text" formControlName="title" placeholder="Title" [ngClass]="{ 'is-invalid': submitted && f.title.errors }">
+							    <div *ngIf="submitted && f.title.errors" class="invalid-feedback">
+							     	<span class="for-sub-name" *ngIf="f.title.errors.required" >Title required </span>
+							    </div>
+							</div>
+						</div>
+                        <div class="col-md-6">
+							<div class="form-group">
+							 	<label>Image</label>
+								<input type="file" class="form-control" (change)="fileChange($event)" accept="image/jpeg,image/png" #file name="file">
+								<div *ngIf="news_image != ''">
+									<img src="{{img_url + news_image}}" width="150px" height="150px">
+								</div>
+							</div>
+						</div>
+                        <div class="col-md-6">
+							<div class="form-group">
+							 	<label>News Link*</label>
+							    <input class="form-control" type="text" formControlName="news_link" placeholder="News Link" [ngClass]="{ 'is-invalid': submitted && f.news_link.errors }">
+							    <div *ngIf="submitted && f.news_link.errors" class="invalid-feedback">
+									 <span class="for-sub-name" *ngIf="f.news_link.errors.required">News link is required</span>
+									 <span class="for-sub-name" *ngIf="f.news_link.errors.pattern">Please enter valid url.</span>
+							    </div>
+							</div>
+						</div>
+                        <div class="col-md-6">
+							<div class="form-group">
+							 	<label>Description*</label>
+								<textarea type="textarea" class="form-control" type="text" formControlName="description" rows="5" placeholder="Description" [ngClass]="{ 'is-invalid': submitted && f.description.errors }"></textarea>
+								<div *ngIf="submitted && f.description.errors" class="invalid-feedback">
+									<span class="for-sub-name" *ngIf="f.description.errors.required">Description is required</span>
+							   </div>
+							</div>
+						</div>
+						<div class="col-lg-2 col-md-4 card-foot-btn">
+                        	<button type="submit" class="btn btn-block btn-primary">Save</button>
+                        </div>
+                    </div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

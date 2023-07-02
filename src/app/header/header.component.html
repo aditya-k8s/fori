@@ -1,0 +1,206 @@
+<div class="top-bar">
+    <div class="top-social-links">
+      <a href=""><i class="fab fa-facebook-f"></i></a>
+      <a href=""><i class="fab fa-twitter"></i></a>
+      <a href=""><i class="fab fa-instagram"></i></a>
+      <a href=""><i class="fab fa-linkedin-in"></i></a>
+    </div>
+  </div>
+  
+  <nav class="navbar navbar-expand-lg navbar-light bg-light" [class.user_login]="userId" [class.user_logout]="!userId">
+      <div class="container-fluid">
+          <a class="navbar-brand" routerLink="/"><img src="./assets/images/logo.png" alt=""></a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <!-- <li class="nav-item desktop-search">
+               <a class="nav-link" href="#searchModal" data-toggle="modal" data-target="#searchModal"><i class="fas fa-search"></i></a>
+          </li> -->
+          <!-- Desktop-->
+          <li class="nav-item desktop-user-acc" *ngIf="!userId">
+              <a class="nav-link"  routerLink="/login"><i class="fas fa-user"></i></a>
+          </li>
+  
+          <li class="nav-item dropdown afterLogin" id="desktop-afterLogin" *ngIf="userId">
+                  <a class="nav-link dropdown-toggle" (click)="toggleNavBar()" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+  
+                  <img src="{{url}}" width="40" height="40" class="rounded-circle" onerror="this.src='./assets/images/shopper_default_icon.jpg'" *ngIf="user_type == 0">
+  
+                  <img src="{{url}}" width="40" height="40" class="rounded-circle" onerror="this.src='./assets/images/store_default_icon.jpg'" *ngIf="user_type == 1">
+  
+                  <img src="{{url}}" width="40" height="40" class="rounded-circle" onerror="this.src='./assets/images/influencer_default_icon.jpg'" *ngIf="user_type == 3">
+  
+                  </a>
+                  <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink" [class.show]="isNavBarActive">
+                    <a class="dropdown-item" routerLink="/account/profile">My Profile</a>
+  
+                    <a class="dropdown-item" *ngIf="user_type != '0'" routerLink="/guid">Customer Support</a>
+  
+                    <a class="dropdown-item" (click)="logout()" *ngIf="userId">Sign Out</a>
+  
+                    <a class="dropdown-item" routerLink="/login" *ngIf="!userId">Sign In</a>
+                  </div>
+          </li>
+  
+          <li class="nav-item desktop-cart"  [class.itemAdded]="localstorages.length != 0" *ngIf="user_type == '0'">
+             <a class="nav-link" routerLink="/cart" ><i class="fas fa-shopping-cart"></i>
+              <span *ngIf="localstorages.length != 0">{{noOfItems}}</span>
+          </a>
+          </li>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <!-- <li class="nav-item">
+              <a class="nav-link" routerLink="/list/channels">Stores</a>
+              </li> -->
+              <li class="nav-item" *ngIf="user_type == '1'">
+                  <a class="nav-link"  [routerLink]="[store ? '/inventory' : '/create-store']" [routerLinkActive]="['text-red']">SELL ON FORI</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" [routerLink]="['/shoppers']" [routerLinkActive]="['text-red']">Shoppers</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" [routerLink]="['/stores-brands']" [routerLinkActive]="['text-red']">Stores & Brands</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" [routerLink]="['/influencers']" [routerLinkActive]="['text-red']">Influencers</a>
+                </li>
+              <li class="nav-item sap-btn-dark">
+                  <a class="nav-link" [routerLink]="['/list/streaming']" [routerLinkActive]="['text-red']">shop live!</a>
+              </li>
+              <!-- <li class="nav-item" *ngIf="!userId">
+                  <a class="nav-link" [routerLink]="['/register']" [routerLinkActive]="['text-red']">sign up</a>
+              </li>
+              <li class="nav-item" *ngIf="!userId">
+                  <a class="nav-link" [routerLink]="['/login']" [routerLinkActive]="['text-red']">log in</a>
+              </li>       
+              <li class="nav-item mobile-search">
+              <a class="nav-link" href="#searchModal" data-toggle="modal" data-target="#searchModal"><i class="fas fa-search"></i></a>
+            </li>   -->
+               <!-- Mobile-->              
+              <li class="nav-item mobile-user-acc" *ngIf="!userId">
+                  <a class="nav-link"  routerLink="/login"><i class="fas fa-user"></i></a>
+                <!--   <div *ngIf="profileHover">
+                      <ul>
+                          <li>My Profile</li>
+                          <li>Store's Accounts</li>
+                          <li>Shopper’s Account</li>
+                          <li>Customer Support</li>
+                          <li>Login / Logout</li>
+                      </ul>
+                  </div> -->
+              </li>
+              
+              <li class="nav-item dropdown afterLogin" id="mobile-afterLogin" *ngIf="userId">
+                  <a class="nav-link dropdown-toggle" (click)="toggleNavBar()" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                 
+  
+                  <img src="{{url}}" onerror="this.src='./assets/images/shopper_default_icon.jpg'" *ngIf="user_type == 0">
+  
+                  <img src="{{url}}" onerror="this.src='./assets/images/store_default_icon.jpg'" *ngIf="user_type == 1">
+  
+                  <img src="{{url}}" onerror="this.src='./assets/images/influencer_default_icon.jpg'" *ngIf="user_type == 3">
+  
+                  </a>
+                  <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink" [class.show]="isNavBarActive">
+                    <a class="dropdown-item"  [routerLink]="['/account/profile']" [routerLinkActive]="['text-red']">My Profile</a>
+  
+                    <a class="dropdown-item"  [routerLink]="['/guid']" [routerLinkActive]="['text-red']">Customer Support</a>
+                    <a class="dropdown-item" (click)="logout()">Sign Out</a>
+                  </div>
+              </li>
+  
+              <li class="nav-item mobile-cart"  [class.itemAdded]="localstorages.length != 0" *ngIf="user_type == 0">
+              <a class="nav-link" routerLink="/cart" ><i class="fas fa-shopping-cart"></i>
+                  <span *ngIf="localstorages.length != 0">{{noOfItems}}</span>
+              </a>
+            <!--   <div class="minicart" id="mini-c" *ngIf="localstorages.length != 0">
+                  <div class="mini-c-data" *ngFor="let cart of localstorages">
+                      <div><span class="mini-cart-title">Title</span>
+                          <span class="mini-cart-sub-data">{{cart.product_title}}</span>
+                      </div>
+                      <div><span class="mini-cart-title">Price</span>
+                          <span class="mini-cart-sub-data">{{cart.off_air_price | number : '1.2-2'}}</span>
+                      </div>
+                      <div><span class="mini-cart-title">Quantity</span>
+                          <span class="mini-cart-sub-data">{{cart.quantity}}</span>
+                      </div>
+                  </div>
+              </div> -->
+  
+  
+  <div class="minicart" id="mini-c" *ngIf="localstorages.length != 0">
+      <div class="minicart-innz">
+          <div class="mini-c-data" *ngFor="let cart of localstorages">
+              <div class="mini-c-data-inner">
+                  <div class="mini-cart-image"><img [src]="cart.image_url" alt="product image" onerror="this.src='assets/images/product.png'"></div>
+                  <div class="mini-cart-data-head">
+                      <div>
+                          <span class="mini-cart-title">Product</span>
+                          <span class="mini-cart-sub-data">{{cart.product_title}}</span>
+              
+                      </div>
+                      <div>
+                          <span class="mini-cart-title">Price</span>
+                          <!-- <del class="mini-cart-sub-data" *ngIf="cart.off_air_price > cart.price">${{cart.off_air_price | number : '1.2-2'}} </del> -->
+  
+                          <del class="offair-del" *ngIf="cart.broadcastID == 1">${{cart.off_air_price | number : '1.2-2'}}</del>
+                          <span class="mini-cart-sub-data" > ${{cart.price | number : '1.2-2'}}</span>
+                      </div>
+                      <div>
+                          <span class="mini-cart-title">Qty.</span>
+                          <span class="mini-cart-sub-data">{{cart.quantity}}</span>
+                      </div>
+                  </div>
+                  <button type="button" class="close" aria-label="Close" (click)="_removeProductsToCart(cart.product)">
+                      <span aria-hidden="true">&times;</span>
+                  </button>
+              </div>
+          </div>
+          <div class="mini-cart-total">
+              <!-- <div class="total-price" *ngIf="beforeDiscount">Price - <span class="total-price-number">${{beforeDiscount | number : '1.2-2'}}</span></div> -->
+              <div class="total-price">Total Amount - 
+                 
+                  <span class="total-price-number">${{totalamount | number : '1.2-2'}}</span></div>
+              <div class="mini-cart-btns">
+                  <div class="sap-btn-dark"><button routerLink="/cart">view cart</button></div>
+                  <div class="sap-btn-dark grey-btn" routerLink="/checkout"><button>checkout</button></div>
+              </div>
+          </div>
+      </div>
+  </div>
+  
+              </li>
+          </ul>
+          </div>
+      </div>
+  </nav>
+  
+  
+          <div class="modal" style="display: block; background-color: rgba(0, 0, 0, 0.32); z-index: 111;" [style.display]="isDeleteModal ? 'block' : 'none'" *ngIf="isDeleteModal">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="cartProductRemove">Remove Item</h5>
+                        <button type="button" (click)="closeDel()" class="close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                          <h6>Are you sure you want to remove this item?</h6>
+                      </div>
+                      <div class="modal-footer">
+  
+                      <!--   <button type="button" class="btn btn-secondary" (click)="closeDelete()">No</button>
+                        <button type="button" class="btn btn-primary" (click)="yesDelete()">Yes</button> -->
+  
+                        <div class="sap-btn-dark">
+                          <button type="button" class="btn btn-secondary" (click)="closeDel()">No</button>
+                        </div>
+                        <div class="sap-btn-dark grey-btn">
+                          <button type="button" class="btn btn-primary" (click)="yesDelete()">Yes</button>
+                        </div>
+  
+                      </div>
+                    </div>
+                  </div>
+                </div>

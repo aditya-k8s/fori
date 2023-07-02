@@ -1,0 +1,56 @@
+<div class="row userslistpage">
+    <div class="col-12">
+        <div class="card">
+            <div class="col-md-12">
+                <div class="row mt-2">
+                    <div class="col-md-3">
+						<h4 class="card-title"><span class="lstick"></span>Event Calendar</h4>
+					</div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <ngb-tabset>
+                        <ngb-tab title="">
+                            <ng-template ngbTabTitle>
+                                <div>List View</div>
+                            </ng-template>
+                            <ng-template ngbTabContent>
+                                <app-support-listing></app-support-listing>
+                            </ng-template>
+                        </ngb-tab>
+                        <ngb-tab>
+                            <ng-template ngbTabTitle>
+                                <div (click)="loadCalendar()">Calendar View</div>
+                            </ng-template>
+                            <ng-template ngbTabContent>
+                                <div class="row">
+                                    <div class="col-md-12 mt-3">
+                                        <div class="col-md-3">
+                                            <select class="form-control" (change)="changeType($event.target.value)" [(ngModel)]="userType">
+                                                <option value="1">Merchant</option>
+                                                <option value="3">Influencer</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mt-3">
+                                    <full-calendar *ngIf="calendarOptions" [options]="calendarOptions" 
+                                deepChangeDetection="true"></full-calendar> 
+                                </div>
+                                <!-- <full-calendar *ngIf="calendarEvents"
+                                    #fullcalendar [plugins]="calendarPlugins" [editable]="true"
+                                    [events]="calendarEvents" [defaultView]="'dayGridMonth'"
+                                    [displayEventTime]="false" [allDay]="false"
+                                    [header]="{ left: 'prev,next today', center: 'title', right: 'dayGridMonth' }" 
+                                    [height]="'auto'" [dir]="'ltr'"
+                                    deepChangeDetection="true">
+                                </full-calendar> -->
+                            </ng-template>
+                        </ngb-tab>
+                    </ngb-tabset>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

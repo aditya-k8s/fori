@@ -1,0 +1,73 @@
+<app-header></app-header>
+ 	<div class="container">
+        <div class="row profile">
+			<div class="col-md-3">
+				<app-sidebar></app-sidebar>
+			</div>
+			 <div class="col-md-9">
+			 	<div class="container">
+			 		<div class="profile-content" id="pc-my-sessions">
+			 			<div class="card-body">
+				       	<h3 class="card-title text-center sap-small-headings">Scheduled Sessions</h3>
+				       	</div>
+				       	<div *ngIf="broadcast.length > 0" class="thumb-head">
+					         <div class="thumb-inner" *ngFor="let sessions of broadcast;let i = index">
+						     <!--  <a [routerLink]="['/view-stream', sessions.store_id]" class="thumb-img"> -->
+
+						    <a [routerLink]="['/view-stream', sessions.store_id]"  class="inven-thumbs" *ngIf="sessions.broadcast_status == 0 || sessions.broadcast_status == 3">
+						    	<span class="live-tag" *ngIf="sessions.broadcast_status == 0"><div class="red-dot"></div>Upcoming</span>
+
+						      	<span class="live-tag" *ngIf="sessions.broadcast_status == 3"><div class="red-dot"></div>Expired</span>
+						      	<img src="{{image_url+sessions.banner_image}}" alt="">
+						    </a>
+
+
+						    <a [routerLink]="['/chime']" [queryParams]="{q:encryptedData(sessions.title,userName,sessions.id)}"  class="inven-thumbs" *ngIf="sessions.broadcast_status == 1">
+						      	
+
+						      	<span class="live-tag" *ngIf="sessions.broadcast_status == 1"><div class="red-dot"></div>Live</span>
+
+
+						      	<img src="{{image_url+sessions.banner_image}}" alt="">
+
+						      </a>
+							      <div class="title-head">
+							        <a [routerLink]="['/view-stream', sessions.store_id]" class="title-text">{{sessions.title}}</a>
+							        <div class="timer">
+							        
+							          <!-- <div class="days"><span><countdown [config]="{ leftTime:  sessions.timestamp- 86400, format: 'd' }">$!d!:$!h!:$!m!:$!s!</countdown></span><span>days</span>
+							          </div> -->
+
+							        <div class="days">
+						                  <span *ngIf="sessions.timestamp > 86400">
+						                  <countdown  [config]="{ leftTime:  sessions.timestamp - 86400, format: 'd' }">$!d!:$!h!:$!m!:$!s!</countdown>
+						                </span>
+						                <span *ngIf="sessions.timestamp < 86400">0</span>
+						            	<span>days</span>
+						            </div>
+
+							        <div class="hours"><span><countdown [config]="{ leftTime:  sessions.timestamp, format: 'HH' }">$!d!:$!h!:$!m!:$!s!</countdown></span><span>hours</span></div>
+							          <div class="mins"><span><countdown [config]="{ leftTime:  sessions.timestamp, format: 'm' }">$!d!:$!h!:$!m!:$!s!</countdown></span><span>mins</span></div>
+							          <div class="secs"><span><countdown [config]="{ leftTime:  sessions.timestamp, format: 's' }">$!d!:$!h!:$!m!:$!s!</countdown></span><span>secs</span></div>
+							        </div>
+							        <div class="date-num">{{sessions.broadcast_time | date:'MMMM dd, yyyy HH:MM'}}</div>
+							      </div>
+						    </div>
+						</div>
+
+						 <div *ngIf="broadcast.length == 0" class="empty-text text-center errorz" >
+					            <p>There are no data available</p>
+					    </div>
+
+						<div class="sap-btn-dark" *ngIf="broadcast.length > 0">
+							<button [disabled]="loading" (click)="view_sessions(broadcast.length,3)">view more
+					 		<i class="fa fa-spinner fa-spin" *ngIf="loading"></i>
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+<app-footer></app-footer>

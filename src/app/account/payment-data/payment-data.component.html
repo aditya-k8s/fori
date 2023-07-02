@@ -1,0 +1,50 @@
+<!-- <app-header></app-header>
+ 	<div class="container">
+        <div class="row profile">
+			<div class="col-md-3">
+				<app-sidebar></app-sidebar>
+				</div>
+				 <div class="col-md-9">
+				    <div class="profile-content" id="pc-payment-data">
+				       <div class="card-body">
+					    <h3 class="card-title text-center sap-small-headings">Payment Information</h3>
+					    <div class="card-text">
+					      <form [formGroup]="paymentForm" (ngSubmit)="onSubmit(paymentForm.value)">
+
+					    <div class="form-group ">
+				          <label for="payment_gateway">Payment Type</label>
+				          <select id="payment_gateway" class="form-control" formControlName="payment_gateway" [ngClass]="{ 'is-invalid': submitted && f.payment_gateway.errors }">
+				             <option selected="" value="stripe">Stripe</option> 
+
+				          </select>
+				           <div *ngIf="submitted && f.payment_gateway.errors" class="invalid-feedback">
+					            <span class="for-sub-name" *ngIf="f.payment_gateway.errors.required" >Stripe Payment required </span>
+					        </div>
+				        </div>
+
+
+					        <div class="form-group">
+					          <label>	Public key</label>   
+					          <input id="public_key" type="text" class="form-control" formControlName="public_key" [ngClass]="{ 'is-invalid': submitted && f.public_key.errors }" >
+					            <div *ngIf="submitted && f.public_key.errors" class="invalid-feedback">
+					                <span class="for-sub-name" *ngIf="f.public_key.errors.required" >Public Key required </span>
+					            </div>
+					        </div>
+
+					         <div class="form-group">
+					          <label>	Private key</label>   
+					          <input id="private_key" type="text" class="form-control" formControlName="private_key">
+		
+					        </div>
+					        <button type="submit" class="btn btn-primary btn-block" [disabled]="loading">Update Payment
+					        <i class="fa fa-spinner fa-spin" *ngIf="loading"></i>
+					        </button>
+					      </form>
+					    </div>
+				  </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<app-footer></app-footer>
+ -->

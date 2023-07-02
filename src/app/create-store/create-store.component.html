@@ -1,0 +1,149 @@
+<app-header></app-header>
+<mat-horizontal-stepper  #stepper [selectedIndex]="selectedIndex" >
+  <mat-step [stepControl]="firstFormGroup" [editable]="true">
+    <section class="create-channel-details">
+      <div class="inventory-container">
+        <form [formGroup]="firstFormGroup" (ngSubmit)="onSubmit(firstFormGroup.value)" >
+          <ng-template matStepLabel>Channel</ng-template>
+           <h4>Enable Your Sell Live Profile</h4>
+          <p>It's easy, easy to use, and best of all you can connect your existing stores with just two clicks.</p>
+          <mat-form-field>
+            <div class="form-group">
+              <p *ngIf="channelName.value" class="uniqueChannel">@{{ channelName.value }}</p>
+               
+
+              <label>Name</label>
+              <input matInput  #channelName class="form-control" formControlName="channel_name" [ngClass]="{ 'is-invalid': submitted && f.channel_name.errors }" >
+              <div *ngIf="submitted && f.channel_name.errors" class="invalid-feedback">
+                      <span class="for-sub-name" *ngIf="f.channel_name.errors.required">Channel Name is required</span>
+              </div>
+               
+            </div>
+             <div class="mt-2">Your unique brand name that will distinguish your shows and products.It will be public facing</div>
+          </mat-form-field>
+          <br/>
+          <mat-form-field>
+            <div class="form-group">
+              <label>Description</label>
+              <textarea matInput   class="form-control" formControlName="description" [ngClass]="{ 'is-invalid': submitted && f.description.errors }" >
+              </textarea>
+                <div *ngIf="submitted && f.description.errors" class="invalid-feedback">
+                      <span class="for-sub-name" *ngIf="f.description.errors.required">Description is required</span>
+              </div>
+            </div>
+          </mat-form-field>
+          <div >
+            <button *ngIf="!firstFormGroup.invalid" type="submit" [disabled]="firstFormGroup.invalid" mat-button matStepperNext>Save & Continue
+                <i class="fa fa-spinner fa-spin" *ngIf="loading"></i>
+            </button>
+
+            <button *ngIf="firstFormGroup.invalid"type="submit" mat-button >Save & Continue
+                <i class="fa fa-spinner fa-spin" *ngIf="loading"></i>
+            </button>
+          </div>
+        </form>
+      </div>
+    </section>
+  </mat-step>
+
+  <mat-step [stepControl]="secondFormGroup" [editable]="isEditable" [completed]="false">
+  <section class="broadcast-banner">
+      <div class="inventory-container">
+    <form [formGroup]="secondFormGroup" (ngSubmit)="imageSubmit(secondFormGroup.value)">
+      <ng-template matStepLabel>Avatar</ng-template>
+      <!-- <label class="hoverable" for="fileInput">
+        <img class="logoImg" [src]="this.url ? this.url : 'https://www.w3schools.com/howto/img_avatar.png'"> 
+        <div class="hover-text"><i class="fas fa-pen"></i></div>
+      </label>
+      <br/>
+      <input id="fileInput" type='file' (change)="onSelectFile($event)" #file name="file">
+      <button class="imgDelete" *ngIf="url" (click)="delete()" >delete</button> -->
+      <div class="crop-img-section">
+          <ngx-file-drop dropZoneLabel="Drop files here" (onFileDrop)="dropped($event)" 
+          >
+              <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
+                <p>Drop a Banner Image</p>
+                <button type="button" (click)="openFileSelector()">Upload Banner</button>
+                 <div class="text-muted small mt-1">(Recommended Image dimensions are 1280 x 768)</div>
+              </ng-template>
+          </ngx-file-drop>
+
+          <div class="cropArea" [ngClass]="{'dotted-boarder': !isFileSelected}" (drop)="dropHandler($event)"
+      (dragover)="allowDrop($event)" *ngIf="isFileSelected">
+
+            <image-cropper  #cropper [imageChangedEvent]="imageChangedEvent"
+              [imageBase64]="droppedImage" (imageLoaded)="imageLoaded($event)" (imageCropped)="imageCropped($event)"
+              [maintainAspectRatio]="true" [resizeToWidth]="350" [roundCropper]="false">
+            </image-cropper>
+          </div>
+          <div class="cropped-image">
+            <img [src]="croppedImage" onerror="this.src='assets/images/shopper_default_icon.jpg'"/>
+          </div>
+      </div>
+         
+      <div class="foot-btn">
+      <span *ngIf="stepDisabled == true" >
+        <button type="submit" mat-button matStepperNext>Save & Continue
+            <i class="fa fa-spinner fa-spin" *ngIf="loading1"></i>
+        </button>
+      </span>
+       <span *ngIf="stepDisabled == false" >
+        <button type="submit" mat-button >Save & Continue
+          <i class="fa fa-spinner fa-spin" *ngIf="loading1"></i>
+        </button>
+      </span>
+      </div>
+    </form>
+  </div>
+</section>
+  </mat-step>
+
+  <mat-step [stepControl]="thirdFormGroup">
+    <section class="shopify-details">
+      <div class="inventory-container">
+    <form [formGroup]="thirdFormGroup" (ngSubmit)="shopifyDetailsSubmit(thirdFormGroup.value)" >
+    <ng-template matStepLabel>Shopify Details</ng-template>
+    <mat-form-field>
+        <div class="form-group">
+          <label>Store URL</label>
+          <input matInput  #storeName  class="form-control" formControlName="store_name" [ngClass]="{ 'is-invalid': submitted && fe.store_name.errors }">
+           <div *ngIf="submitted && fe.store_name.errors" class="invalid-feedback">
+                  <span class="for-sub-name" *ngIf="fe.store_name.errors.required">Store URL is required</span>
+          </div>
+        </div>
+       <!--  <div class="mt-2">URL should be like this e.g :https://example.myshopify.com/</div> -->
+    </mat-form-field>
+    <mat-form-field>
+        <div class="form-group">
+          <label>Public Key</label>
+          <input matInput  #storeName  class="form-control" formControlName="public_key" [ngClass]="{ 'is-invalid': submitted && fe.public_key.errors }">
+          <div *ngIf="submitted && fe.public_key.errors" class="invalid-feedback">
+                  <span class="for-sub-name" *ngIf="fe.public_key.errors.required">Public Key is required</span>
+          </div>
+           
+      </div>
+    </mat-form-field>
+      <mat-form-field>
+        <div class="form-group">
+          <label>Password</label>
+          <input matInput  #storeName  class="form-control" formControlName="private_key" [ngClass]="{ 'is-invalid': submitted && fe.private_key.errors }">
+           <div *ngIf="submitted && fe.private_key.errors" class="invalid-feedback">
+                  <span class="for-sub-name" *ngIf="fe.private_key.errors.required">Password is required</span>
+          </div>
+        </div>
+      </mat-form-field>
+   
+     <div class="foot-btn">
+      <!-- <button mat-button matStepperPrevious>Back</button> -->
+      <!-- <button mat-button class="reset-btn" (click)="stepper.reset()">Reset</button> -->
+      <button type="submit" mat-button class="submit-btn">Save & Continue
+        <i class="fa fa-spinner fa-spin" *ngIf="loading2"></i>
+      </button>
+      <a class="skipnstart" id="text-red" routerLink="/account/profile"> Skip & Get Started</a>
+    </div>
+     </form>
+   </div>
+ </section>
+  </mat-step>
+</mat-horizontal-stepper>
+<app-footer></app-footer>

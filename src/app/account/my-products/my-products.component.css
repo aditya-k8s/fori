@@ -1,0 +1,18 @@
+#pc-my-products .my-follow-list {background: transparent;}
+#pc-my-products .grid-container {display: flex;flex-wrap: wrap;padding: 20px 0 0;}
+#pc-my-products .inventory-thumb-inner {max-width: calc(33.3% - 24px);}
+
+@media(max-width:767px)
+{
+#pc-my-products .inventory-thumb-inner {max-width: calc(50% - 24px);}
+}
+
+@media(max-width:499px)
+{
+#pc-my-products .inventory-thumb-inner {max-width: calc(100% - 24px);}
+}
+
+@media(min-width:768px) and (max-width:991px)
+{
+#pc-my-products .inventory-thumb-inner {max-width: calc(50% - 24px);}
+}

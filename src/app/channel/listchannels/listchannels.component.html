@@ -1,0 +1,19 @@
+<app-header></app-header>
+<section class="popluar-channel">
+  <div class="container">
+    <div class="sap-small-headings">channels</div>
+    <div class="thumb-head">
+      <div class="thumb-inner" *ngFor="let channel of popularChannelsList">
+       <a [routerLink]="['/channel', channel.channel_name]" class="thumb-img"><img src="{{image_url+channel.channel_logo}}" alt="Channel" onerror="this.src='assets/images/channel-icon.jpg'"></a>
+        <div class="title-head">
+          <a [routerLink]="['/channel', channel.channel_name]" class="title-text">{{channel.channel_name}}</a>
+          <div class="followers-num">{{channel.followers}} Followers</div>
+        </div>
+      </div>
+    </div>
+    <div class="sap-btn-dark" *ngIf="totalRecords"><button (click)="viewmorechannels(popularChannelsList.length,8)" [disabled]="loading">View More
+    <i class="fa fa-spinner fa-spin" *ngIf="loading"></i>
+  </button></div> 
+  </div>
+</section>
+<app-footer></app-footer>

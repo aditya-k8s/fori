@@ -1,0 +1,52 @@
+<app-header></app-header>
+  <div class="container">
+      <div class="row profile">
+        <div class="col-md-3">
+          <app-sidebar></app-sidebar>
+        </div>
+        <div class="col-md-9">
+          <div class="profile-content" id="pc-testimonial-list">
+            <div class="card-body">
+              <h3 class="card-title text-center sap-small-headings">Testimonial List</h3>
+              <div class="add-testimonial sap-btn-dark">
+                <a routerLink="/account/testimonial">Add New Testimonial</a>
+              </div>
+              <div class="card-text">
+                <!-- <div class="sap-med-headings">Testimonial List</div> -->
+                <table datatable class="table-responsive row-border hover" [dtOptions]="dtOptions"*ngIf="testimonials.length > 0">
+                    <thead>
+                      <tr>
+                        <th>Title</th>
+                        <th>Actions</th>
+                        <th>Enable/Disable</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                     <tr *ngFor="let testimonial of testimonials">
+                           <td>{{testimonial.title}}</td>
+                           <!-- <td>{{testimonial.description}}</td> -->
+                           <td>
+	                           	<div class="actions-head">
+	                                <a class="edit-btn" (click)="editTestimonial(testimonial.id)"><i class="far fa-edit"></i>
+	                                </a>
+
+                                  <a class="del-btn" (click)="deleteTestimonial(testimonial.id)"><i class="far fa-trash-alt"></i></a>
+
+	                            </div>
+                            </td>
+                            <td>
+                              <div class="custom-control custom-switch">
+                                  <input type="checkbox" class="custom-control-input" id="{{testimonial.id}}" [checked]="testimonial.isActive == 1"  (change)="toggleStatus(testimonial.id)">
+                                  <label class="custom-control-label" for="{{testimonial.id}}"></label>
+                              </div>
+                            </td>
+                       </tr>
+                    </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+<app-footer></app-footer>

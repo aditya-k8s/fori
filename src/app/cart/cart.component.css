@@ -1,0 +1,31 @@
+.z-depth-1{-webkit-box-shadow:0 2px 5px 0 rgba(0,0,0,0.07),0 2px 10px 0 rgba(0,0,0,0.07)!important;box-shadow:0 2px 5px 0 rgba(0,0,0,0.07),0 2px 10px 0 rgba(0,0,0,0.07)!important}
+.number-input input[type=number]::-webkit-inner-spin-button,.number-input input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none}
+.number-input button{-webkit-appearance:none;background-color:transparent;border:none;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;cursor:pointer;margin:0;position:relative}
+.number-input button:before,.number-input button:after{display:inline-block;position:absolute;content:'';height:2px;-webkit-transform:translate(-50%,-50%);transform:translate(-50%,-50%)}
+.number-input button.plus:after{-webkit-transform:translate(-50%,-50%) rotate(90deg);transform:translate(-50%,-50%) rotate(90deg)}
+.number-input input[type=number]{text-align:center}
+.number-input.number-input{border:1px solid #ced4da;width:8.6rem;border-radius:.25rem;display: flex;align-items: center;justify-content: center;}
+.number-input.number-input button{width:2.5rem;height: 2.5rem;}
+.number-input.number-input button.minus{padding-left:10px}
+.number-input.number-input button:before,.number-input.number-input button:after{width:.7rem;background-color:#495057}
+.number-input.number-input input[type=number]{max-width:3rem;padding:.5rem;border:1px solid #ced4da;border-width:0 1px;font-size:1rem;height:2rem;color:#495057}
+
+#cart-inner .text-uppercase {
+color: #6c757d;
+}
+
+
+
+#cart-dis-coupon a {
+text-decoration: none;
+color: #6c757d;
+}
+
+#cart-we-accept-icons {
+display: flex;
+}
+
+#cart-we-accept-icons svg {
+height: 28px;
+margin: 0 7px 0 0px;
+}

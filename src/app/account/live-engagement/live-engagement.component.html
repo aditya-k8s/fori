@@ -1,0 +1,99 @@
+<app-header></app-header>
+<section class="single-prod-view-head">
+<div class="inventory-container">
+	<div class="single-prod-view">
+	  <div class="single-prod-img">
+	  	<img src="{{image_url+engagementData.banner_image}}" onerror="this.src='assets/images/channel-icon.jpg'">
+	  </div>
+	  <div class="single-prod-details single-engagement">
+	    <ul>
+	      <li><label>Title -</label>
+	      {{engagementData.title}}
+	      </li>
+	      <li><label>Channel Name -</label>
+	       {{engagementData.store_name}}
+	      </li>
+	      <li><label>Live Time</label>
+	        {{engagementData.broadcast_time | date:'MMMM dd, yyyy HH:MM'}}
+	      </li>
+	      <li><label>Duration</label>
+	        {{engagementData.broadcast_video_length}}
+	      </li>
+	      <li><label>Unit Sold</label>
+	        {{engagementData.itemsold}}
+	      </li>
+	      <li><label>Attendees</label>
+	        {{engagementData.stoke}}
+	      </li>
+	      <li><label># of Likes</label>
+	        {{engagementData.likes}}
+	      </li>
+
+	    </ul>
+	    <table class="table bc-prod-table">
+                  <thead>
+                  <tr>
+                    <th>Product Image</th>
+                    <th>Product Name</th>
+                    <!-- <th>Price</th>
+                    <th>Choose Color</th>-->
+                    <th>Action</th> 
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr *ngFor="let product of engagementData.productList;let i = index">
+                    <td><a [routerLink]="['/view/product', product.product_id_int]" class="inven-thumbs" target="_blank"><img src="{{product.image_url}}" alt="Product"  onerror="this.src='assets/images/product-icon.jpg'"></a></td>
+                    <td>{{product.product_title}}</td>
+                 <!--  <td>
+                     <span class="price" *ngIf="product.broadcast_status != '1'">
+                       {{product.off_air_price != 0 ? product.off_air_price : "" }}</span>
+
+                       <span class="price" *ngIf="product.broadcast_status == '1'">
+                       {{product.on_air_price != 0 ? product.on_air_price : ""}} 
+                     </span>
+                     
+                    </td> -->
+                   <!--  <td>  -->
+
+                            
+
+                            <!-- <select  id="selectme{{i}}">
+                               <option selected value="noValue">Select Color</option>
+                              <option *ngFor="let variant of product.variants; let i = index"  [value]="variant.product_variant_id">{{variant.title}} </option>
+                            </select>
+
+                            
+                            <span *ngIf="productIndex == i" [ngClass]="{
+                            'color-alert': !selectColor,
+                            'color-success': selectColor }">Please Select color</span> -->
+
+                           
+                    <!-- </td> -->
+                      <td><a [routerLink]="['/view/product', product.product_id_int]" class="view-page" target="_blank">View</a></td>
+
+                  </tr>
+                  </tbody>
+                </table>
+
+	  </div>
+
+		<!-- <section class=" inventory-page my-engagement-prod">
+		    <div class="inventory-container grid-container">
+			    <div class="inventory-thumb-inner" *ngFor="let product of engagementData.productList;let i = index">
+		            <a [routerLink]="['/view/product', product.product_id_int]" class="inven-thumbs" target="_blank">
+		               <img src="{{product.image_url}}" alt="">
+		               <div class="overlay">
+			              <span class="thumb-des">
+			                <div class="thumb-title">{{product.product_title}}</div>
+			                <div class="thumb-hours">{{product.create_date | date: 'MMMM dd, yyyy'}}</div>
+			              </span>
+		            	</div>
+		            </a>
+		        </div>
+			</div>
+		</section> -->
+
+	</div>
+</div>
+</section>
+<app-footer></app-footer>

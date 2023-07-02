@@ -1,0 +1,36 @@
+<app-header></app-header>
+<section class="single-prod-view-head">
+<div class="inventory-container">
+	<div class="single-prod-view">
+	  <div class="single-prod-img">
+	  	<img [src]="productData.image_url">
+	  </div>
+	  <div class="single-prod-details">
+	    <ul>
+	      <li><label>product name -</label>
+	      {{productData.product_title}}
+	      </li>
+	      <li><label>price -</label>
+	       {{productData.product_price}}
+	      </li>
+	      <li><label>live price</label>
+	        {{productData.on_air_price}}
+	      </li>
+	      <li><label>off-air price</label>
+	        {{productData.off_air_price}}
+	      </li>
+	      <li><label>retail price</label>
+	        {{productData.product_retail_price}}
+	      </li>
+	      <li><label>stock</label>
+	        {{productData.stoke}}
+	      </li>
+	      <li class="divider"><label>product description</label>
+	      <div [innerHtml]="productData.product_description" class="product-description"></div>
+	      </li>
+	    </ul>
+	  </div>
+	</div>
+</div>
+</section>
+<app-footer></app-footer>

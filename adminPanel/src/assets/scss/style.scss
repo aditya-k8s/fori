@@ -1,0 +1,95 @@
+/*
+Template Name: Admin Template
+Author: Niravjoshi / Wrappixel
+File: scss
+*/
+
+//(fonts)
+@import url("https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700");
+
+//(Required file)
+@import "variable";
+
+// Import Bootstrap source files (Required file)
+@import "bootstrap/bootstrap";
+
+//This is for the components (Required file)
+@import "components";
+
+//This is for the responsive (Required file)
+@import "responsive";
+
+//In This scss you can write your scss
+@import "custom";
+
+//This is for the icons (Required file)
+@import "icons/font-awesome/css/fontawesome-all.css";
+@import "icons/themify-icons/themify-icons.css";
+@import "icons/material-design-iconic-font/css/materialdesignicons.min.css";
+@import "icons/weather-icons/css/weather-icons.min.css";
+
+.sub-menu-ul {
+    display: none;
+}
+
+.sub-menu-ul.childActive {
+    display: block;
+    background-color: #2f3743 !important;
+}
+
+.sub-menu-ul li a {
+    color: #fff;
+    padding: 14px 15px 14px 30px;
+    display: flex;
+    white-space: nowrap;
+    align-items: center;
+    line-height: 25px;
+    opacity: 0.6;
+    font-size: 13px;
+}
+
+.sub-menu-ul li a i {
+    font-style: normal;
+    width: 35px;
+    line-height: normal;
+    font-size: 18px;
+    //color: #fff;
+    display: inline-block;
+    text-align: center;
+    margin: 2px 0 0;
+}
+
+label {
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-size: 12px;
+}
+
+.card-foot-btn {
+    display: flex;
+    justify-content: flex-end;
+    flex-basis: 100%;
+    max-width: 100%;
+}
+
+.card-foot-btn button {
+    width: auto;
+    padding: 6px 12px;
+    min-width: 120px;
+}
+
+
+
+/* Table Striped Code Starts */
+
+.table-striped td a {margin: 0 20px 0 0px;}
+.table-striped td a i {color: #ef5350;transition: all .3s ease-in-out;}
+.table-striped td a i.fa-edit {color: #563dea;}
+.table-striped td a i.fa-eye {color: #707070;}
+
+/* Table Striped Code Ends */
+
+.sidebar-nav ul .sidebar-item .sidebar-link{
+    padding: 10px 10px;
+}

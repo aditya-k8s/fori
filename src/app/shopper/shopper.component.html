@@ -1,0 +1,81 @@
+<app-header></app-header>
+<div class="shoppers-page">
+  <section class="fold-tri-sec padd-up-down">
+      <div class="fold-tri-sec-inner container">
+        <div class="tri-fold-head">
+          <div class="tri-fold-inner fold-left">
+            <div class="fold-left-con">
+              <div class="sap-med-headings">Shoppers</div>
+              <div class="fold-sub-title">FORI.LIVE makes shopping entertaining, exciting, social and fun!</div>
+              <div class="fold-list-head">
+                <div class="fold-list-inner">
+                  <span class="fold-list-icon"><i class="far fa-check-circle"></i></span>
+                  <span class="fold-list-con">Watch LIVE videos and shop from anywhere on your phone, laptop or tablet</span>
+                </div>
+                <div class="fold-list-inner">
+                  <span class="fold-list-icon"><i class="far fa-check-circle"></i></span>
+                  <span class="fold-list-con">Engage in real time, LIVE with stores, brands and/or influencers holding, wearing, explaining or demonstrating cool products</span>
+                </div>
+                <div class="fold-list-inner">
+                  <span class="fold-list-icon"><i class="far fa-check-circle"></i></span>
+                  <span class="fold-list-con">Ask questions, see product details, interact and learn from others’ questions and comments</span>
+                </div>            
+              </div>
+            </div>
+          </div>
+          <div class="tri-fold-inner fold-center">
+            <div class="mob-mock">
+              <video src=""></video>
+            </div>        
+          </div>
+          <div class="tri-fold-inner fold-right">
+            <div class="fold-list-head">
+              <div class="fold-list-inner">
+                <span class="fold-list-icon"><i class="far fa-check-circle"></i></span>
+                <span class="fold-list-con">Take advantage of promotions offered exclusively in the Livestream video</span>
+              </div>
+              <div class="fold-list-inner">
+                <span class="fold-list-icon"><i class="far fa-check-circle"></i></span>
+                <span class="fold-list-con">Buy while you watch - no need to leave the Livestream video</span>
+              </div>           
+            </div>        
+          </div>
+        </div>
+        <div class="sap-btn-dark"><a href="" target="_blank">Shop Now!</a></div>
+      </div>
+  </section>
+  <app-live-stream></app-live-stream>
+  <app-upcoming-live-stream></app-upcoming-live-stream>  
+  <!-- <section class="live-sales live_sales-cloned-upcoming-livestream">
+    <div class="container">
+      <div class="sap-small-headings">upcoming livestream broadcasts</div>
+      <div class="thumb-head">
+        <div class="thumb-inner" *ngFor="let stream of streamingList">
+          <a [routerLink]="['/view-stream', stream.channel_id]" class="thumb-img"><span class="live-tag" *ngIf="stream.broadcast_status == 1"><div class="red-dot"></div>Live</span><img src="{{image_url+stream.cover_image}}" alt=""></a>
+          <div class="title-head">
+            <a [routerLink]="['/view-stream', stream.channel_id]" class="title-text">{{stream.channel_name}}</a>
+            <div class="timer">
+              <div class="days">
+                <span *ngIf="stream.timestamp > 86400">
+                <countdown  [config]="{ leftTime:  stream.timestamp - 86400, format: 'd' }">$!d!:$!h!:$!m!:$!s!</countdown>
+              </span>
+              <span *ngIf="stream.timestamp < 86400">0</span>
+              <span>days</span></div>
+              <div class="hours"><span><countdown [config]="{ leftTime:  stream.timestamp, format: 'HH' }">$!d!:$!h!:$!m!:$!s!</countdown></span><span>hours</span></div>
+              <div class="mins"><span><countdown [config]="{ leftTime:  stream.timestamp, format: 'm' }">$!d!:$!h!:$!m!:$!s!</countdown></span><span>mins</span></div>
+              <div class="secs"><span><countdown [config]="{ leftTime:  stream.timestamp, format: 's' }">$!d!:$!h!:$!m!:$!s!</countdown></span><span>secs</span></div>
+            </div>
+            <div class="date-num">{{stream.broadcast_time | date:'MMMM dd, yyyy hh:mm a'}}</div>
+            <div class="add-to-calendar"><i class="far fa-calendar-alt"></i> <a>Add this to your Calendar</a></div>
+          </div>
+        </div>
+    
+      </div>
+      <div class="sap-btn-dark" *ngIf="totalRecords"><button [disabled]="loading" (click)="viewmorstream(streamingList.length,8)">view more
+      <i class="fa fa-spinner fa-spin" *ngIf="loading"></i>
+    </button></div>
+    </div>
+  </section> -->
+  <app-faq></app-faq>
+</div>
+<app-footer></app-footer>

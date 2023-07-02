@@ -1,0 +1,29 @@
+
+<div class="row">
+	<div class="col-12">
+		<h4 class="card-title">Update Fee</h4>
+		<div class="card">
+			<div class="card-body">
+                <form [formGroup]="feeForm" (ngSubmit)="onSubmit(feeForm.value)">
+                    <div class="form-group col-md-6">
+                        <label>Retailer Fee </label>
+                        <input type="text" class="form-control" formControlName="retail_fee" [ngClass]="{ 'is-invalid': submitted && f.retail_fee.errors }" appTwoDigitDecimaNumber>
+                        <div *ngIf="submitted && f.retail_fee.errors" class="invalid-feedback">
+                            <span class="for-sub-name" *ngIf="f.retail_fee.errors.required" >Retailer Fee is required </span>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Subscription Fee </label>
+                        <input type="text" class="form-control" formControlName="subscription_fee" [ngClass]="{ 'is-invalid': submitted && f.subscription_fee.errors }" appTwoDigitDecimaNumber>
+                        <div *ngIf="submitted && f.subscription_fee.errors" class="invalid-feedback">
+                            <span class="for-sub-name" *ngIf="f.subscription_fee.errors.required" >Subscription Fee is required </span>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Update User</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+    
+

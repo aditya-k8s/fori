@@ -1,0 +1,57 @@
+
+<div class="row">
+	<div class="col-12">
+		<h4 class="card-title">Edit users</h4>
+		<div class="card">
+			<div class="card-body">
+      <!--
+      <div class="alert alert-danger alert-dismissible fade show" role="alert">Incorrect username or password.</div> -->
+      <form [formGroup]="profileForm" (ngSubmit)="onSubmit(profileForm.value)">
+        <!-- to error: add class "has-danger" -->
+        <div class="form-group col-md-6">
+          <label>First name </label>   
+           <!--  <input type="text" class="form-control" placeholder=""> -->
+          <input id="first_name" type="text" class="form-control" formControlName="first_name" [ngClass]="{ 'is-invalid': submitted && f.first_name.errors }" v>
+            <div *ngIf="submitted && f.first_name.errors" class="invalid-feedback">
+                <span class="for-sub-name" *ngIf="f.first_name.errors.required" >First name required </span>
+            </div>
+        </div>
+        <div class="form-group col-md-6" style="padding-right:0;">
+          <label>Last name</label>
+            <!-- <input type="text" class="form-control" placeholder=" "> -->
+             <input id="last_name" type="text" class="form-control" formControlName="last_name" [ngClass]="{ 'is-invalid': submitted && f.last_name.errors }"  >
+              <div *ngIf="submitted && f.last_name.errors" class="invalid-feedback">
+                  <span class="for-sub-name" *ngIf="f.last_name.errors.required" >Last name required </span>
+              </div>
+        </div>
+        <div class="form-group col-md-6">
+          <label>DOB</label>
+            <!-- <input type="text" class="form-control" placeholder=" "> -->
+            <input id="dob" type="date" class="form-control" formControlName="dob"  >
+            <div *ngIf="submitted && f.dob.errors" class="invalid-feedback">
+                  <span class="for-sub-name" *ngIf="f.dob.errors.required" >DOB required </span>
+              </div>
+        </div>
+        <div class="form-group col-md-6" style="padding-right:0;">
+          <label for="inputState">country</label>
+          <select id="inputState" class="form-control" formControlName="country">
+          	 <!-- <option [ngValue]="null" disabled>Select Country</option> -->
+            <option *ngFor ="let country of countries" [ngValue]="country.countryId" [selected]="country.countryId == this.user['country']">{{country.name}}</option>
+          </select>
+
+          <div *ngIf="submitted && f.country.errors" class="invalid-feedback">
+                  <span class="for-sub-name" *ngIf="f.country.errors.required" >Country required </span>
+              </div>
+        </div>
+
+
+
+
+        <button type="submit" class="btn btn-primary btn-block">Update User</button>
+      </form>
+    </div>
+  </div>
+                </div>
+            </div>
+    
+

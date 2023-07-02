@@ -1,0 +1,31 @@
+/*.mat-stepper-horizontal{max-width:1140px;margin:0 auto;padding: 20px 15px 50px;}
+.mat-horizontal-stepper-header-container{max-width:650px !important;margin:10px auto 0 !important}
+.mat-step-header .mat-step-icon-selected,.mat-step-header .mat-step-icon-state-done,.mat-step-header .mat-step-icon-state-edit{background-color:#e4282f}
+.mat-horizontal-stepper-header .mat-step-icon{font-size:12px;font-weight:600}
+#cdk-step-content-0-0 form{display:flex;flex-direction:column;align-items:center}
+#cdk-step-content-0-0 form .mat-form-field{width:100%;max-width:780px}
+.form-group{margin-bottom:0}
+.mat-form-field-infix{padding-bottom:0!important}
+form .form-control{border:1px solid #d1d1d1;margin:8px 0 0;padding:12px}
+.mat-form-field-underline{opacity:0}
+form textarea.form-control{height:150px}
+.mat-button,.mat-icon-button,.mat-stroked-button,.mat-flat-button{background-color:#e4282f;color:#fff;padding:0 30px}
+
+*/
+.mat-button,.mat-icon-button,.mat-stroked-button,.mat-flat-button{background-color:#e25751;color:#fff;padding:0 30px}
+
+ .uniqueChannel{
+ 	color: #43a6f7;
+    font-size: 16px;
+    font-style: italic;
+    font-weight: 500;
+}
+.form-group{margin-bottom:0}
+.mat-step-header{
+	    pointer-events: none !important;
+
+}
+.create-channel-details .mat-form-field {
+	width: 100%;
+    max-width: 780px;
+}

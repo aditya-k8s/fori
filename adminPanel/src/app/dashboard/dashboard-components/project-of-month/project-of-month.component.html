@@ -1,0 +1,35 @@
+<div class="card">
+  <div class="card-body">
+    <h4 class="card-title">
+      <span class="lstick"></span>Popular Channel(s)
+    </h4>
+    <div class="table-responsive">
+      <table class="table vm no-th-brd pro-of-month mb-0 v-middle">
+        <thead>
+          <tr>
+            <th>Image</th>
+            <th>Channel Name</th>
+            <th>Followers</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor='let project of populerChannel'>
+            <td>
+              <span class="round">
+                <img [src]='img_url+project.channel_logo' alt="user" width="50" />
+              </span>
+            </td>
+            <td>{{project.channel_name}}</td>
+            <td>{{project.followers}}</td>
+          </tr>
+          <tr *ngIf="isLoading == true">
+            <td colspan="3" class="text-center"><i class="fa fa-spinner fa-spin fa-2x"></i><br>loading data....</td>
+          </tr>
+          <tr *ngIf="isRecord == true">
+            <td colspan="3" class="text-center">No record found!!</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

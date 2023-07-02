@@ -1,0 +1,18 @@
+#pc-followers-list .my-follow-list {background: transparent;}
+#pc-followers-list .grid-container {display: flex;flex-wrap: wrap;padding: 20px 0 0;}
+#pc-followers-list .inventory-thumb-inner {max-width: calc(33.3% - 24px);}
+
+@media(max-width:767px)
+{
+#pc-followers-list .inventory-thumb-inner {max-width: calc(50% - 24px);}
+}
+
+@media(max-width:499px)
+{
+#pc-followers-list .inventory-thumb-inner {max-width: calc(100% - 24px);}
+}
+
+@media(min-width:768px) and (max-width:991px)
+{
+#pc-followers-list .inventory-thumb-inner {max-width: calc(50% - 24px);}
+}

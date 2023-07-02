@@ -1,0 +1,46 @@
+         <form id="checkout-form"  [formGroup]="checkoutForm" (ngSubmit)="__checkout(checkoutForm.value)" class="subscribe">
+        
+		      <!--   <div class="card-section">
+		         <div class="each-card-section"  *ngFor="let card of cards;  let i-index">
+		           <input type="radio" [(ngModel)]="options" formControlName="exsiting_card" [value]="card.payment_menthod_id" (change)="onCardChange(card)">
+
+		           <span>{{card.name}}</span>
+		           <div *ngIf="options">
+		             <input  type="text" required="required" formControlName="cardCvcElement">
+		            </div>
+		         </div>
+		   
+        		</div> -->
+
+        <div class="row">
+            <div class="col-md-6 mb-6">
+	            <label for="card-element">
+	              Payment details
+	            </label>
+	            <div class="sr-combo-inputs">
+	              <div class="sr-combo-inputs-row">
+	                <input type="text" id="name"
+	                  placeholder="Name"
+	                  autocomplete="cardholder"
+	                  class="sr-input"
+	                  formControlName="name"
+	                  class="form-control"
+	                />
+	              </div>
+	              <div class="sr-combo-inputs-row">
+	                <div class="sr-input sr-card-element" id="card-element"></div>
+	              </div>
+	            </div>
+	            <div id="card-errors" role="alert">{{ error }}</div>
+
+	            <div class="sr-form-row">
+	              <label ><input [ngModel]="isSavingCard" type="checkbox" id="save-card" formControlName="saveCard"> Save card for future payments</label>
+	            </div>
+          	</div>
+
+          	<button id="submit"><div class="spinner hidden" id="spinner"></div><span id="button-text">Pay</span></button>
+          	<div class="sr-legal-text">
+            Your card will be charged $14.00.
+          	</div>
+        	</div>
+   		</form>

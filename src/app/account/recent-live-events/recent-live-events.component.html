@@ -1,0 +1,74 @@
+<app-header></app-header>
+ 	<div class="container">
+        <div class="row profile">
+			<div class="col-md-3">
+				<app-sidebar></app-sidebar>
+			</div>
+			 <div class="col-md-9">
+			 	<div class="container">
+			 		<div class="profile-content" id="pc-my-sessions">
+			 			<div class="card-body">
+				       	<h3 class="card-title text-center sap-small-headings">Recent Live Sessions</h3>
+				       	</div>
+				       	<section class=" inventory-page my-events-list">
+						    <div class="inventory-container grid-container" *ngIf="liveSessions.length != 0">
+			 			        <div class="inventory-thumb-inner" *ngFor="let sessions of liveSessions;let i = index">
+			 			        	<div class="inven-thumbs" >
+						            <img src="{{image_url+sessions.banner_image}}" alt="Broadcast" onerror="this.src='assets/images/broadcast-icon.jpg'">
+					                <div class="overlay">
+						              <span class="thumb-des">
+						                <div class="thumb-title">{{sessions.title}}</div>
+						                <div class="thumb-hours">{{sessions.broadcast_time | date: 'MMMM dd, yyyy'}}</div>
+						              </span>
+					            	</div>
+					            </div>
+						            <div class="sap-btn-dark">
+				                    	<button [routerLink]="['/account/live-engagement', sessions.id]">View Engagement</button>
+				                    	 <button  class="share-btn" data-toggle="modal" data-target="#social-share-pop" (click)="getRecording(sessions.store_url)">Share <i  class="fas fa-share-alt"></i></button>
+					        		</div>
+				            	</div> 
+				   			</div>
+				   			<!-- <div *ngIf="liveSessions.length == 0" class="no-data">
+								<div>There are no data available</div>
+							</div> -->
+
+							  <div *ngIf="liveSessions.length == 0" class="empty-text text-center errorz" >
+					            <p>There are no data available</p>
+					           </div>
+					    </section>
+
+						<div class="sap-btn-dark" *ngIf="liveSessions.length > 0"><button [disabled]="loading" (click)="view_sessions(liveSessions.length,6)">view more
+							  <i class="fa fa-spinner fa-spin" *ngIf="loading"></i>
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="social-share-pop" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content col-12">
+            <div class="modal-header">
+                <h5 class="modal-title">Share</h5> <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+            </div>
+            <share-buttons 
+             [include]="['facebook','linkedin','whatsapp','email','copy']"
+             [size]="2"
+             [url]="stored_url"
+             [image] ="'https://fori.kindlebit.com/assets/images/logo.png'"
+             [autoSetMeta]="false"
+            ></share-buttons>
+
+     
+            <div class="modal-footer"> <label style="font-weight: 600">Page Link <span class="message"></span></label><br />
+                <div class="row"> <input class="col-10 ur" type="url"  [value]="stored_url" #userinput id="myInput" aria-describedby="inputGroup-sizing-default" style="height: 40px;"> 
+                	
+                    <button class="cpy" (click)="copyUrl(userinput)"><i class="far fa-clone"></i></button> 
+                    <p class="text-success">{{copied}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<app-footer></app-footer>

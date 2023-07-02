@@ -1,0 +1,350 @@
+<app-header></app-header>
+<main class="checkout-main">
+  <div class="container">
+    
+    <section class="mt-5 mb-4">
+      <div class="card-body" *ngIf="localstorages.length == 0">
+      No Item in cart
+    </div>
+      <div class="row"  *ngIf="localstorages.length > 0">
+        <div class="col-md-4 order-md-2 mb-4 checkout-your-cart">
+          <h4 class="d-flex justify-content-between align-items-center mb-3">
+            <span class="text-muted">Your cart</span>
+            <span class="badge badge-secondary badge-pill">{{noOfItems}}</span>
+          </h4>
+          <ul class="list-group mb-3">
+            <li class="list-group-item d-flex justify-content-between lh-condensed" *ngFor="let products of localstorages;let i = index">
+              <div>
+                <h6 class="my-0">{{products.product_title}}</h6>
+                <!-- <small class="text-muted">Brief description</small> -->
+             
+              </div>
+
+              <span class="text-muted" *ngIf="!products.getProduct || productYID.length == 0">${{products.quantity * products.price | number : '1.2-2' }}</span>
+              <span class="text-muted" *ngIf="products.getProduct && productYID.length > 0"><del>${{products.quantity * products.price | number : '1.2-2' }}</del></span>
+            </li>
+    
+            <li class="list-group-item d-flex justify-content-between bg-light grey-back-text" *ngIf="coupon_amount">
+              <div class="text-success">
+                <h6 class="my-0">Promo code</h6>
+                <small>{{couponName}}</small>
+              </div>
+              <span class="text-success">-${{coupon_amount}}</span>
+            </li>
+
+            <li class="list-group-item d-flex justify-content-between bg-light grey-back-text" *ngIf="coupon_percentage">
+              <div class="text-success">
+                <h6 class="my-0">Promo code</h6>
+                <small>{{couponName}}</small>
+              </div>
+              <span class="text-success">-{{coupon_percentage}}%</span>
+            </li>
+
+            <li class="list-group-item d-flex justify-content-between bg-light grey-back-text" *ngIf="freeShipping">
+              <div class="text-success">
+                <h6 class="my-0">Promo code</h6>
+                <small>{{couponName}}</small>
+              </div>
+              <span class="text-success">{{freeShipping}}</span>
+            </li>
+
+            <li class="list-group-item d-flex justify-content-between bg-light grey-back-text"  *ngIf="priceYproduct || productYID.length > 0">
+              <div class="text-success">
+                <h6 class="my-0">Promo code</h6>
+                <small>{{couponName}}</small>
+              </div>
+              <span class="text-success">{{priceYproduct}}</span>
+            </li>
+
+             <li class="list-group-item d-flex justify-content-between grey-back-text">
+              <span>Total (USD)</span>
+              <strong>${{totalamount | number : '1.2-2'}}</strong>
+            </li>
+            
+            <li class="list-group-item d-flex justify-content-between grey-back-text" *ngIf="flatShippingRate">
+              <span>Shipping Fee</span>
+              <strong *ngIf="!freeShipping">${{flatShippingRate | number : '1.2-2'}}</strong>
+              <strong *ngIf="freeShipping">Free Shipping</strong>
+            </li>
+            <li class="list-group-item d-flex justify-content-between grey-back-text" *ngIf="donation_amount > 0">
+              <span>Donation Amount</span>
+              <strong>${{donation_amount | number : '1.2-2'}}</strong>
+            </li>
+            <li class="list-group-item d-flex justify-content-between grey-back-text">
+              <span>Grand Total</span>
+              <strong>${{AftershippingFee | number : '1.2-2'}}</strong>
+            </li>
+          </ul>
+          <div>
+            <!-- <span>Billing Address</span> -->
+          </div>
+          
+          <form class="card p-2" [formGroup]="promoCodeForm" (ngSubmit)="validateCouponCode(promoCodeForm.value)" style="visibility:hidden">
+            <div class="input-group">
+              <input type="text" class="form-control" placeholder="Promo code" formControlName="coupon_code" [ngClass]="{ 'is-invalid': couponSubmit && promoCodeForm.controls.coupon_code.errors }">
+
+              <div class="input-group-append sap-btn-dark">
+                <button type="submit" [disabled] = "disableCouponBtn" class="btn">Redeem</button>
+              </div>
+              
+              <div *ngIf="couponSubmit && promoCodeForm.controls.coupon_code.errors" class="text-danger">
+                    <div *ngIf="promoCodeForm.controls.coupon_code.errors.required">Enter Valid Promo Code</div>
+              </div>
+            </div>
+          </form>
+        </div>
+
+
+
+        <div class="select-saved-address col-md-8 order-md-1">
+          <div *ngIf="storePickup && store_pickup_status">
+            <input type="checkbox" class="custom-control-input" id="pickupStore" [(ngModel)]="showPickupAddress">
+            <label class="custom-control-label" for="pickupStore">Collect it at a FORI Pickup Store. No home delivery</label>
+          </div>
+          <div class="select-old-address-head" *ngIf="showPickupAddress">
+                <label class="old-address-inner" >
+                  <div class="select-old-address">
+                    <span>{{storePickup}}</span>
+                    <!-- <b>FORI Pickup Store</b><br/>
+                    Tribune Market, #3445 <br/>
+                    California, 3000071<br/>
+                   USA <br/> -->
+                  </div>
+                </label>
+
+          </div>
+          <hr class="mb-4" *ngIf="!showPickupAddress">
+
+        <div class="saved-address-inner" *ngIf="!showPickupAddress">
+          <button class="add-new-shipping-data" (click)="__addAddress()" ><i class="fas fa-plus"></i> Add new Shipping Address</button>
+          <!-- <div class="ship-add-title">
+               <input type="radio"  name="saved-add"  value="newAddress" (change)="onAddressChange($event)" id="add-new-input">
+               <label for="add-new-input" class="">Add new Shipping Address</label>
+          </div> -->
+          <div class="select-one-address" *ngIf="showForm" >
+            <div class="col-md-12 order-md-1">
+              <form [formGroup]="shippingForm" (ngSubmit)="onSubmit(shippingForm.value)">
+                <div class="form-group col-md-6">
+                  <label>First name </label>   
+                  <input id="fullname" type="text" class="form-control" formControlName="fullname" [ngClass]="{ 'is-invalid': submitted && f.fullname.errors }" >
+                    <div *ngIf="submitted && f.fullname.errors" class="invalid-feedback">
+                        <span class="for-sub-name" *ngIf="f.fullname.errors.required" >Full name required </span>
+                    </div>
+                </div>
+
+                 <div class="form-group col-md-6">
+                    <label>Last name </label>   
+                    <input id="last_name" type="text" class="form-control" formControlName="last_name" [ngClass]="{ 'is-invalid': submitted && f.last_name.errors }" >
+                      <div *ngIf="submitted && f.last_name.errors" class="invalid-feedback">
+                          <span class="for-sub-name" *ngIf="f.last_name.errors.required" >Last name required </span>
+                      </div>
+                  </div>
+
+
+                <div class="form-group col-md-6">
+                  <label>Contact Number</label>
+                      <input id="contact_no" type="text" maxlength="15" class="form-control" minlength="10" formControlName="contact_no" [ngClass]="{ 'is-invalid': submitted && f.contact_no.errors }">
+                      <div *ngIf="submitted && f.contact_no.errors" class="invalid-feedback">
+                      <span class="for-sub-name" *ngIf="f.contact_no.errors.required" >Contact number required </span>
+                       <span *ngIf="f.contact_no.errors.minlength">Contact number must be at least 10 characters</span>
+
+                   </div>
+                </div>
+
+                <div class="form-group col-md-6" >
+                  <label>Address</label>
+                     <input id="address" type="text" class="form-control" formControlName="address" [ngClass]="{ 'is-invalid': submitted && f.address.errors }"  >
+                      <div *ngIf="submitted && f.address.errors" class="invalid-feedback">
+                          <span class="for-sub-name" *ngIf="f.address.errors.required" >Address required </span>
+                          <span class="for-sub-name" *ngIf="f.address.errors.required" >Address required </span>
+                      </div>
+                </div>
+
+                <div class="form-group col-md-6" >
+                  <label>Second Address</label>
+                     <input id="address_1" type="text" class="form-control" formControlName="address_1"  >
+                </div>
+
+                <div class="form-group col-md-6">
+                  <label>City</label>
+                    <input id="city" type="text" class="form-control" formControlName="city"  [ngClass]="{ 'is-invalid': submitted && f.city.errors }">
+                    <div *ngIf="submitted && f.city.errors" class="invalid-feedback">
+                          <span class="for-sub-name" *ngIf="f.city.errors.required" >City required </span>
+                      </div>
+                </div>
+
+
+
+                <div class="form-group col-md-6" >
+                  <label for="country">country</label>
+                  <select id="country" class="form-control" formControlName="country" [ngClass]="{ 'is-invalid': submitted && f.country.errors }">
+                    <option *ngFor ="let country of countries" [value]="country.countryId">{{country.name}}</option>
+                  </select>
+
+                  <div *ngIf="submitted && f.country.errors" class="invalid-feedback">
+                          <span class="for-sub-name" *ngIf="f.country.errors.required" >Country required </span>
+                      </div>
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label>State</label>
+                     <select id="state" class="form-control" formControlName="state" [ngClass]="{ 'is-invalid': submitted && f.state.errors }">
+                      <option *ngFor ="let state of states" [value]="state.id">{{state.name}}</option>
+                    </select>
+                      <div *ngIf="submitted && f.state.errors" class="invalid-feedback">
+                            <span class="for-sub-name" *ngIf="f.state.errors.required" >State required </span>
+                        </div>
+                  </div>
+
+                <div class="form-group col-md-6">
+                  <label>Zip Code</label>
+                    <input id="pin_code" type="text" class="form-control" formControlName="pin_code" [ngClass]="{ 'is-invalid': submitted && f.pin_code.errors }" >
+                    <div *ngIf="submitted && f.pin_code.errors" class="invalid-feedback">
+                          <span class="for-sub-name" *ngIf="f.pin_code.errors.required" >Zip Code required </span>
+                      </div>
+                </div>
+
+                <div class="form-group col-md-6" id="address-type">
+                  <label for="address_type">Address Type</label>
+                  <select id="address_type" class="form-control" formControlName="address_type" [ngClass]="{ 'is-invalid': submitted && f.address_type.errors }">
+                    <option value="Billing">Billing</option>
+                    <option value="Shipping" selected>Shipping</option>
+                    <option value="Both">Both</option>
+                  </select>
+
+                <div *ngIf="submitted && f.address_type.errors" class="invalid-feedback" >
+                    <span class="for-sub-name" *ngIf="f.address_type.errors.required" >Address Type required </span>
+                  </div>
+                
+                </div>
+                <div class="form-group col-md-12" id="save-address-btn">
+                  <button type="submit" class="btn btn-primary btn-block sap-dark-btn">Save Address</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+          
+         <div class="select-old-address-head" *ngIf="!showPickupAddress">
+          <label for="{{i}}" class="old-address-inner" *ngFor ="let address of addresses;let i = index">
+            <div class="ship-add-title">
+              <input type="radio" name="saved-add"  value="{{address.id}}"  checked (change)="onAddressChange($event,i)" id="{{i}}" >
+          <!--   <label for="ship-add-input" class="">Shipping Address</label> -->
+            </div>
+
+            <div class="select-old-address">
+              <div class="select-old-address-inner">
+                <b>{{address.fullname}}</b><br/>
+                {{address.address}} {{address.address_1}} <br/>
+                {{address.city}},{{address.state}} {{address.pin_code}} <br/>
+                {{address.country}} <br/>
+                {{address.contact_no}}
+              </div>
+              <span>
+                <button (click)="__editAddress(i)">Edit</button>
+              </span>
+            </div>
+            
+          </label>
+        </div>
+  
+          <hr class="mb-4" *ngIf="!showPickupAddress">
+          <div *ngIf="noShippingAddress">
+            <div class="card-section pc-card-checkout" [class.hide-stripe-form]="!isPaymentMethod" id="my-card-list">
+              <div class="card-container" *ngFor="let cards of CardDetails; let i=index">
+                <div class="card-detail-head">
+                  <input type="radio" name="card-details" [value]="cards.id" (change)="onCardChange(cards.id,i)" id="{{cards.id}}">
+                  <label class="card-detail-inner" for="{{cards.id}}">
+                    <div class="card-holder">{{cards.billing_details.name}}</div>
+                    <div class="card-number-details">
+                      <span class="card-brand-icon">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="2.03892in" height="1.67243in" viewBox="0 0 146.8024 120.4146">
+                            <g>
+                              <rect width="146.8024" height="120.4146" style="fill: none"/>
+                              <g>
+                                <path d="M358.94359,351.0513V345.052a3.558,3.558,0,0,0-3.7594-3.7994,3.70192,3.70192,0,0,0-3.3595,1.6997,3.511,3.511,0,0,0-3.1596-1.6997,3.16116,3.16116,0,0,0-2.7996,1.4198v-1.1798h-2.0798v9.5587h2.0997v-5.2994a2.23566,2.23566,0,0,1,2.3397-2.5396c1.3798,0,2.0798.8999,2.0798,2.5196v5.3194h2.0997v-5.2994a2.25437,2.25437,0,0,1,2.3397-2.5396c1.41971,0,2.0996.8999,2.0996,2.5196v5.3194Zm31.0758-9.5587h-3.3995V338.593h-2.0997v2.8996h-1.9398v1.8997h1.9398v4.3594c0,2.2196.8599,3.5396,3.3195,3.5396a4.88466,4.88466,0,0,0,2.5996-.74l-.5998-1.7798a3.83859,3.83859,0,0,1-1.8398.54c-1.0399,0-1.3798-.6401-1.3798-1.5997v-4.3195h3.3995Zm17.73761-.24a2.81917,2.81917,0,0,0-2.51961,1.3998v-1.1598h-2.0598v9.5587h2.0797v-5.3594c0-1.5797.6799-2.4596,2.0399-2.4596a3.38832,3.38832,0,0,1,1.2997.24l.6399-1.9598a4.44615,4.44615,0,0,0-1.47979-.2599Zm-26.81631.9998a7.14807,7.14807,0,0,0-3.8995-.9998c-2.4197,0-3.9794,1.1598-3.9794,3.0595,0,1.5599,1.1598,2.5198,3.2994,2.8197l.9799.1399c1.1398.1598,1.6798.4599,1.6798.9998,0,.7399-.76,1.16-2.1797,1.16a5.09159,5.09159,0,0,1-3.1796-1l-.9798,1.6198a6.89734,6.89734,0,0,0,4.1394,1.24c2.7596,0,4.3593-1.3,4.3593-3.1197,0-1.6798-1.2597-2.5597-3.3394-2.8597l-.9798-.14c-.9-.1199-1.6198-.2997-1.6198-.9396,0-.7.6797-1.12,1.8197-1.12a6.16291,6.16291,0,0,1,2.9796.8199Zm55.71231-.9998a2.81917,2.81917,0,0,0-2.51961,1.3998v-1.1598h-2.0597v9.5587h2.0796v-5.3594c0-1.5797.68-2.4596,2.03971-2.4596a3.3889,3.3889,0,0,1,1.3.24l.63989-1.9598a4.44671,4.44671,0,0,0-1.47989-.2599Zm-26.79641,5.0191a4.82943,4.82943,0,0,0,5.0995,5.0196,5.00684,5.00684,0,0,0,3.4394-1.14l-.9998-1.6798a4.20185,4.20185,0,0,1-2.49969.8599,3.06518,3.06518,0,0,1,0-6.1191,4.2013,4.2013,0,0,1,2.49969.86l.9998-1.6799a5.00768,5.00768,0,0,0-3.4394-1.1398,4.8293,4.8293,0,0,0-5.0995,5.0191Zm19.47741,0v-4.7791h-2.07971v1.1598a3.62617,3.62617,0,0,0-3.0196-1.3998,5.02538,5.02538,0,0,0,0,10.0387,3.6263,3.6263,0,0,0,3.0196-1.4v1.16H429.334Zm-7.739,0a2.89437,2.89437,0,1,1,2.89979,3.0597,2.86746,2.86746,0,0,1-2.89979-3.0597Zm-25.09641-5.0191a5.02359,5.02359,0,0,0,.14,10.0387,5.80955,5.80955,0,0,0,3.91941-1.34l-1.01991-1.5397a4.55355,4.55355,0,0,1-2.7796.9998,2.65471,2.65471,0,0,1-2.8596-2.3398H400.998c.02-.2598.03989-.5198.03989-.7999-.01989-2.9794-1.8597-5.0191-4.5393-5.0191Zm-.0401,1.8597a2.37413,2.37413,0,0,1,2.4197,2.3197h-4.9593a2.46089,2.46089,0,0,1,2.5396-2.3197Zm52.1729,3.1594v-8.6185h-2.0798v4.9992a3.62611,3.62611,0,0,0-3.0195-1.3998,5.02537,5.02537,0,0,0,0,10.0387,3.62624,3.62624,0,0,0,3.0195-1.4v1.16h2.0798Zm3.4668,3.3943a.95392.95392,0,0,1,.3762.0746.97593.97593,0,0,1,.3074.2037.95726.95726,0,0,1,.2071.3027.93387.93387,0,0,1,0,.7371.96452.96452,0,0,1-.2071.3015.998.998,0,0,1-.3074.2048.93913.93913,0,0,1-.3762.0758.96809.96809,0,0,1-.8976-.5821.93625.93625,0,0,1,0-.7371.96319.96319,0,0,1,.2062-.3027.94913.94913,0,0,1,.3085-.2037A.98157.98157,0,0,1,452.09819,349.666Zm0,1.6906a.70738.70738,0,0,0,.2866-.0582.7542.7542,0,0,0,.2327-.1584.74473.74473,0,0,0,0-1.048.73833.73833,0,0,0-.2327-.157.71686.71686,0,0,0-.2866-.0571.74733.74733,0,0,0-.29219.0571.7299.7299,0,0,0-.23631.157.74447.74447,0,0,0,0,1.048.745.745,0,0,0,.23631.1584A.73739.73739,0,0,0,452.09819,351.3566Zm.0559-1.1854a.40175.40175,0,0,1,.2621.0758.253.253,0,0,1,.0919.2061.23989.23989,0,0,1-.0733.1803.3496.3496,0,0,1-.2085.0874l.2888.333h-.2258l-.2678-.3307h-.0862v.3307h-.1886v-.8826Zm-.2188.1655v.2352h.2166a.21318.21318,0,0,0,.1188-.0293.0996.0996,0,0,0,.0441-.0895.09807.09807,0,0,0-.0441-.0875.21492.21492,0,0,0-.1188-.0289Zm-11.0428-4.065a2.89423,2.89423,0,1,1,2.89951,3.0597,2.86735,2.86735,0,0,1-2.89951-3.0597Zm-70.2304,0v-4.7791h-2.0798v1.1598a3.62617,3.62617,0,0,0-3.0196-1.3998,5.02538,5.02538,0,0,0,0,10.0387,3.6263,3.6263,0,0,0,3.0196-1.4v1.16h2.0798Zm-7.7389,0a2.89423,2.89423,0,1,1,2.8995,3.0597A2.86735,2.86735,0,0,1,362.92319,346.2717Z" transform="translate(-322.59839 -245.7927)" style="fill: #231f20"/>
+                                <g>
+                                  <rect x="57.6515" y="22.8537" width="31.5" height="56.6064" style="fill: #ff5f00"/>
+                                  <path d="M382.25009,296.9496A35.93751,35.93751,0,0,1,396,268.6464a36,36,0,1,0,0,56.6064A35.938,35.938,0,0,1,382.25009,296.9496Z" transform="translate(-322.59839 -245.7927)" style="fill: #eb001b"/>
+                                  <path d="M454.24519,296.9496A35.99866,35.99866,0,0,1,396,325.2528a36.0052,36.0052,0,0,0,0-56.6064,35.99866,35.99866,0,0,1,58.24519,28.3032Z" transform="translate(-322.59839 -245.7927)" style="fill: #f79e1b"/>
+                                  <path d="M450.81019,319.2565v-1.1589h.4673v-.2361h-1.1901v.2361h.4675v1.1589Zm2.3105,0v-1.3973h-.3648l-.4196.9611-.4197-.9611h-.365v1.3973h.2576v-1.054l.3935.9087h.2671l.3935-.911v1.0563Z" transform="translate(-322.59839 -245.7927)" style="fill: #f79e1b"/>
+                                </g>
+                              </g>
+                            </g>
+                          </svg>
+                      </span>
+                      <span class="card-number">
+                          ****{{cards.card.last4}}
+                      </span>         
+                    </div>
+                    <div class="card-expiry">Expires {{cards.card.exp_month}}/{{cards.card.exp_year}}</div>
+                  </label>
+                </div>
+              </div>
+            </div> 
+            <div class="card-action-btn" [class.hide-stripe-form]="!isPaymentMethod">
+              <div class="sap-btn-dark">
+                  <button id="submit" (click)="__checkout('old')" [disabled]="loadingPay" class="btn btn-primary btn-block">Pay
+                    <i class="fa fa-spinner fa-spin" *ngIf="loadingPay"></i>
+                  </button>
+              </div>
+              <div class="add-new-card">
+                <button (click)="newCardPayment()"><i class="fas fa-plus"></i> Add a New Card and Pay</button>
+              </div>
+            </div>
+           
+
+            <form id="checkout-form"  [formGroup]="checkoutForm" (ngSubmit)="__checkout('new')" class="subscribe" [class.hide-stripe-form]="isPaymentMethod">
+            
+              <div class="fa-spin-head" *ngIf="formLoader" >
+                <div class="fa fa-spinner fa-spin"></div>
+               </div>
+              <div class="row">
+                <div class="col-md-6 mb-6">
+                  <label for="card-element">Payment details</label>
+                  <div class="sr-combo-inputs">
+                      <div class="sr-combo-inputs-row">
+                        <input type="text" id="name"
+                          placeholder="Name"
+                          autocomplete="cardholder"
+                          class="sr-input"
+                          formControlName="name"
+                          class="form-control"
+                          [ngClass]="{ 'is-invalid': paySubmitted && pay.name.errors }"
+                        />
+                      </div>
+                       <div *ngIf="paySubmitted && pay.name.errors" class="invalid-feedback">
+                          <span class="for-sub-name" *ngIf="pay.name.errors" >Shopper Name required </span>
+                      </div>
+
+                      <div class="sr-combo-inputs-row">
+                        <div class="sr-input sr-card-element" id="card-element" class="form-control" [ngClass]="{ 'is-invalid': error}"></div>
+                      </div>
+                  </div>
+                  <div id="card-errors" role="alert">{{ error }}</div>
+                  <div class="sap-btn-dark">
+                    <button id="submit" [disabled]="loadingPay">Pay
+                      <i class="fa fa-spinner fa-spin" *ngIf="loadingPay"></i>
+                    </button>
+                  </div>
+                
+                </div>
+              </div>
+            </form>
+            <div class="sr-legal-text charged-value">
+                Your card will be charged ${{AftershippingFee | number : '1.2-2'}}.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</main>
+
+
+<app-footer></app-footer>
+<script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+<!-- <script type="text/javascript">
+        Stripe.setPublishableKey('pk_test_oi0sKPJYLGjdvOXOM8tE8cMa');
+      </script>  -->

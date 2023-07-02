@@ -1,0 +1,18 @@
+/* You can add global styles to this file, and also import other style files */
+#main-wrapper[data-layout=vertical] .left-sidebar[data-sidebarbg=skin1], #main-wrapper[data-layout=vertical] .left-sidebar[data-sidebarbg=skin1] ul {background-color: #2d292a;}
+.sidebar-nav ul .sidebar-item .sidebar-link {font-weight: 500;}
+.sidebar-nav ul .sidebar-item.active > .sidebar-link, .sidebar-nav ul .sidebar-item.active > .sidebar-link i {color: #e4282f;}
+.card .card-title, .btn-link {    color: #e4282f !important;}
+.lstick{background-color:#e4282f;}
+.table-responsive {text-align: left;}
+.card-header:first-child {background-color: #e4282f !important;font-weight: 500;}
+
+.multi-btns button, .multi-btns a {
+line-height: normal;
+height: 35px;
+min-height: 35px;
+border-radius: 2px !important;
+display: flex;
+align-items: center;
+justify-content: center;
+}

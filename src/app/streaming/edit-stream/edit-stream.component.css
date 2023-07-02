@@ -1,0 +1,15 @@
+div#cdk-step-content-0-2 .ng-star-inserted label:before {
+  content: url("https://cdn1.iconfinder.com/data/icons/windows8_icons_iconpharm/26/checked_checkbox.png");
+}
+
+input[type=checkbox] {
+  display: none;
+}
+/*pure cosmetics:*/
+.productImg {
+  width: 150px;
+  height: 150px;
+}
+label {
+  margin: 10px;
+}

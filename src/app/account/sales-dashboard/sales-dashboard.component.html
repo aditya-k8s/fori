@@ -1,0 +1,84 @@
+<app-header></app-header>
+ 	<div class="container">
+	    <div class="row profile">
+			<div class="col-md-3">
+				<app-sidebar></app-sidebar>
+			</div>
+			 <div class="col-md-9">
+				<div class="profile-content" id="pc-sales-dashboard">
+				    <div class="card-body">
+					    <h3 class="card-title text-center sap-small-headings">Sales Dashboard</h3>
+					    <div class="account-shipping">
+							<div class="col-md-12">
+								<div class="row">
+									<div class="col-md-6" id="left-sec">
+										<div class="total-sales">
+											<p class="sub-title">Total Sales</p>
+											<p class="numeric">{{productSalesData | currency}}</p>
+											<!-- <ng-container *ngIf="chartOptions">
+												<highcharts-chart id="container" [Highcharts]="Highcharts" [options]="chartOptions"></highcharts-chart>
+											</ng-container> -->
+											<div id="container"></div>
+										</div>
+										<div class="store-rate" *ngIf="conversionData">
+											<div class="store-header">
+												<p class="sub-title">Online store conversion rate</p>
+												<p class="numeric">{{conversionData.onlineConversionReport}}%</p>
+												<p>CONVERSION FUNNEL</p>
+											</div>
+											<div class="row">
+												<div class="col-md-6">
+													<p>Added to cart</p>
+													<small class="text-muted">{{conversionData.addtocartSession}} sessions</small>
+												</div>
+												<div class="col-md-6">
+													<p>{{conversionData.addtocart}}%</p>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-md-6">
+													<p>Reached checkout</p>
+													<small class="text-muted">{{conversionData.checkoutSession}} sessions</small>
+												</div>
+												<div class="col-md-6">
+													<p>{{conversionData.checkout}}%</p>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-md-6">
+													<p>Sessions Converted</p>
+													<small class="text-muted">{{conversionData.SessionConversionReportSession}} sessions</small>
+												</div>
+												<div class="col-md-6">
+													<p>{{conversionData.SessionConversionReport}}%</p>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-md-6" id="right-sec">
+										<div class="ref-session">
+											<p class="sub-title">Top referrers by sessions</p>
+											<p class="sub-title text-muted">There sere no sessions in this date range.</p>
+										</div>
+										<div class="order-value">
+											<p class="sub-title">Average order value</p>
+											<p class="numeric">{{orderAvgSalesData | currency}}</p>
+											<!-- <ng-container *ngIf="chartOptions_">
+												<highcharts-chart id="container_" [Highcharts]="Highcharts" [options]="chartOptions_"></highcharts-chart>
+											</ng-container> -->
+											<div id="container_"></div>
+										</div>
+										<div class="payout">
+											<p class="head-title">Payout Schedule</p>
+											<p class="sub-title text-muted">There is no sessions in this date range.</p>
+										</div>
+									</div>
+								</div>
+							</div>
+					    </div>
+					  </div>
+	    		</div>
+    		</div>
+		</div>
+	</div>
+<app-footer></app-footer>

@@ -1,0 +1,127 @@
+ .order-md-2 .badge-pill {background-color: #e4282f;}
+.order-md-2 .card.p-2 .form-control {min-height: 49px;}
+
+.ship-add-title {
+    display: flex;
+}
+
+.ship-add-title input {
+    margin: 10px 10px 0 0px;
+}
+.select-old-address-head{display: flex;flex-wrap: wrap;}
+.checkout-main .select-old-address-head{width: 100%;}
+.old-address-inner {
+    background-color: #f2f2f2;
+    padding: 12px 10px;
+    border-radius: 3px;
+    font-size: 14px;
+    width: calc(33.3% - 14px);
+    margin: 7px;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: baseline;
+}
+.ship-add-title *{cursor: pointer;}
+
+/*.select-one-address{
+	display: none;
+}*/
+/*.newshipping_address{
+	display: block !important;
+}*/
+
+.ship-add-title label {
+    font-size: 1.5rem;
+}
+.checkout-payment-sec {
+    margin: 20px 0 0;
+}
+
+.checkout-expire-sec {
+    display: flex;
+    align-items: center;
+}
+
+.checkout-expire-sec span {
+    padding: 0px 10px;
+    margin: 10px 0 0;
+}
+
+.checkout-expire-sec-head label {
+    margin: 0;
+}
+#save-address-btn {
+    padding: 0;
+}
+
+.checkout-main .old-address-inner span button {
+    background-color: transparent;
+}
+.saved-address-inner .add-new-shipping-data {
+background-color: transparent;
+border: 0;
+margin: 0;
+padding: 0 0 8px;
+font-size: 14px;
+text-decoration:underline;
+}
+
+.saved-address-inner button:hover {
+color: #e4282f;
+}
+.select-one-address form {
+    margin: 0 0 30px;
+}
+
+
+
+
+
+
+
+
+
+@media(min-width: 1200px)
+{
+.select-saved-address {
+    flex-basis: 100%;
+    max-width: 70%;
+}
+
+.checkout-your-cart {
+    flex-basis: 100%;
+    max-width: 30%;
+}
+
+
+}
+.hide-stripe-form{
+    display: none !important;
+}
+
+.checkout-main #checkout-form {
+    position: relative;
+}
+
+.checkout-main #checkout-form .fa-spin-head {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #fff;
+    z-index: 1;
+}
+
+.checkout-main #checkout-form .fa-spin-head .fa-spin {
+    font-size: 30px;
+    color: #e25751;
+}
+.checkout-your-cart .list-group-item {border: 1px solid rgba(0,0,0,.125) !important;}
+.checkout-your-cart .list-group-item:first-child {border-bottom: 0 !important;}
+
+.checkout-your-cart .list-group-item.grey-back-text {
+    background-color: #e5e1d7;
+}
+

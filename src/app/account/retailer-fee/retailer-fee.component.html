@@ -1,0 +1,76 @@
+<app-header></app-header>
+ 	<div class="container">
+        <div class="row profile">
+			<div class="col-md-3">
+				<app-sidebar></app-sidebar>
+			</div>
+			 <div class="col-md-9">
+			 	<div class="container">
+			 		<div class="profile-content pc-retailer-fee" id="pc-retailer-fee">
+				       <div class="card-body">
+				       	<h3 class="card-title text-center sap-small-headings">Fori charges</h3>
+
+
+				       	<div class="main-retailer-head">
+					        <div class="select-retailer-plan">
+						         <label for="retailer" class="retailer-fee-inner" >
+						            <div class="retailer-title">
+						              <input type="radio" name="plan" [(ngModel)]="retailerFee" value="retailer" [disabled]="disable_retailer" [attr.checked]="retailer_checked === true" checked (change)="onPlanChange($event)" id="retailer">
+						            </div>
+						           
+						            	<div class="retailer-fee">
+						            		<span>FORI fee</span>
+						            		<span class="numeric">{{retailer_fee}}%</span>
+						            	</div>
+						            
+						        </label>
+					        </div>
+
+
+					       <div class="select-retailer-plan">
+						         <label for="subscription" class="retailer-fee-inner" >
+						            <div class="retailer-title">
+						              <input type="radio" name="plan" [(ngModel)]="retailerFee" value="subscription"  (change)="onPlanChange($event)" id="subscription" [checked]="checked">
+						            </div>
+						            <div>
+						            	<div class="monthly-subscription">
+						            		<span>Monthly Subscription</span>
+						            		<span class="numeric">$99</span>
+						            	</div>
+						            </div> 
+						        </label>
+					        </div>
+					        <div class="subscibe-form" [class.hide-subscibe-form]="subscribePlan == 'off'">
+						        <div class="subscibe" [class.hide-subscibe-form]="noSubscription">
+						        	<!-- *ngIf="subscribePlan == 'on'" -->
+							        <form id="susbsciption-form" #subscribe="ngForm" (ngSubmit)="__subscribe(subscribe)" class="subscribe">
+									    <div id="card-element">
+									      <!-- Elements will create input elements here -->
+									    </div>
+
+									    <!-- We'll put the error messages in this element -->
+									    <div id="card-errors" role="alert">{{ error }}</div>
+									    <!-- <div id="card-element-errors" role="alert"></div> -->
+									    <button type="submit">Subscribe</button>
+							  		</form>
+						        </div>
+						        <div class="sub-section" *ngIf="noSubscription">
+						        	
+							        <div class="sub-section-inner">
+							        	<span>Subscription Plan : {{subData.plan_interval}}</span>
+							        	<span>Amount : ${{subData.amount}}</span>
+							        	<span>Start Date : {{subData.current_period_start * 1000 | date:'dd/MM/yyyy'}}</span>
+							        	<span>Expiry Date : {{subData.current_period_end * 1000 | date:'dd/MM/yyyy'}}</span>
+							        </div>
+							        <button (click)="__cancelSubscription(subData.subscriptionId)">Cancel Subscription</button>
+						        </div>
+						    </div>
+						    </div>
+
+				       </div>
+				   </div>
+				</div>
+			</div>
+		</div>
+	</div>
+<app-footer></app-footer>

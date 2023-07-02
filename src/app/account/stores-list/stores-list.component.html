@@ -1,0 +1,132 @@
+<app-header></app-header>
+
+ 	<div class="container">
+	    <div class="row profile">
+			<div class="col-md-3">
+				<app-sidebar></app-sidebar>
+			</div>
+			 <div class="col-md-9">
+				<div class="profile-content" id="connected-store">
+				    <div class="card-body">
+					    <h3 class="card-title text-center sap-small-headings">My Store</h3>
+                        <section class="inventory-page inventory-cloned-connected-store">
+                            <div class="inventory-thumb-head">           
+                                <div class="inventory-thumb-inner" *ngFor="let s of store_data">
+                                    <a href="javascript:void(0)" class="inven-thumbs" (click)="addProductBroadcast(s.id)">
+                                        <span *ngIf="s.store == 'Shopify'">
+                                            <img src="{{image_url+s.channel_logo}}" onerror="this.src='assets/images/shopper_default_icon.jpg'">
+                                        </span>
+                                        <span *ngIf="s.store == 'Wordpress'">
+                                            <img src="assets/images/wordpress.png">
+                                        </span>
+                                        <div class="overlay">
+                                            <span class="thumb-des">
+                                                <div class="thumb-title" [innerHTML]="s.store_name"></div>
+                                            </span>
+                                        </div>
+                                    </a>
+                                    <div class="tag-head-main">
+                                        <div class="tag-head">
+
+                                          <!--   <a (click)="change_status(s.status,s.id)">
+                                                <span *ngIf="s.status == '0'" class="tags-inner" id="tag-head-main-inactive">In-Active</span>
+                                            </a> -->
+                                            <a>
+                                                <span *ngIf="s.status == '0'" class="tags-inner" id="tag-head-main-inactive">In-Active</span>
+                                            </a>
+                                            <a>
+                                                <span *ngIf="s.status == '1'" class="tags-inner" id="tag-head-main-active">Active</span>
+                                            </a>
+                                            <a>
+                                                <span *ngIf="s.status == '2'" class="tags-inner" id="tag-head-main-published">Published</span>
+                                            </a>
+                                        </div>
+                                        <div class="actions-head">
+                                            <a class="edit-btn" (click)="editStore(s.id)"><i class="far fa-edit"></i></a>
+                                            <a [routerLink]="['/channel', s.channel_name]"class="view-btn"><i class="far fa-eye"></i></a>
+                                            <a class="del-btn" (click)="deleteStore(s.id)"><i class="far fa-trash-alt"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- <div class="inventory-thumb-inner" id="tri-btn-head">
+                                    <a (click)="addStore()" class="inven-thumbs">
+                                      <ul class="tri-btn">
+                                        <li class="sap-btn-light"><a><i class="fas fa-plus"></i> Add Store</a></li>
+                                      </ul>
+                                    </a>
+                                  </div> -->
+                            </div>
+                        </section>
+
+					</div>
+	    		</div>
+    		</div>
+		</div>
+	</div>
+<app-footer></app-footer>
+
+<div class="modal" style="display: block; background-color: rgba(0, 0, 0, 0.32); z-index: 111;" [style.display]="isDeleteModal ? 'block' : 'none'" *ngIf="isDeleteModal">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Remove Item</h5>
+          <button type="button" (click)="closeDelete()" class="close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <h6>Are you sure you want to remove this store?</h6>
+        </div>
+        <div class="modal-footer">
+            <div class="sap-btn-dark grey-btn">
+                <button type="button" class="btn btn-secondary" (click)="closeDelete()">No</button>
+            </div>
+            <div class="sap-btn-dark">
+                <button type="button" class="btn btn-primary" (click)="yesDelete()">Yes</button>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<!-- <div class="modal" style="display: block; background-color: rgba(0, 0, 0, 0.32); z-index: 111;" [style.display]="isAddStore ? 'block' : 'none'" *ngIf="isAddStore">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Shopify Details</h5>
+          <button type="button" class="close" (click)="closeModal()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <form [formGroup]="thirdFormGroup">
+                <div class="form-group">
+                    <label>Store Name</label>
+                    <input class="form-control" formControlName="store_name" [ngClass]="{ 'is-invalid': submitted && fe.store_name.errors }">
+                    <div *ngIf="submitted && fe.store_name.errors" class="invalid-feedback">
+                        <span class="for-sub-name" *ngIf="fe.store_name.errors.required">Store Name is required</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Public Key</label>
+                    <input class="form-control" formControlName="public_key" [ngClass]="{ 'is-invalid': submitted && fe.public_key.errors }">
+                    <div *ngIf="submitted && fe.public_key.errors" class="invalid-feedback">
+                        <span class="for-sub-name" *ngIf="fe.public_key.errors.required">Public Key is required</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input class="form-control" formControlName="private_key" [ngClass]="{ 'is-invalid': submitted && fe.private_key.errors }">
+                    <div *ngIf="submitted && fe.private_key.errors" class="invalid-feedback">
+                        <span class="for-sub-name" *ngIf="fe.private_key.errors.required">Password is required</span>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-danger" (click)="closeModal()">Close</button>
+            <button type="button" class="btn btn-success" (click)="shopifyDetailsSubmit()">Save</button>
+        </div>
+      </div>
+    </div>
+  </div> -->

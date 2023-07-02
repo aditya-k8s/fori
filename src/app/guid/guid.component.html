@@ -1,0 +1,55 @@
+<app-header></app-header>
+	<section class="guid-user">
+	    <div class="container">
+	    	<div class="sap-med-headings">Almost There!</div>
+	    	<div class="guid-user-inner">
+		    	<div class="guid-left-sec" >
+		    		<span class="title">We Are Here To Help!</span>
+		    		<p>Book A Call With Our Store Specialist</p>
+		
+		    		<div class="calender-owl">
+					    	
+		    			<full-calendar *ngIf="calendarOptions" [options]="calendarOptions" ></full-calendar> 
+
+					   
+					</div>
+					<!-- <div class="TimeSlots"></div> -->
+
+		    	</div>
+		    	<div class="guid-right-sec" *ngIf="user_type == 1">
+		    		<span class="title">Next Steps…</span>
+		    		<div class="guid-steps">
+		    			<ol>
+		    				<li>Setup Store Profile</li>
+		    				<li>Add Products to sell</li>
+		    				<li>Edit product On air prices and Off air prices</li>
+		    				<li>Create Boroadcast</li>
+		    				<li>Schedule Your Live</li>
+		    			</ol>
+		    		</div>
+		    		<div class="sap-btn-dark">
+				        <button class="btn btn-primary" routerLink="/create-store">Save & Continue              		
+	              		</button>
+	              	</div>
+		    	</div>
+
+		    	<div class="guid-right-sec" *ngIf="user_type == 3">
+		    		<span class="title">Next Steps…</span>
+		    		<div class="guid-steps">
+		    			<ol>
+		    				<li>Schedule a Live Session</li>
+		    				<li>Accept a Live Request</li>
+		    				<li>View Live Invites from Stores</li>
+		    				<li>Request a Live of a Store</li>
+		    				<li>Join a Live</li>
+		    			</ol>
+		    		</div>
+		    		<div class="sap-btn-dark">
+				        <button class="btn btn-primary" routerLink="/influencer-profile">Schedule a Live Session              		
+	              		</button>
+	              	</div>
+		    	</div>
+	    	</div>
+	    </div>
+	</section>
+<app-footer></app-footer>

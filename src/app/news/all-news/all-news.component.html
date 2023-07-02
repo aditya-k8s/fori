@@ -1,0 +1,23 @@
+<app-header></app-header>
+<section class="in-the-news">
+    <div class="container in-the-news-inner">
+      <div class="sap-med-headings">FORI.LIVE in the News</div>
+      <div class="row flips-head">
+        <div class="col-md-4" *ngFor="let news of news_data;let i = index">
+          <div class="flip">
+            <div class="front" style="background-image: url({{image_url}}{{news.image}})">
+            </div>
+            <div class="back">
+               <h2 [innerHTML]="news.title"></h2>
+               <p [innerHTML]="news.description.slice(0, 100) + '...'"></p>
+               <a href="javascript:void(0)" id="text-red">Read More</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-12" *ngIf="totalNewsData">
+          <div class="sap-btn-dark"><a href="javascript:void(0)" (click)="allNews(news_data.length,6)">View More</a></div>        
+        </div>
+      </div>
+    </div>
+</section>
+<app-footer></app-footer>

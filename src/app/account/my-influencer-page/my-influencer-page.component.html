@@ -1,0 +1,161 @@
+<app-header></app-header>
+<section class="cover-sec">
+    <div class="container">
+        <div class="profile-main-cover"><img src="{{image_url+influencerData.banner}}" alt="" onerror="this.src='assets/images/banner.jpg'"></div>
+    </div>
+</section>
+<section class="profile-sec influencer-profile-sec">
+    <div class="container" *ngIf="influencerData">
+        <div class="influencer-left-sec-head">
+        <div class="left-sec">
+            <div class="profile-des-head">
+                <div class="profile-photo"> <img src="{{influencerData.profile_pic}}" alt="" onerror="this.src='assets/images/influencer_default_icon.jpg'"></div>
+                <div class="profile-des">
+                    <div class="pro-name">
+                        <span class="pro-name-inner">{{influencerData.first_name}}  {{influencerData.last_name}}</span>
+                        <span class="pro-name-badge"><i class="fas fa-check-circle"></i></span>
+                    </div>
+                    <div class="pro-designation">{{influencerData.designation}}</div>
+                    <div class="pro-un">{{influencerData.username}} </div>
+                    
+                    <div class="pro-followers">{{influencerData.totalFolower}} Followers</div>
+                </div>
+            </div>
+            <div class="profile-sec-btns">
+                <button class="follow-btn" (click)="toggleFollowing(influencerData.user_id,influencerData.id)"  [ngClass]="{ 'disabled': submitted,
+               'btn-outline-secondary': !following,
+               'btn-secondary': following }"
+               > {{ following ? 'Unfollow' : 'Follow' }}</button>
+                <button  class="share-btn" data-toggle="modal" data-target="#social-share-pop">Share <i  class="fas fa-share-alt"></i></button>
+            </div>
+            <div class="profile-sec-followers">
+               
+                    <!-- <div class="pro-sec-follow-img" *ngFor="let followers of influencerData.followers_list;">
+                
+                        <img src="{{followers.profile_pic}}" alt="">
+                    </div> -->
+                
+                <div class="pro-sec-follow-text" > {{influencerData.totalFolower}} Followers</div>
+            </div>
+            <div class="follow-quote-line">Click 'Follow' to get notified when {{influencerData.username}} goes LIVE.</div>
+        </div>
+          <div class="influencer-left-sec-bot-con">
+            <div class="influencer-block-head">
+                    <div class="influencer-block-inner" *ngIf="testimonialsCat.length>0">
+                        <div class="influencer-block-heading">
+                        Interest Brands
+                        </div>
+                        <div class="influencer-block-con">
+                        <ul>
+                            <li *ngFor="let category of testimonialsCat;let i = index">
+                                {{category}}
+                            </li>
+                        </ul>
+                        </div>
+                    </div>
+                    <div class="influencer-block-inner">
+                        <div class="influencer-block-heading">
+                        Social Channel Links
+                        </div>
+                        <div class="influencer-block-con">
+                        <ul class="influencer-social-links">
+                            <li *ngIf="influencerData.fb_link">
+                                <a  [attr.href]="'//' + influencerData.fb">
+                                    <i class="fab fa-facebook-f"></i>
+                                </a>
+                            </li>
+
+                            <li *ngIf="influencerData.insta_link">
+                                <a [attr.href]="'//' + influencerData.insta_link">
+                                    <i class="fab fa-instagram"></i>
+                                </a>
+                            </li>
+                        </ul>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+        <div class="right-sec">
+          
+            <div class="welcome-video" *ngIf="welcomeVedio">
+                <iframe width="650" height="340" [src]="url | safe" title="video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+
+            <div class="testimonial-sec" *ngIf="testimonials.length > 0">
+                <div class="influencer-block-heading">
+                Testimonials
+                </div> 
+                <div class="testimonial-des-block-head">
+                    <div class="pro-des-block-inner" *ngFor="let testimonial of testimonials;let i = index">
+                        <div [innerHtml]="testimonial.description"></div>
+                        <div class="testimonial-bot-block">
+                           <!--  <span class="star-rating-influencer">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </span> -->
+                            <span class="testimonial-user-name">{{testimonial.title}}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="sap-btn-dark" *ngIf="testimonials.length > 0">
+                    <button [disabled]="loading" (click)="viewMoreTestimonial(testimonials.length,3)">view more
+                    <i class="fa fa-spinner fa-spin" *ngIf="loading"></i>
+                    </button>
+                </div>
+            </div>
+       
+
+            <div class="influencer-block-head">
+                <!-- <div class="influencer-block-inner">
+                    <div class="influencer-block-heading">
+                    Story
+                    </div>
+                    <div class="influencer-block-con">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce molestie pellentesque nunc, non fermentum massa commodo sit amet. Nulla scelerisque consequat tincidunt.
+                    </div>
+                </div>
+                
+                <div class="influencer-block-inner">
+                    <div class="influencer-block-heading">
+                    Story
+                    </div>
+                    <div class="influencer-block-con">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce molestie pellentesque nunc, non fermentum massa commodo sit amet. Nulla scelerisque consequat tincidunt.
+                    </div>
+                </div> -->
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<div class="modal fade" id="social-share-pop" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content col-12">
+            <div class="modal-header">
+                <h5 class="modal-title">Share</h5> <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+            </div>
+           <!--  <share-buttons  [url]="'http://fori.kindlebit.com/'"></share-buttons> -->
+            <share-buttons 
+             [include]="['facebook','twitter','linkedin','messenger','whatsapp','email','copy']"
+             
+             [size]="2"
+             [url]="'http://fori.kindlebit.com/'"
+             [image] ="'https://fori.kindlebit.com/assets/images/logo.png'"
+             [autoSetMeta]="false"
+            ></share-buttons>
+            <div class="modal-footer"> <label style="font-weight: 600">Page Link <span class="message"></span></label><br />
+                <div class="row"> <input class="col-10 ur" type="url" [value]="href" #userinput id="myInput" aria-describedby="inputGroup-sizing-default" style="height: 40px;"> 
+                    
+                    <button class="cpy" (click)="copyUrl(userinput)"><i class="far fa-clone"></i></button> 
+                    <p class="text-success">{{copied}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<app-footer></app-footer>

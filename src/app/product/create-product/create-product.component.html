@@ -1,0 +1,71 @@
+<app-header></app-header>
+  <section class="create-new-product inventory-page" id="fetch-products">
+    <div class="grid-container">
+    <app-ng-dynamic-breadcrumb></app-ng-dynamic-breadcrumb>
+      <div class="sap-med-headings text-center">Fetch Products From Shopify</div>
+        <form [formGroup]="searchForm" (ngSubmit)="searchProducts(searchForm.value)">
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label>Product Name</label>   
+                <div class="fetch-prod-form-head">
+                <input id="searchqry" type="text" class="form-control" formControlName="searchqry" [ngClass]="{ 'is-invalid': submitted && formError.searchqry.errors }">
+                <div *ngIf="submitted && formError.searchqry.errors" class="invalid-feedback">
+                    <span class="for-sub-name" *ngIf="formError.searchqry.errors.required" >Product name required </span>
+                </div>
+                <div class="sap-btn-dark">
+                  <button type="submit" [disabled]="loading1" class="btn btn-primary btn-block">Search Product
+                  <i class="fa fa-spinner fa-spin" *ngIf="loading1"></i>
+                </button>
+              </div>
+              </div>
+            </div>
+
+             <!-- <a routerLink="/inventory" class="button-link">Go Live!</a> -->
+          </div>
+        </form>
+        
+
+
+        <!-- <div class="row">
+          <div class="col-12 col-sm-6 col-md-4 col-lg-3" *ngFor="let product of matchingProducts">
+          <input type="checkbox" class="imageBox" id="{{product.node.id}}" [value]="product.node.id" (change)="onChecked(product, $event)">
+            <label for="{{product.node.id}}">
+              <img [src]="product.node.images.edges[0].node.originalSrc" class="productImg">
+            </label>
+          <span>{{product.node.title}}</span>
+        </div>
+        </div> -->
+
+         <div class="inventory-thumb-head">
+           <div class="inventory-thumb-inner" *ngFor="let product of matchingProducts">
+              <div class="inven-thumbs">
+                <img  *ngIf="product.node.images.edges[0]" [src]="product.node.images.edges[0].node.originalSrc" class="productImg" alt="Product Image" onerror="this.src='assets/images/product-icon.jpg'">
+                <img  *ngIf="!product.node.images.edges[0]" src="./assets/images/product-icon.jpg" class="productImg" alt="Product Image">
+
+                <div class="overlay">
+                  <!-- <span class="inventory-tag">Product</span> -->
+                  <span class="thumb-des">
+                    <div class="thumb-title">{{product.node.title}}</div>
+                    <div class="thumb-hours">Updated 5 hours ago</div>
+                  </span>
+                  <label class="check-btn-sap" for="{{product.node.id}}">
+                       <input type="checkbox" class="imageBox" id="{{product.node.id}}" [value]="product.node.id" (change)="onChecked(product, $event)">
+                      <span class="checkmark"></span>
+                  </label>
+                </div>
+              </div>
+              <!-- <div class="tag-head">
+                <span class="tags-inner">Streaming Content</span>
+                <span class="tags-inner">Avail. U.S. & Intl</span>
+              </div> -->
+            </div>
+         </div>
+        <div class="foot-btn sap-btn-dark">
+        <button (click)="saveProducts()" *ngIf="productLength != 0" [disabled]="loading">Save Products
+          <i class="fa fa-spinner fa-spin" *ngIf="loading"></i>
+        </button>
+        </div>
+
+      </div>
+  </section>
+<app-footer></app-footer>

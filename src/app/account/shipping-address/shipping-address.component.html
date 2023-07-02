@@ -1,0 +1,178 @@
+<app-header></app-header>
+ 	<div class="container">
+	    <div class="row profile">
+			<div class="col-md-3">
+				<app-sidebar></app-sidebar>
+			</div>
+
+			 <div class="col-md-9">
+				<div class="profile-content" id="pc-shipping-address">
+				    <div class="card-body">
+					    <h3 class="card-title text-center sap-small-headings">Billing/Shipping Address</h3>
+					    <div class="account-shipping">
+					        <div class="saved-address-inner">
+
+						        <button class="add-new-shipping-data"data-toggle="modal" data-target="#profile_shippingModal" (click)="__addAddress()"><i class="fas fa-plus" ></i> Add new Shipping Address</button>
+						    </div>
+
+						    <div class="select-old-address-head" >
+					          <label for="{{i}}" class="old-address-inner" *ngFor ="let address of addresses;let i = index">
+					            <!-- <div class="ship-add-title">
+					              <input type="radio" name="saved-add"  value="{{address.id}}"  checked (change)="onAddressChange($event)" id="{{i}}">
+					            </div> -->
+
+					            <div class="select-old-address">
+					            	<div class="select-old-address-inner">
+
+						              <b>{{address.fullname}}</b><br/>
+						              {{address.address}} {{address.address_1}} <br/>
+						              {{address.city}},{{address.state}} {{address.pin_code}} <br/>
+						              {{address.country}} <br/>
+						              {{address.contact_no}}
+					              	</div>
+					              	<div class="old-address-action-btn">
+					              		<button (click)="__editAddress(i)" class="edit-address" data-toggle="modal" data-target="#profile_shippingModal">
+					              			<i  class="far fa-edit"></i>
+					              		</button>
+					              		<button (click)="__deleteAddress(address.id)"class="delete-address">
+					              			<i class="far fa-trash-alt"></i>
+					              		</button>
+					              	</div>
+					            </div>
+					          </label>
+					        </div>
+
+					     </div>
+
+
+					   
+					  </div>
+
+	    		</div>
+    		</div>
+		</div>
+	</div>
+
+	<div  class="modal" id="profile_shippingModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Add Or Edit Address</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body shipping-address">
+      		<div class="card-text">
+
+					     <form [formGroup]="shippingForm" (ngSubmit)="onSubmit(shippingForm.value)">
+
+					        <div class="form-group col-md-6">
+					          <label>First name </label>   
+					          <input id="fullname" type="text" class="form-control" formControlName="fullname" [ngClass]="{ 'is-invalid': submitted && f.fullname.errors }" >
+					            <div *ngIf="submitted && f.fullname.errors" class="invalid-feedback">
+					                <span class="for-sub-name" *ngIf="f.fullname.errors.required" >Full name required </span>
+					            </div>
+					        </div>
+
+					         <div class="form-group col-md-6">
+					          <label>Last name </label>   
+					          <input id="last_name" type="text" class="form-control" formControlName="last_name" [ngClass]="{ 'is-invalid': submitted && f.last_name.errors }" >
+					            <div *ngIf="submitted && f.last_name.errors" class="invalid-feedback">
+					                <span class="for-sub-name" *ngIf="f.last_name.errors.required" >Last name required </span>
+					            </div>
+					        </div>
+
+					        <div class="form-group col-md-6">
+						        <label>Contact Number</label>
+						            <input id="contact_no" type="text" maxlength="15" class="form-control" minlength="10" formControlName="contact_no" [ngClass]="{ 'is-invalid': submitted && f.contact_no.errors }">
+						            <div *ngIf="submitted && f.contact_no.errors" class="invalid-feedback">
+						            <span class="for-sub-name" *ngIf="f.contact_no.errors.required" >Contact number required </span>
+						             <span *ngIf="f.contact_no.errors.minlength">Contact number must be at least 10 characters</span>
+
+						         </div>
+						    </div>
+
+					        <div class="form-group col-md-6" >
+					          <label>Address</label>
+					             <input id="address" type="text" class="form-control" formControlName="address" [ngClass]="{ 'is-invalid': submitted && f.address.errors }"  >
+					              <div *ngIf="submitted && f.address.errors" class="invalid-feedback">
+					                  <span class="for-sub-name" *ngIf="f.address.errors.required" >Address required </span>
+					                
+					              </div>
+					        </div>
+
+					        <div class="form-group col-md-6" >
+					          <label>Second Address</label>
+					             <input id="address_1" type="text" class="form-control" formControlName="address_1" [ngClass]="{ 'is-invalid': submitted && f.address_1.errors }"  >
+					              <div *ngIf="submitted && f.address_1.errors" class="invalid-feedback">
+					                  <span class="for-sub-name" *ngIf="f.address_1.errors.required" >Second Address required </span>
+					              </div>
+					        </div>
+
+					        <div class="form-group col-md-6">
+					          <label>City</label>
+					            <input id="city" type="text" class="form-control" formControlName="city" [ngClass]="{ 'is-invalid': submitted && f.city.errors }" >
+					            <div *ngIf="submitted && f.city.errors" class="invalid-feedback">
+					                  <span class="for-sub-name" *ngIf="f.city.errors.required" >City required </span>
+					              </div>
+					        </div>
+
+
+					        <div class="form-group col-md-6" >
+					          <label for="country">country</label>
+					          <select id="country" class="form-control" formControlName="country" [ngClass]="{ 'is-invalid': submitted && f.country.errors }" >
+					            <option selected="selected" *ngFor ="let country of countries">{{country.name}}</option>
+					          </select>
+
+					          <div *ngIf="submitted && f.country.errors" class="invalid-feedback">
+					                  <span class="for-sub-name" *ngIf="f.country.errors.required" >Country required </span>
+					              </div>
+					        </div>
+
+					        <div class="form-group col-md-6">
+					          <label>State</label>
+					           <select id="state" class="form-control" formControlName="state" [ngClass]="{ 'is-invalid': submitted && f.state.errors }">
+					            <option *ngFor ="let state of states" [value]="state.id">{{state.name}}</option>
+					          </select>
+					            <div *ngIf="submitted && f.state.errors" class="invalid-feedback">
+					                  <span class="for-sub-name" *ngIf="f.state.errors.required" >State required </span>
+					              </div>
+					        </div>
+
+
+					        <div class="form-group col-md-6">
+					          <label>Zip Code</label>
+
+					            <input id="pin_code" type="text" class="form-control" formControlName="pin_code" [ngClass]="{ 'is-invalid': submitted && f.pin_code.errors }" >
+					            <div *ngIf="submitted && f.pin_code.errors" class="invalid-feedback">
+					                  <span class="for-sub-name" *ngIf="f.pin_code.errors.required" >Zip Code required </span>
+					              </div>
+					        </div>
+
+					         <div class="form-group col-md-6" >
+					          	<label for="address_type">Address Type</label>
+					          	<select id="address_type" class="form-control" formControlName="address_type" [ngClass]="{ 'is-invalid': submitted && f.address_type.errors }">
+					            <option selected="selected" value="Billing">Billing</option>
+					            <option value="Shipping">Shipping</option>
+					            <option value="Both">Both</option>
+					             
+					          </select>
+
+					          <div *ngIf="submitted && f.address_type.errors" class="invalid-feedback">
+					                  <span class="for-sub-name" *ngIf="f.address_type.errors.required" >Address Type required </span>
+					              </div>
+					        </div>
+					        <div class="sap-btn-dark">
+						        <button type="submit" class="btn btn-primary btn-block" [disabled]="loading">Save
+						        	<i class="fa fa-spinner fa-spin" *ngIf="loading"></i>
+						        </button>
+					    	</div>
+					      </form>
+			</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-footer></app-footer>

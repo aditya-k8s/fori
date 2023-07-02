@@ -1,0 +1,100 @@
+<app-header></app-header>
+ <div class="container">
+        <div class="row profile">
+            <div class="col-md-3">
+            	<app-sidebar></app-sidebar>
+            </div>
+             <div class="col-md-9">
+                <div class="profile-content" id="pc-my-payments">
+                   <div class="card-body">
+                <h3 class="card-title text-center sap-small-headings">Payment information</h3>
+                <div class="card-text">
+
+                <form [formGroup]="paymentForm" (ngSubmit)="onSubmit(paymentForm.value)">
+                    <!-- to error: add class "has-danger" -->
+                    <div class="form-group col-md-6">
+                      <label>Bank Name </label>   
+                       <!--  <input type="text" class="form-control" placeholder=""> -->
+                        <input id="bank_name" type="text" class="form-control" formControlName="bank_name" [ngClass]="{ 'is-invalid': submitted && f.bank_name.errors }" >
+                        <div *ngIf="submitted && f.bank_name.errors" class="invalid-feedback">
+                            <span class="for-sub-name" *ngIf="f.bank_name.errors.required" >Bank Name is required </span>
+                        </div>
+                    </div>
+	                <div class="form-group col-md-6" >
+	                    <label>Address</label>
+	                       <input id="bank_address" type="text" class="form-control" formControlName="bank_address" [ngClass]="{ 'is-invalid': submitted && f.bank_address.errors }">
+	                        <div *ngIf="submitted && f.bank_address.errors" class="invalid-feedback">
+	                            <span class="for-sub-name" *ngIf="f.bank_address.errors.required" >Bank Address is required </span>
+	                    </div>
+	                </div>
+                    <div class="form-group col-md-6"  >
+                      <label>Account #</label>
+                        <!-- <input type="text" class="form-control" placeholder=" "> -->
+                         <input id="account" type="text" class="form-control" formControlName="account" [ngClass]="{ 'is-invalid': submitted && f.account.errors }"  >
+                          <div *ngIf="submitted && f.account.errors" class="invalid-feedback">
+                              <span class="for-sub-name" *ngIf="f.account.errors.required" >Account is required </span>
+                          </div>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                      <label>Routing #</label>
+                        <input id="routing" type="text" class="form-control" formControlName="routing"  [ngClass]="{ 'is-invalid': submitted && f.routing.errors }">
+                        <div *ngIf="submitted && f.routing.errors" class="invalid-feedback">
+                            <span class="for-sub-name" *ngIf="f.routing.errors.required" >Routing is required </span>
+                          </div>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                      <label>business name</label>
+                        <input id="business_name" type="text" class="form-control" formControlName="business_name"  >
+                        <!-- <div *ngIf="submitted && f.business_name.errors" class="invalid-feedback">
+                              <span class="for-sub-name" *ngIf="f.business_name.errors.required" >Business Name is required </span>
+                          </div> -->
+                    </div>
+
+                    <div class="form-group col-md-6">
+                      <label>business address</label>
+                        <input id="business_address" type="text" class="form-control" formControlName="business_address"  >
+                        <!-- <div *ngIf="submitted && f.business_address.errors" class="invalid-feedback">
+                              <span class="for-sub-name" *ngIf="f.business_address.errors.required" >Business Address is required </span>
+                          </div> -->
+                    </div>
+
+                    <div class="form-group" >
+                      <input id="business_doc" type="file" class="form-control"  (change)="handleFileInput($event)" file name="file" >
+                        <!-- <div *ngIf="submitted && f.business_doc.errors" class="invalid-feedback">
+                              <span class="for-sub-name" *ngIf="f.business_doc.errors.required" >Business Document is required </span>
+                          </div> -->
+                    </div>
+                    <div class="sap-btn-dark grey-btn download-file d-block" >
+                    <a href="{{image_url+getData}}" download *ngIf="isFileSelected"><i class="fas fa-file-download"></i> Download File</a>
+                  </div>
+                      
+                  <!--   <a (click)="addNewDocument()">Add new Business Document</a> -->
+
+                    <!--  <div class="form-group">
+                        <div class="crop-img-section">
+			                <ngx-file-drop dropZoneLabel="Drop files here" (onFileDrop)="dropped($event)" 
+			                >
+			                    <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
+			                      <p>Drop a Banner Image</p>
+			                      <button type="button" (click)="openFileSelector()">Upload Banner</button>
+			                      <div class="text-muted small mt-1">(Recommended Image dimensions are 1280 x 768)</div>
+			                    </ng-template>
+			                </ngx-file-drop>
+			            </div>
+                    </div> -->
+
+                    <div class="sap-btn-dark">
+	                    <button type="submit" class="btn btn-primary btn-block" [disabled]="loading">Save Details
+	                     <i class="fa fa-spinner fa-spin" *ngIf="loading"></i>
+	                    </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<app-footer></app-footer>

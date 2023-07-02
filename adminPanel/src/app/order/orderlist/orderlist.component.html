@@ -1,0 +1,188 @@
+<div class="row orderlistpage">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-lg-4 col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Total Order</h4>
+                        <p class="card-text" [innerHTML]="orderlist?.length"></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Total Amount</h4>
+                        <p class="card-text" [innerHTML]="total_amount"></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Shipping Fee</h4>
+                        <p class="card-text" [innerHTML]="shipping_fee"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card card-inverse">
+            <div class="col-md-12">
+                <div class="pt-3">
+                    <h4 class="card-title"><span class="lstick"></span>Order List</h4>
+                </div>
+				<div class="row mt-2">
+					<div class="col-12 col-sm-5 align-self-center">
+                        <div class="row">
+                            <div class="col-md-5">
+                                <input [(ngModel)]="search" class="form-control" placeholder="Search">
+                            </div>
+                            <div class="col-md-4">
+                                <select class="form-control">
+                                    <option value="01">January</option>
+                                    <option value="02">February</option>
+                                    <option value="03">March</option>
+                                    <option value="04">April</option>
+                                    <option value="05">May</option>
+                                    <option value="06">June</option>
+                                    <option value="07">July</option>
+                                    <option value="08">August</option>
+                                    <option value="09">September</option>
+                                    <option value="10">October</option>
+                                    <option value="11">November</option>
+                                    <option value="12">December</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3" *ngIf="!isLoading && !isRecord">
+                                <button title="Export to Excel" class="btn btn-success btn-xs mr-2" (click)="exportexcel()">
+                                    <i class="fa fa-file-excel fa-2x"></i>
+                                </button>
+                                <button title="Download PDF" class="btn btn-success btn-xs" (click)="downloadPDF()">
+                                    <i class="fa fa-file-pdf fa-2x"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+					<div class="col-12 col-sm-7">
+                        <form class="" [formGroup]="filterForm" (ngSubmit)="filterDate(filterForm.value)">
+                            <div class="row">
+                                <div class="col-12 col-sm-4">
+                                    <div class="date-block__list">
+                                        <label for=""> From Date</label>
+                                        <input type="date" class="form-control" formControlName="fromDate" placeholder="Streaming content title" [ngClass]="{ 'is-invalid': submitted && f.fromDate.errors }">
+                                        <div *ngIf="submitted && f.fromDate.errors" class="invalid-feedback">
+                                          <span class="for-sub-name" *ngIf="f.fromDate.errors.required" >From Date required </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-sm-4">
+                                    <div class="date-block__list">
+                                        <label for=""> To Date</label>
+                                           <input type="date" class="form-control" formControlName="toDate" placeholder="From Date" [ngClass]="{ 'is-invalid': submitted && f.toDate.errors }">
+                                           <div *ngIf="submitted && f.toDate.errors" class="invalid-feedback">
+                                             <span class="for-sub-name" *ngIf="f.toDate.errors.required" >To Date required </span>
+                                           </div>
+                                      </div>
+                                </div>
+                                <div class="col-12 col-sm-2 align-self-end">
+                                    <button type="submit" class="btn btn-primary btn-sm btn-block mr-2" [disabled]="loading">Filter
+                                        <i class="fa fa-spinner fa-spin" *ngIf="loading"></i>
+                                    </button>
+                                </div>
+                                <div class="col-12 col-sm-2 align-self-end">
+                                    <button type="button" class="btn btn-primary btn-sm btn-block" [disabled]="loading" (click)="ClearFilter()">Clear
+                                        <i class="fa fa-spinner fa-spin" *ngIf="loading"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+				</div>
+			</div>
+            <div class="card-body">
+                <div class="table-responsive" #epltable>
+                    <table class="table vm no-th-brd pro-of-month mb-0 v-middle">
+                        <thead>
+                            <tr>
+                                <th >#</th>
+                                <th >OrderId</th>
+                                <th >UserName</th>
+                                <th >Total items</th>
+                                <th >Total Amount</th>
+                                <th >Currency</th>
+                                <th >Order Date</th>
+                                <th >Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let data of orderlist | filter : search; let i=index">
+                                <td>{{i+1}}</td>
+                                <td>{{data.order_id}}</td>
+                                <td>
+                                    <span *ngIf="data.profile_pic != null">
+                                        <img src="{{data.profile_pic}}" style="width: 90px;height: 90px;" class="img-fluid loading">
+                                    </span>
+                                    {{data.username}}
+                                </td>
+                                <td>{{data.total_items}}</td>
+                                <td>{{data.total_amount}}</td>
+                                <td>{{data.currency}}</td>
+                                <td>{{data.create_date | date : 'MM/dd/yyyy'}}</td>
+                                <td>
+                                    <div class="btn-group">
+                                        <span *ngIf="data.status == 'paid'">
+                                            <button type="button" class="btn btn-success btn-xs">{{data.status | titlecase}}</button>
+                                        </span>
+                                        <span *ngIf="data.status == 'uppaid'">
+                                            <button type="button" class="btn btn-warning btn-xs">Unpaid</button>
+                                        </span> 
+                                        <span *ngIf="data.status == 'canceled'">
+                                            <button type="button" class="btn btn-warning btn-xs">Canceled</button>
+                                        </span>
+                                        <a [routerLink]="['/order/order-details']"[queryParams]="{ order_id: data.order_id, user_id : data.user_id}"><button type="button" class="btn btn-info btn-xs"><i class="far fa-eye"></i></button></a>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr *ngIf="isLoading == true">
+                                <td colspan="8" class="text-center"><i class="fa fa-spinner fa-spin fa-2x"></i><br>loading data....</td>
+                            </tr>
+                            <tr *ngIf="isRecord == true">
+                                <td colspan="8" class="text-center">No record found!!</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <table class="table vm no-th-brd pro-of-month mb-0 v-middle" style="display: none;" id="epltable">
+                        <thead>
+                            <tr>
+                                <th >#</th>
+                                <th >OrderId</th>
+                                <th >UserName</th>
+                                <th >Total items</th>
+                                <th >Total Amount</th>
+                                <th >Currency</th>
+                                <th >Order Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let data of orderlist | filter : search; let i=index">
+                                <td>{{i+1}}</td>
+                                <td>{{data.order_id}}</td>
+                                <td>
+                                    <span *ngIf="data.profile_pic != null">
+                                        <img src="{{data.profile_pic}}" style="width: 90px;height: 90px;" class="img-fluid loading">
+                                    </span>
+                                    {{data.username}}
+                                </td>
+                                <td>{{data.total_items}}</td>
+                                <td>{{data.total_amount}}</td>
+                                <td>{{data.currency}}</td>
+                                <td>{{data.create_date | date : 'MM/dd/yyyy'}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

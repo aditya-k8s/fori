@@ -1,0 +1,62 @@
+
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="foot-left">
+      <ul id="foot-sec-1">
+        <li><a routerLink="/">Home</a></li>
+        <li><a href="javascript:void(0)">About Us</a></li>
+        <li><a href="javascript:void(0)">- Company</a></li>
+        <li><a href="javascript:void(0)">- News</a></li>
+        <li><a href="javascript:void(0)">- Blog</a></li>
+      </ul>
+      <ul id="foot-sec-2">
+        <li><a href="javascript:void(0)">Shoppers</a></li>
+        <li><a href="javascript:void(0)">Stores</a></li>
+        <li><a href="javascript:void(0)">Influencers</a></li>
+      </ul>
+      <ul id="foot-sec-3">
+        <li id="foot-social-links">
+          <a href="javascript:void(0)"><i class="fab fa-facebook-f"></i></a>
+          <a href="javascript:void(0)"><i class="fab fa-twitter"></i></a>
+          <a href="javascript:void(0)"><i class="fab fa-instagram"></i></a>
+          <a href="javascript:void(0)"><i class="fab fa-linkedin-in"></i></a>
+        </li>
+        <li class="text-center"><a href="javascript:void(0)">Contact Us</a></li>
+      </ul>
+      </div>
+      <div class="foot-right"><img src="./assets/images/logo.png" alt=""></div>
+    </div>
+    <div class="foot-subscribe-btn sap-btn-dark"><a routerLink="/register">Sign up for updates on FORI.LIVE!</a></div>
+</div>
+<div class="foot-bot"><div class="container"><a href="javascript:void(0)">Copyright</a>|<a href="javascript:void(0)">Terms of Use</a>|<a href="javascript:void(0)">Privacy Policy</a></div></div>
+</footer>
+
+<!-- Search Modal -->
+<div class="modal fade" id="searchModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Search for Broadcast Channel...</h5>
+        <button type="button" (click)="closeSearch()" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body header-search">
+          <section class="filter-wrapper">
+                 <div class="keyword-wrapper">
+                    <input [formControl]="queryField" class="form-control" type="text" id="keyword" autocomplete="off" placeholder="Search..." autofocus/>
+                    <a (click)="closeSearch()" class="search-close-btn"><i class="fas fa-times"></i></a>
+                </div>
+                <ul class="filter-select">
+                  <li *ngFor="let result of results" class="filter-select-list">
+                    <a [routerLink]="['/view-stream', result.id]"  data-dismiss="modal" class="artist-name">
+                    {{result.channel_name}}</a>
+                </ul>
+          </section>
+      </div>
+    </div>
+  </div>
+</div>
+
+

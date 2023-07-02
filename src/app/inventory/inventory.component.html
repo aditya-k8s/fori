@@ -1,0 +1,218 @@
+<app-header></app-header>
+  <section class="inventory-page" >
+    <div class="inventory-container grid-container" id="inventory-first-page">
+      <div class="sap-med-headings">Products & Broadcasts</div>
+<!--         <ul class="tri-btn">
+          <li class="sap-btn-light"><a routerLink="/product/create">Create New Product</a></li>
+          <li class="sap-btn-light"><a routerLink="/create/stream">Create a Broadcast Channel</a></li>
+          <li class="sap-btn-light"><a href="javascript:void(0)" style="cursor: none;">Create a Fundraiser</a></li>
+        </ul> -->
+          <ul class="nav nav-pills mb-3" id="inventory-tab" role="tablist">
+            <li class="nav-item">
+              <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">Products</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false">Broadcasts</a>
+            </li>
+           <!--  <li class="nav-item">
+              <a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab" aria-controls="pills-contact" aria-selected="false">Fundraisers</a>
+            </li> -->
+          </ul>
+
+          <div class="tab-content" id="inventory-tab-content">
+            <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+                <div class="empty-text text-center errorz" *ngIf="shopifyProduct.length == 0 && product_content">
+                        <p>{{product_content}}</p>
+                    </div>
+
+                <div class="inventory-thumb-head">
+
+                    <div class="inventory-thumb-inner" id="tri-btn-head">
+                      <a href="javascript:void(0)" class="inven-thumbs">
+                        <ul class="tri-btn">
+                          <li class="sap-btn-light"><a routerLink="/create/product">Create New Product</a></li>
+                          <li class="sap-btn-light"><a routerLink="/create/stream">Create New Broadcast</a></li>
+                         <!--  <li class="sap-btn-light"><a href="javascript:void(0)" style="cursor: not-allowed;">Create a Fundraiser</a></li> -->
+                        </ul>
+                      </a>
+                    </div>
+
+                    <div class="inventory-thumb-inner" *ngFor="let product of shopifyProduct;let i = index">
+                       <button class="close-btn" (click)="delete_product(product.product_id,i,product.product_title)"><i class="fas fa-times"></i></button>
+                      <a href="javascript:void(0)" class="inven-thumbs">
+                        <img src="{{product.image_url}}" alt="Product Image" onerror="this.src='assets/images/product-icon.jpg'">
+                        <div class="overlay">
+                       <!--  <span class="inventory-tag">Product</span> -->
+                        <span class="thumb-des">
+                          <div class="thumb-title">{{product.product_title}}</div>
+                          <div class="thumb-hours">{{product.create_date | date: 'MMMM dd, yyyy'}}</div>
+                        </span>
+                       
+                      </div>
+                      </a>
+                      <div class="tag-head-main">
+                        <div class="tag-head">
+                            <!-- <span class="tags-inner">Cooktops</span> -->
+                            <span class="tags-inner" *ngIf="product.product_category">{{product.product_category}}</span>
+                        </div>
+                        <div class="actions-head">
+                             <a [routerLink]="['/product', product.product_id_int]"class="edit-btn"><i class="far fa-edit"></i></a>
+                        </div>
+                      </div>
+                    </div>
+                    
+                  </div>
+                  <div class="sap-btn-dark" *ngIf="totalProduct">
+                    <button [disabled]="loading" (click)="view_products(shopifyProduct.length,7)">view more
+                     <i class="fa fa-spinner fa-spin" *ngIf="loading"></i>
+                    </button>
+                  </div>
+            </div>
+          <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+           <div class="empty-text text-center errorz" *ngIf="streamingList.length == 0 && broadcast_content">
+            <p>{{broadcast_content}}</p>
+           </div>
+            <div class="inventory-thumb-head">
+
+                  <div class="inventory-thumb-inner" id="tri-btn-head">
+                    <a href="javascript:void(0)" class="inven-thumbs">
+                      <ul class="tri-btn">
+                        <li class="sap-btn-light"><a routerLink="/create/product" >Create New Product</a></li>
+
+                        <li class="sap-btn-light"><a routerLink="/create/stream" >Create a Broadcast</a></li>
+                       <!--  <li class="sap-btn-light"><a href="javascript:void(0)" style="cursor: not-allowed;">Create a Fundraiser</a></li> -->
+                      </ul>
+                    </a>
+                  </div>
+
+
+                  <div class="inventory-thumb-inner" *ngFor="let stream of streamingList;let i = index">
+                    <button class="close-btn" (click)="delete_streaming_channel(stream.id,i,stream.title)"><i class="fas fa-times"></i></button>
+                     <!-- <a [routerLink]="['/chime']"  [queryParams]="{q:encryptedData(stream.title,userName,stream.id)}"  class="inven-thumbs"> -->
+                    <a [routerLink]="['/chime']" [queryParams]="{q:encryptedData(stream.title,userName,stream.id)}"  class="inven-thumbs">
+                      <img src="{{image_url+stream.banner_image}}" alt="Broadcast" onerror="this.src='assets/images/broadcast-icon.jpg'">
+                      <div class="overlay">
+                      <!-- <span class="inventory-tag">Broadcast Channel</span> -->
+                      <span class="thumb-des">
+                        <div class="thumb-title">{{stream.title}}</div>
+                        <div class="thumb-hours">{{stream.update_date | date: 'MMMM dd, yyyy'}}</div>
+                      </span>                     
+                    </div>
+                    </a>
+
+                    <div class="tag-head-main">
+                      <div class="tag-head">
+                          <!-- <span class="tags-inner">Cooktops</span> -->
+                          <!-- <span class="tags-inner" *ngIf="stream.product_category">{{stream.product_category}}</span> -->
+                     
+                       
+                          <span *ngIf="stream.status == '3'" class="tags-inner" id="tag-head-main-draft">Draft</span>
+                       
+                          <span *ngIf="stream.status == '2'" class="tags-inner" id="tag-head-main-inactive">Expire</span>
+                        
+                            <span *ngIf="stream.status == '0'" class="tags-inner" id="tag-head-main-active">Active</span>
+                        
+                          <span *ngIf="stream.status == '1'" class="tags-inner" id="tag-head-main-live">Live</span>
+                      </div> 
+
+                      <div class="actions-head" *ngIf="stream.status == '0' || stream.status == '3'">
+                            <a [routerLink]="['/edit-stream', stream.id]"class="edit-btn"><i class="far fa-edit"></i></a>
+                      </div>
+
+                      <div class="actions-head" *ngIf="stream.status == '0'">
+                          <a class="nav-link" href="#searchInfluencer" data-toggle="modal" data-target="#searchInfluencer" (click)="getstreamingforInfluencer(stream.id,stream.requestSentTo)">Send Invite</a>
+                      </div>
+                    </div>
+                  </div>
+                  </div>
+                   <div class="sap-btn-dark" *ngIf="totalBroadcast">
+                    <button [disabled]="loading1" (click)="view_broadcast(streamingList.length,7)">view more
+                     <i class="fa fa-spinner fa-spin" *ngIf="loading1"></i>
+                    </button>
+                  </div>
+                </div>
+            
+            <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
+              
+              <div class="inventory-thumb-head">
+
+                    <div class="inventory-thumb-inner" id="tri-btn-head">
+                      <a href="javascript:void(0)" class="inven-thumbs">
+                        <ul class="tri-btn">
+                          <li class="sap-btn-light"><a routerLink="/product/create">Create New Product</a></li>
+                          <li class="sap-btn-light"><a routerLink="/create/stream">Create New Broadcast</a></li>
+                         <!--  <li class="sap-btn-light"><a href="javascript:void(0)" style="cursor: not-allowed;">Create a Fundraiser</a></li> -->
+                        </ul>
+                      </a>
+                    </div>
+              </div>
+            </div>
+          </div>
+      </div>
+  </section>
+
+<!--   <button class="choose-store-floating-icon" (click)="__toggleStoreSection()">
+    <i class="fas fa-store"></i>
+  </button>
+    <div class="right-sec-slider" [class.open]="slideOpen">
+        <button type="button" class="close" aria-label="Close" (click)="__closeStoreSection()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <div class="profile-des-block"  *ngFor="let store of store_data;let i = index" [class.active]="channel_id == store.id">
+            <div class="pro-des-block-head" >
+              <a (click)="__selectStore(i,store.id)" class="pro-des-block-img">
+                  <img src="{{image_url+store.channel_logo}}" alt="">
+              </a>
+              <div class="pro-des-block-title">
+                <span class="strong">{{store.store_name}}</span>
+                </div>
+            </div>
+        </div>
+    </div> -->
+
+    <!-- Modal -->
+<div class="modal fade" id="searchInfluencer" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Search for Influencer Channel...</h5>
+        <button type="button" (click)="closeSearch()" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body header-search">
+        <section class="filter-wrapper" *ngIf="influencerProfileData.id">
+            <div class="influencer-wrapper">
+                <a [routerLink]="['/influencer', '@'+influencerProfileData.username]">{{influencerProfileData.first_name}} {{influencerProfileData.last_name}}</a>
+
+                <div class="sap-btn-dark">
+                  <button [disabled]="loading" (click)="cancelInvite(influencerProfileData.user_id)">Cancel Invite
+                       <i class="fa fa-spinner fa-spin" *ngIf="loading"></i>
+                  </button>
+                </div>
+
+             </div>
+        </section>
+          <section class="filter-wrapper" *ngIf="!influencerProfileData.id">
+                 <div class="keyword-wrapper">
+                    <input [formControl]="quryField" class="form-control" type="text" id="keyword" autocomplete="off" placeholder="Search..." autofocus/>
+                    <a [routerLink]="" (click)="closeSearch()" class="search-close-btn"><i class="fas fa-times"></i></a>
+                </div>
+                <ul class="filter-select">
+                  <li *ngFor="let result of influencerResults" class="filter-select-list">
+
+                  <div class="single-search">
+                    <span>{{result.first_name}} {{result.last_name}}</span> 
+                    <div class="sap-btn-dark">
+                      <button (click)="sendInvite(result.user_id)">Send Invite</button>
+                    </div>
+                  </div>
+                </ul>
+          </section>
+      </div>
+
+    </div>
+  </div>
+</div>
+<app-footer></app-footer>
+

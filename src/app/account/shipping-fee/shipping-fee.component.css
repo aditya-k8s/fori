@@ -1,0 +1,6 @@
+#pc-shipping-fee .del-add .delete-address {padding: 7px 12px !important;}
+#pc-shipping-fee .del-add {display: flex;justify-content: flex-end;}
+#pc-shipping-fee .rang-section .form-group {display: flex;align-items: flex-start;margin: 25px 0 10px;}
+#pc-shipping-fee .range-plug {    flex-basis: 95%;    padding-right: 5%;}
+
+

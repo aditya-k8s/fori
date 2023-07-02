@@ -1,0 +1,46 @@
+<app-header></app-header>
+<div class="container">
+	<div class="row profile">
+		<div class="col-md-3">
+			<app-sidebar></app-sidebar>
+		</div>
+		<div class="col-md-9">
+			<div class="container">
+		 		<div class="profile-content" id="pc-shipping-fee">
+				        <div class="card-body">
+						<h3 class="card-title text-center sap-small-headings">Shipping Fee</h3>
+						 <div class="card-text">
+						    	<div class="sap-btn-dark grey-btn">
+						    		<button (click)="addShipping()">Add Shipping</button>
+						    	</div>
+					        	<div class="rang-section">
+						        	<div class="form-group" 
+							    	 *ngFor="let range of rangeSection; let i=index">
+							            	<div class="range-plug">
+								        	<ngx-slider [(value)]="range.minValue" [(highValue)]="range.maxValue" [options]="options"></ngx-slider>
+
+								        	$<input id="range_shipping" [(ngModel)]="range.shipping" placeholder="Shipping fee" type="text" class="form-control"  >
+
+							        	</div>
+							        	<div class="sap-btn-dark del-add">
+								    	 	<button (click)="__deleteRange(i)"class="delete-address">
+							              		<i class="far fa-trash-alt"></i>
+							            		</button>
+							        	</div>
+							        	
+							    	</div>
+							</div>
+						        <div class="sap-btn-dark" *ngIf="rangeSection.length > 0">
+						        	<button type="button" (click)="onSubmit()" class="btn btn-primary btn-block" [disabled]="loading">Update Shipping Fee
+						        		<i class="fa fa-spinner fa-spin" *ngIf="loading"></i>
+						    		</button>
+							</div>
+							     
+						</div>
+					</div>
+        			</div>
+			</div>
+		</div>
+	</div>
+</div>
+<app-footer></app-footer>

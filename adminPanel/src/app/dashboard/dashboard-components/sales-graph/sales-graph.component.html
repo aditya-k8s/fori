@@ -1,0 +1,37 @@
+<div class="card">
+    <div class="card-body">
+      <div class="d-flex">
+        <div>
+          <h3 class="card-title m-b-5">
+            <span class="lstick"></span>Sales Overview
+          </h3>
+        </div>
+        <!-- <div class="ml-auto">
+          <select class="custom-select b-0">
+            <option value="2021">2021</option>
+            <option value="2022">2022</option>
+            <option value="2023">2023</option>
+            <option value="2024">2024</option>
+            <option value="2025">2025</option>
+            <option value="2026">2026</option>
+            <option value="2027">2027</option>
+            <option value="2028">2028</option>
+            <option value="2029">2029</option>
+            <option value="2030">2030</option>
+          </select>
+        </div> -->
+      </div>
+      <div style="height: 300px;" class="mt-4">
+        <canvas
+          baseChart
+          [datasets]="lineChartData1"
+          [labels]="lineChartLabels1"
+          [options]="lineChartOptions1"
+          [colors]="lineChartColors1"
+          [legend]="lineChartLegend1"
+          [chartType]="lineChartType1"
+        >
+        </canvas>
+      </div>
+    </div>
+  </div>

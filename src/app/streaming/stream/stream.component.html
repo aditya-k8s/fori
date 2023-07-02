@@ -1,0 +1,281 @@
+<app-header></app-header>
+<section class="vid-page-sec">
+  <div class="">
+        <div class="left-vid-sec" id="left-action-toggle">
+            <!-- <iframe width="560" height="315" src="https://www.youtube.com/embed/rUWxSEwctFU" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            -->
+            <div *ngIf="broadcastData.broadcast_status == 1">
+              <app-livestream></app-livestream>
+            </div>
+           <!--  <div *ngIf="broadcastData.broadcast_status != 1 && !promoVideo">
+              <app-livestream></app-livestream>
+            </div> -->
+            <div>
+              <div class="promo-video" *ngIf="broadcastData.broadcast_status != 1 && promoVideo">
+                  <iframe width="560" height="315" [src]="promoVideo | safe" title="video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+              </div>
+            </div>
+
+            <div class="vid-overlay"> 
+              <div class="channel-brief"> 
+                <!-- <img src="./assets/images/live.JPG" alt="live" style="width: 26%" *ngIf="broadcastData.broadcast_status == 1"> -->
+                <a href="#" class="channel-thumb"><img src="{{image_url+broadcastData?.cover_image}}" alt="Broadcast" onerror="this.src='assets/images/broadcast-icon.jpg'"></a>  
+                <div class="channel-des"> 
+                  <div class="channel-title" [innerHTML]="meeting"></div>  
+                  <div class="channel-creator">by <a href="javascript:void(0)" [innerHTML]="broadcastData?.merchant_name"></a></div> 
+                 
+                  <button class="follow sap-btn-light" (click)="toggleFollowing(broadcastData.user_id,broadcastData.store_id)"  [ngClass]="{ 'disabled': submitted,
+                 'btn-outline-secondary': !following,
+                 'btn-secondary': following }"
+                 >{{ following ? 'Unfollow' : 'Follow' }}</button>
+
+                  <button id="shareBrodcast" class="share sap-btn-dark" data-toggle="modal" data-target="#social-share-pop">share <i class="fas fa-share-alt"></i></button>  
+                </div>  
+              </div>
+              <div class="live-img" id="liveimg" style="display: block;"><img  alt="live" src="./assets/images/live.png" style="width: 6%"></div>
+
+              <div class="expand-trigger" >
+                <i class="fas fa-expand-arrows-alt" id="action-expand" (click)="expandWindow()"></i>
+                <i class="fas fa-compress-arrows-alt" id="action-compress"  (click)="compressWindow()" style="display:none;"></i>
+              </div>
+          </div>
+
+        </div>
+        <div class="right-vid-sec" id="right-action-toggle">
+            <div class="sap-btn-dark grey-btn" id="go-back-btn">
+              <button type="button" class="btn" (click)="goBack()">Go Back</button>
+            </div>
+            <nav>
+                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                  <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">About</a>
+                 <!--  <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Profile</a> -->
+                 <a class="nav-item nav-link" id="nav-details-tab" data-toggle="tab" href="#nav-details" role="tab" aria-controls="nav-details" aria-selected="false">Details</a>
+
+                  <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Products</a>
+                </div>
+              </nav>
+              <div class="tab-content" id="nav-tabContent">
+                <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+
+                    <div id="roster-message-container" class="d-flex flex-column col-12  h-100">
+                    <div class="bs-component" style="flex: 1 1 auto; overflow-y: auto; height: 50%;">
+                      <div class="user-gazette">
+                        
+                         <div id="button-speaker" style="border-radius: 3px"><i class="fa fa-volume-up" style="padding:10px 15px"></i></div>
+                        <div id="viwer" class="">Viewers <i class='fas fa-eye'></i> 0</div>
+                        <div id="live" (click)="getAllLikes()" class="">Like <i class="fas fa-thumbs-up"></i>{{likes_data}}</div>
+                      </div>
+                      <ul id="roster" style="display: none;" class="list-group"></ul>
+                    </div>
+                    <div class="message d-flex flex-column pt-3" style="flex: 1 1 auto; overflow: hidden; height: 50%;">
+                      <div class="list-group receive-message" id="receive-message" style="flex: 1 1 auto; overflow-y: auto;
+                        border: 1px solid rgba(0, 0, 0, 0.125); background-color: #fff"></div>
+                      <div class="input-group send-message" style="display:flex;flex:0 0 auto;margin-top:0.2rem">
+                        <!-- <div class="chat-sticker-head">
+                          <div class="chat-sticker-inner" *ngFor="let img of images_arr;let i = index">
+                            <button type="button" class="close" (click)="deleteImg(i)"><i class="fas fa-times"></i></button>
+                            <span class="chat-sticker-icon">
+                              <img src="{{img.url}}">
+                            </span>
+                          </div>
+                        </div> -->
+
+                        <textarea class="form-control shadow-none" id="send-message" rows="1" placeholder="Type a message (markdown supported)" style="display:inline-block; width:100%;
+                          resize:none; border-color: rgba(0, 0, 0, 0.125); outline: none; padding-left: 1.4rem"></textarea>
+                        <button (click)="toggleEmojiPicker()" class="btn btn-warning mr-2 chat-emoji">😀</button>
+                        
+                        <!-- <button (click)="addImage()" class="btn btn-warning mr-2 chat-sticker">
+                          <img src="assets/chat-stickers/sticker-icon.svg">
+                        </button> -->
+                        
+                        <div class="btn-group dropup" id="video-settings-cog" >
+                            <button (click)="opendropmenu('openQualitysettings')" class="btn btn-warning mr-2 chat-sticker">
+                              <img src="assets/chat-stickers/sticker-icon.svg">
+                            </button>
+
+                            <div class="dropdown-menu" id="openQualitysettings">
+                              <button type="button" (click)="closedropmenu('openQualitysettings')" class="close" aria-label="Close">
+                                <span aria-hidden="true">&times;</span></button>
+
+                                <div style="width: 300px; height: 200px; overflow: auto">
+                                  <ul>
+                                    <li class="nav-item dropdown" (click)=" addImage('assets/chat-stickers/party-popper.svg')"><img _ngcontent-nsl-c2="" src="assets/chat-stickers/party-popper.svg"></li>
+                                    <li class="nav-item dropdown" (click)=" addImage('assets/chat-stickers/party-popper.svg')"><img _ngcontent-nsl-c2="" src="assets/chat-stickers/party-popper.svg"></li>
+                                    <li class="nav-item dropdown" (click)=" addImage('assets/chat-stickers/party-popper.svg')"><img _ngcontent-nsl-c2="" src="assets/chat-stickers/party-popper.svg"></li>
+                                    <li class="nav-item dropdown" (click)=" addImage('assets/chat-stickers/party-popper.svg')"><img _ngcontent-nsl-c2="" src="assets/chat-stickers/party-popper.svg"></li>
+                                  </ul>
+                                </div>
+                          </div>   
+                        </div> 
+
+                        <button class="btn btn-success" id="send-messageBtn"><i class="fas fa-paper-plane"></i></button>
+                        <br>
+                        <emoji-mart class="emoji-mart" tooltip="false" set="{{set}}" *ngIf="showEmojiPicker"
+                        (emojiSelect)="addEmoji('send-message',$event)" title="Pick your emoji…"
+                        perview = "false" [style]="{ position : 'absolute', bottom: '20px', right: '20px' }"></emoji-mart>
+
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+                  <!--Detail Tab -->
+                <div class="tab-pane fade" id="nav-details" role="tabpanel" aria-labelledby="nav-detailse-tab">
+                <div class="channel-brief"> 
+                  
+                  <a href="#" class="channel-thumb"><img src="{{image_url+broadcastData?.cover_image}}" alt="" onerror="this.src='assets/images/broadcast-icon.jpg'"></a>  
+                  <div class="channel-des"> 
+                    <div class="channel-title" [innerHTML]="meeting"></div>  
+                    <div class="channel-creator">by <a href="javascript:void(0)" [innerHTML]="broadcastData?.merchant_name"></a></div> 
+                   
+                    <button class="follow sap-btn-light" (click)="toggleFollowing(broadcastData.user_id,broadcastData.store_id)"  [ngClass]="{ 'disabled': submitted,
+                   'btn-outline-secondary': !following,
+                   'btn-secondary': following }"
+                   >{{ following ? 'Unfollow' : 'Follow' }}</button>
+
+                    <button id="shareBrodcast" class="share sap-btn-dark" data-toggle="modal" data-target="#social-share-pop">share <i class="fas fa-share-alt"></i></button>  
+                  </div>  
+                </div>
+
+                <div class="right-sec-inner-bc-left">
+                    
+                <div class="bc-des">{{broadcastData.description}}</div>
+                  <div class="bc-tags" *ngIf="hashtagValue"> 
+                   <span *ngFor="let value of hashtagValue;" >{{value}}</span>
+                    
+                  </div>
+                </div>
+
+                <div class="right-panel-prod-des-head">
+                  <div class="right-panel-prod-des-inner" *ngFor="let product of products;let i = index">
+                    <div class="right-panel-prod-des-title">
+                      {{product.product_title}}
+                    </div>    
+                    <div class="channel-creator">Sold by <a href="javascript:void(0)" [innerHTML]="broadcastData?.merchant_name"></a></div>
+                    <div class="right-panel-prod-des-con" [innerHtml]="product.product_description">
+                     <!-- {{broadcastData.description}} -->
+                    </div>                                     
+                  </div>
+
+                </div>
+
+
+                 <!--  <div *ngFor="let product of products;let i = index">
+                    <div [innerHtml]="product.product_description" class="product-description"></div>
+                  </div> -->
+
+                </div>
+
+
+                <!-- <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">...2</div> -->
+
+                <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+
+    
+                <div class="inventory-thumb-head">
+                  <div class="inventory-thumb-inner" *ngFor="let product of products; let row = index">
+                     {{get_variant(product,row)}} 
+                   
+                  <div class="inven-thumbs">
+
+                    <!-- <span class="prod-left-count">{{product.available_stock}}</span> -->
+                    <ng-container *ngIf="product['variants'] == ''">
+                      <span class="prod-left-count" *ngIf="product.available_stock <= 5 && product.available_stock > 0">Only {{product.available_stock}} left</span>
+                      <span class="prod-left-count" *ngIf="product.available_stock > 5">{{product.available_stock}}</span>
+                      <span class="prod-left-count" *ngIf="product.available_stock <= 0">Out of Stock</span>
+                    </ng-container>
+    
+                    <ng-container *ngIf="product.available_stock > 0 && product['variants'] != ''">
+                      <span class="prod-left-count" *ngIf="variants_stock[row] <= 5 && variants_stock[row] > 0">Only {{variants_stock[row]}} left</span>
+    
+                      <span class="prod-left-count" *ngIf="variants_stock[row] > 5">{{variants_stock[row]}}</span>
+                      <span class="prod-left-count" *ngIf="variants_stock[row] && variants_stock[row] <= 0">Out of Stock</span>
+                    </ng-container>
+                    <ng-container *ngIf="product.available_stock <= 0">
+                      <span class="prod-left-count">Out of Stock</span>
+                    </ng-container>
+                        <img src="{{product.image_url}}" alt="Product image" onerror="this.src='assets/images/broadcast-icon.jpg'">
+                  
+                  </div>
+                                         
+                      <!-- <span class="inventory-tag">Broadcast Channel</span>  -->
+                      <span class="thumb-des">
+                        <div class="thumb-title">{{product.product_title}}</div>
+                        <div class="thumb-des-foot-data"> 
+
+
+                          <span class="price" *ngIf="broadcastData.broadcast_status == '1'">
+                            <del>${{variant_Offprice[row]}}</del> 
+                            ${{variant_Onprice[row]}}
+                          </span>
+
+                          <span class="price" *ngIf="broadcastData.broadcast_status != '1'">
+                           ${{variant_Offprice[row]}}
+                        
+                          </span>
+
+                          <div class="form-group col-md-6" *ngFor="let variant of product.options; let col = index">
+                              <label>{{variant.name}}</label>       
+                              <select class="form-control"  [(ngModel)]="variantValues[row+'-'+variant.name]" (change)="changeVariant($event,variant.name,product,row)">
+                                <!-- <option [ngValue]="null" disabled>Choose your profile</option> -->
+                                  <option *ngFor="let value of convert_to_jason(variant,row); let itemIndex = index" [ngValue]="value" [selected]="itemIndex == 0 ? true : false">{{value}} </option>
+                              </select>
+                            </div>                            
+                            
+
+                            <div *ngIf="(user_type == 0 && product.available_stock > 0 && variants_stock[row] > 0) || (user_type == 0 && product.available_stock > 0 && product['variants'] == '')">
+                              <div class="sap-btn-dark" *ngIf="product.broadcast_status != '1'" ><button (click)="_addItemToCart(product,row)" target="_blank" *ngIf="product.off_air_price != 0">add to cart</button></div>
+
+                             <div class="sap-btn-dark" *ngIf="product.broadcast_status == '1'"><button (click)="_addItemToCart(product,i)" target="_blank" *ngIf="product.on_air_price != 0">add to cart</button></div> 
+                            </div>
+                             
+                           <!--  <a routerLink="/cart" class="view-cart" id="text-red">View Cart</a> -->
+
+
+                      </div> 
+                      <!-- <div class="actions-head">
+                            <a [routerLink]="['/edit-stream', stream.id]"class="edit-btn"><i class="far fa-edit"></i></a>
+                      </div> -->
+                      </span>
+                  
+                    
+                  </div>
+                </div>
+
+
+                </div>
+              </div>
+            </div>
+
+       <!--  <my-tabs>
+  <my-tab tabTitle="Tab 1">Tab 1 Content</my-tab>
+  <my-tab tabTitle="Tab 2">Tab 2 Content</my-tab>
+</my-tabs> -->
+</div>
+</section>
+<!-- <app-footer></app-footer> -->
+
+<div class="modal fade" id="social-share-pop" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+      <div class="modal-content col-12">
+          <div class="modal-header">
+              <h5 class="modal-title">Share</h5> <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+          </div>
+         <!--  <share-buttons  [url]="'http://fori.kindlebit.com/'"></share-buttons> -->
+          <share-buttons 
+           [include]="['facebook','twitter','linkedin','messenger','whatsapp','email','copy']"
+           
+           [size]="2"
+           [url]="href"
+           [image] ="'https://fori.kindlebit.com/assets/images/logo.png'"
+           [autoSetMeta]="false"
+          ></share-buttons>
+   
+          <div class="modal-footer"> <label style="font-weight: 600">Page Link <span class="message"></span></label><br />
+              <div class="row"> <input class="col-10 ur" type="url"  [value]="href" #userinput id="myInput" aria-describedby="inputGroup-sizing-default" style="height: 40px;"> 
+                  <button class="cpy" (click)="copyUrl(userinput)"><i class="far fa-clone"></i></button> 
+              </div>
+          </div>
+      </div>
+  </div>
+</div>

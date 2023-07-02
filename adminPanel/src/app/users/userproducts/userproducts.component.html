@@ -1,0 +1,70 @@
+<div class="row productListpage">
+	<div class="col-12">
+		<h4 class="card-title">Users Products</h4>
+		<div class="card">
+			<div class="card-body">
+				<div class="table-responsive">
+				<table class="table vm no-th-brd pro-of-month mb-0 v-middle">
+					<thead>
+				    <tr>
+				        <th >Title</th>
+				        <th >Image</th>
+				        <th>Price</th>
+				        <th >On Air Price</th>
+						<th >Off Air Price</th>
+						<th>Currency</th>
+						<th >Type</th>
+						<th >Quantity</th>
+						<th >Available Stock</th>
+						<th >Status</th>
+						<!-- <th >Action</th> -->
+				    </tr>
+				    </thead>
+				    <tbody>
+				    <tr *ngFor="let data of productList; let i=index">
+				        <td>{{data.product_title}}</td>
+                        <td><img src="{{data.image_url}}" style="height: 100px; width: 100px;" class="img-fluid loading"></td>
+                        <td>{{data.min_price}}</td>
+                        <td>{{data.on_air_price}}</td>
+                        <td>{{data.off_air_price}}</td>
+                        <td>{{data.currencyCode}}</td>
+                        <td>{{data.product_category}}</td>
+                        <td>{{data.product_stock}}</td>
+                        <td>
+							<span *ngIf="data.available_stock < 5" style="color: red;">{{data.available_stock}}</span>
+							<span *ngIf="data.available_stock > 5" style="color: green;">{{data.available_stock}}</span>
+						</td>
+                        <td>
+                        	<span *ngIf="data.product_status ==1">
+                                <button type="button" class="btn btn-success btn-xs">Active</button>
+							</span>
+							<span *ngIf="data.product_status!=1">
+								<button type="button" class="btn btn-danger btn-xs">Deactived</button>
+							</span>
+                            </td>
+                        <!-- <td>
+                            <div class="btn-group">
+                                <span *ngIf="data.is_delete == '0'">
+                                    <button type="button" class="btn btn-danger btn-xs"><i class="far fa-trash-alt"></i></button>
+                                </span>
+                                <span *ngIf="data.is_delete != '0'">
+                                    <button type="button" class="btn btn-warning btn-xs">Deleted</button>
+                                </span>                                 
+                                <button type="button" class="btn btn-success btn-xs"><i class="far fa-edit"></i></button>
+                            </div>
+                        </td> -->
+				    </tr>
+					<tr *ngIf="isRecord">
+						<td colspan="10" class="text-center">No Record Found!!</td>
+					</tr>
+					<tr *ngIf="isLoading">
+						<td colspan="10" class="text-center"><i class="fa fa-spinner fa-spin fa-2x"></i><br>loading data....</td>
+					</tr>
+				    </tbody>
+				</table>
+			</div>
+			</div>
+		</div>
+	</div>
+</div>
+

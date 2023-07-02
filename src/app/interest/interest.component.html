@@ -1,0 +1,33 @@
+<app-header></app-header>
+	<section class="interest-shopping">
+	    <div class="container">
+	    	<div class="sap-small-headings">Let’s Go Shopping!</div>
+	    	<div class="interest-heading-sec">
+		    	<div class="interest-left-sec">
+		    		<span class="title">Select the categories you’re interested into see recommended “Channels”/ Upcoming Live Shows</span>
+
+	    			<div class="form-check interest-tags" *ngFor="let tags of interestList; let i = index">
+			      
+			          <input class="form-check-input" name="tags.id"  type="checkbox"  id="{{tags.id}}" (change)="__onChangeInterest(tags.tages,$event)">
+			          <label for="{{tags.id}}">#{{tags.tages}}</label>
+			        </div>
+			        <div class="sap-btn-dark">
+				        <button [disabled]="loading"class="btn btn-primary"  (click)="__selectInterest()">Go!
+	                		<i class="fa fa-spinner fa-spin" *ngIf="loading"></i>
+	              		</button>
+	          		</div>
+		    		
+		    	</div>
+		    	<div class="interest-right-sec">
+		    		<span class="title">Check Out Who’s Live Now!</span>
+		    		<div class="sap-btn-dark">
+				        <button class="btn btn-primary" routerLink="/">Go Shopping!              		
+	              		</button>
+	              	</div>
+
+
+		    	</div>
+	    	</div>
+	    </div>
+	</section>
+<app-footer></app-footer>

@@ -1,0 +1,42 @@
+<app-header></app-header>
+  <div class="container">
+      <div class="row profile">
+        <div class="col-md-3">
+          <app-sidebar></app-sidebar>
+        </div>
+        <div class="col-md-9">
+          <div class="profile-content" id="pc-my-sales">
+            <div class="card-body">
+              <h3 class="card-title text-center sap-small-headings">My Sales</h3>
+              <div class="card-text" *ngIf="sales">
+                <div class="sap-med-headings">My Sales</div>
+                <table   datatable class="row-border hover" [dtOptions]="dtOptions" *ngIf="sales.length > 0">
+                    <thead>
+                      <tr>
+                        <th>Order ID</th>
+                        <th>Paid Amount</th>
+                        <th>Status</th>
+                        <th>View Order</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                     <tr *ngFor="let sale of sales">
+                           <!--  <td><input type="checkbox" [value]="product.node.id" (change)="onChecked(product, $event)"></td>  -->
+
+                           <td>{{sale.order_id}}</td>
+                           <td>${{sale.total_amount | number : '1.2-2'}}</td>
+                           <td>{{sale.status}}</td>
+                           <td><a [routerLink]="['/track/orders', sale.order_id]">View Order</a></td> 
+                       </tr>
+                    </tbody>
+                </table>
+                <div *ngIf="sales == ''">
+                  <p class="text-center">There are no data available.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+<app-footer></app-footer>

@@ -1,0 +1,138 @@
+<app-header></app-header>
+
+<app-live-stream></app-live-stream>
+<app-upcoming-live-stream></app-upcoming-live-stream>
+
+<!-- <section class="live-sales live_sales-cloned-upcoming-livestream">
+  <div class="container">
+  <div class="sap-small-headings">upcoming livestream broadcasts</div>
+  <div class="thumb-head">
+    <div class="thumb-inner" *ngFor="let stream of streamingList">
+      <a [routerLink]="['/view-stream', stream.channel_id]" class="thumb-img"><span class="live-tag" *ngIf="stream.broadcast_status == 1"><div class="red-dot"></div>Live</span><img src="{{image_url+stream.cover_image}}" alt=""></a>
+      <div class="title-head">
+        <a [routerLink]="['/view-stream', stream.channel_id]" class="title-text">{{stream.channel_name}}</a>
+        <div class="timer">
+          <div class="days">
+            <span *ngIf="stream.timestamp > 86400">
+            <countdown  [config]="{ leftTime:  stream.timestamp - 86400, format: 'd' }">$!d!:$!h!:$!m!:$!s!</countdown>
+          </span>
+          <span *ngIf="stream.timestamp < 86400">0</span>
+          <span>days</span></div>
+          <div class="hours"><span><countdown [config]="{ leftTime:  stream.timestamp, format: 'HH' }">$!d!:$!h!:$!m!:$!s!</countdown></span><span>hours</span></div>
+          <div class="mins"><span><countdown [config]="{ leftTime:  stream.timestamp, format: 'm' }">$!d!:$!h!:$!m!:$!s!</countdown></span><span>mins</span></div>
+          <div class="secs"><span><countdown [config]="{ leftTime:  stream.timestamp, format: 's' }">$!d!:$!h!:$!m!:$!s!</countdown></span><span>secs</span></div>
+        </div>
+        <div class="date-num">{{stream.broadcast_time | date:'MMMM dd, yyyy hh:mm a'}}</div>
+        <div class="add-to-calendar"><i class="far fa-calendar-alt"></i> <a>Add this to your Calendar</a></div>
+      </div>
+    </div>
+
+  </div>
+  <div class="sap-btn-dark" *ngIf="totalRecords">
+    <button [disabled]="loading" (click)="viewmorstream(streamingList.length,8)">view more <i class="fa fa-spinner fa-spin" *ngIf="loading"></i>
+</button></div>
+</div>
+</section> -->
+
+<section class="popluar-channel popluar_channel-cloned-stores-brands" *ngIf="popularChannelsList.length > 0">
+  <div class="container">
+  <div class="sap-small-headings">fori.live stores & brands</div>
+  <div class="thumb-head">
+    <div class="thumb-inner" *ngFor="let channel of popularChannelsList">
+     <a [routerLink]="['/channel', channel.channel_name]" class="thumb-img"><img src="{{image_url+channel.channel_logo}}" alt="Channel" onerror="this.src='assets/images/channel-icon.jpg'"></a>
+      <div class="title-head">
+        <a [routerLink]="['/channel', channel.channel_name]" class="title-text">{{channel.channel_name}}</a>
+        <div class="followers-num">{{channel.followers}} Followers</div>
+      </div>
+    </div>
+  </div>
+  <div class="sap-btn-dark" *ngIf="totalChannel"><a routerLink="list/channels" >View More</a></div>
+</div>
+</section>
+
+<section class="featured-popular" *ngIf="popular_data.length > 0">
+  <div class="container">
+    <div class="sap-small-headings">featured & popular</div>
+    <div class="thumb-head">
+      <div class="thumb-inner" *ngFor="let popular of popular_data">
+        <a [routerLink]="['/view-stream', popular.channel_id]" class="thumb-img">
+          <span class="live-tag" *ngIf="popular.broadcast_status == 1">
+            <div class="red-dot"></div>Live
+          </span>
+          <img src="{{image_url+popular.cover_image}}" alt="Broaadcast" onerror="this.src='assets/images/broadcast-icon.jpg'"></a>
+        <div class="title-head">
+          <a [routerLink]="['/view-stream', popular.channel_id]" class="title-text">{{popular.channel_name}}</a>
+          <div class="timer">
+            <div class="days">
+              <span *ngIf="popular.timestamp > 86400">
+              <countdown  [config]="{ leftTime:  popular.timestamp - 86400 , format: 'd' }">$!d!:$!h!:$!m!:$!s!</countdown></span>
+              <span *ngIf="popular.timestamp < 86400">
+                0
+              </span>
+              <span>days</span></div>
+  
+            <div class="hours"><span><countdown [config]="{ leftTime:  popular.timestamp, format: 'HH' }">$!d!:$!h!:$!m!:$!s!</countdown></span><span>hours</span></div>
+            <div class="mins"><span><countdown [config]="{ leftTime:  popular.timestamp, format: 'm' }">$!d!:$!h!:$!m!:$!s!</countdown></span><span>mins</span></div>
+            <div class="secs"><span><countdown [config]="{ leftTime:  popular.timestamp, format: 's' }">$!d!:$!h!:$!m!:$!s!</countdown></span><span>secs</span></div>
+          </div>
+          <div class="date-num">{{popular.broadcast_time | date:'MMMM dd, yyyy hh:mm a'}}</div>        
+        </div>
+      </div>
+    </div>
+    <div class="sap-btn-dark" *ngIf="isMorePopular"><a>View More</a></div>
+  </div>
+</section>
+
+<section class="featured-influencers" *ngIf="influencer_data.lenght > 0">
+  <div class="container">
+    <div class="sap-small-headings featured-influencers-inner">featured influencers</div>
+    <div class="thumb-head">
+      <div class="thumb-inner" *ngFor="let influ of influencer_data">
+        <a class="thumb-img"><img src="{{influ.profile_pic}}" alt="Broaadcast" onerror="src='assets/images/channel-icon.jpg'"></a>
+        <div class="title-head">
+          <a class="title-text">{{influ.first_name + ' ' + influ.last_name}}</a>
+        <div class="followers-num">
+          <ng-container *ngIf="influ.totalFolower > 1">{{influ.totalFolower}} Followers</ng-container>
+          <ng-container *ngIf="influ.totalFolower <= 1">{{influ.totalFolower}} Follower</ng-container>
+        </div>
+        <div class="influencers-tag">
+          <a href="javascript:void(0)" *ngFor="let tag of splitTags(influ.category_name)">{{tag}}</a>
+        </div>
+        </div>
+      </div>
+    </div>
+    <div class="sap-btn-dark" *ngIf="!userId"><a [routerLink]="['/login']">Login to View More</a></div>
+    <div class="sap-btn-dark" *ngIf="userId && isMoreInfluencer"><a [routerLink]="['/more-influencers']">View More</a></div>
+  </div>
+</section>
+
+<section class="youmaybe-interested" *ngIf="recommendedlist.length > 0">
+  <div class="container">
+    <div class="sap-small-headings interested-inner">you may be interested in</div>
+    <div class="thumb-head">
+      <div class="thumb-inner" *ngFor="let stream of recommendedlist">
+        <a [routerLink]="['/view-stream', stream.channel_id]" class="thumb-img"><span class="live-tag" *ngIf="stream.broadcast_status == 1"><div class="red-dot" ></div>Live</span><img src="{{image_url+stream.cover_image}}" alt="Broadcast"  onerror="this.src='assets/images/broadcast-icon.jpg'"></a>
+        <div class="title-head">
+          <a [routerLink]="['/view-stream', stream.channel_id]" class="title-text">{{stream.channel_name}}</a>
+          <div class="timer">
+  
+            <div class="days">
+              <span *ngIf="stream.timestamp > 86400">
+              <countdown  [config]="{ leftTime:  stream.timestamp - 86400, format: 'd' }">$!d!:$!h!:$!m!:$!s!</countdown>
+            </span>
+            <span *ngIf="stream.timestamp < 86400">0</span>
+            <span>days</span></div>
+  
+            <div class="hours"><span><countdown [config]="{ leftTime:  stream.timestamp, format: 'HH' }">$!d!:$!h!:$!m!:$!s!</countdown></span><span>hours</span></div>
+            <div class="mins"><span><countdown [config]="{ leftTime:  stream.timestamp, format: 'm' }">$!d!:$!h!:$!m!:$!s!</countdown></span><span>mins</span></div>
+            <div class="secs"><span><countdown [config]="{ leftTime:  stream.timestamp, format: 's' }">$!d!:$!h!:$!m!:$!s!</countdown></span><span>secs</span></div>
+          </div>
+          <div class="date-num">{{stream.broadcast_time | date:'MMMM dd, yyyy hh:mm a'}}</div>
+        </div>
+      </div>
+    </div>
+    <div class="sap-btn-dark" *ngIf="totalRecommended"><a [routerLink]="['/more-recommendation']">View More</a></div>
+  </div>
+</section>
+
+<app-footer></app-footer>

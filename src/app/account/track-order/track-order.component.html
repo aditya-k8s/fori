@@ -1,0 +1,140 @@
+ <app-header></app-header>
+  <div class="container">
+      <div class="row profile">
+        <div class="col-md-3">
+          <app-sidebar></app-sidebar>
+        </div>
+        <div class="col-md-9" *ngIf="ordersDetail">
+          <div class="profile-content" id="pc-track-order">
+            <div class="card-body">
+              <h3 class="card-title text-center sap-small-headings">My Orders</h3>
+              <div class="card-text" >
+        
+			    <div class="view-order-inner">
+			        <span class="order-des">
+			            <div class="card-body">
+			                <h5>Order ID: {{ordersDetail.order_id}}</h5>
+			                <div class="sap-btn-dark">
+			                	<button *ngIf="ordersDetail.status == 'paid'" class="btn btn-primary btn-block sap-dark-btn" (click)="cancelOrder(client_secret)" [disabled]="loading">Cancel Order
+			                		<i class="fa fa-spinner fa-spin" *ngIf="loading"></i>
+			            			</button>
+			            		</div>
+			               <!--  <div class="track">
+			                    <div class="step active"> 
+			                    	<span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">Order confirmed</span> 
+			                    </div>
+			                    <div class="step active"> 
+			                    	<span class="icon"> <i class="fa fa-user"></i> </span> <span class="text"> Picked by courier</span> 
+			                    </div>
+			                    <div class="step"> 
+			                    	<span class="icon"> <i class="fa fa-truck"></i> </span> <span class="text"> On the way </span> 
+			                    </div>
+			                    <div class="step"> 
+			                    	<span class="icon"> <i class="fa fa-box"></i> </span> <span class="text">Ready for pickup</span> 
+			                    </div>
+			                </div> -->
+			               <!--  <article class="card">
+			                    <div class="card-body row">
+			                        <div class="col"> 
+			                        	<strong>Estimated Delivery time:</strong> <br/>29 nov 2019 </div>
+			                        <div class="col"> <strong>Shipping BY:</strong> <br/> BLUEDART, | <i class="fa fa-phone"></i> +1598675986 </div>
+			                        <div class="col"> <strong>Status:</strong> <br/> Picked by the courier </div>
+			                        <div class="col"> <strong>Tracking #:</strong> <br/> BD045903594059 </div>
+			                    </div>
+			                </article> -->
+			            </div>
+			        </span>
+			    </div>
+			    <div class="billing-shipping-sec">
+			        <span class="billing-sec" *ngIf="ordersDetail.shippingAddress">
+			            <h5>Billing</h5>
+			            <p>
+			            <!-- {{ordersDetail.billingAddress.fullname}}<br/>
+			            {{ordersDetail.billingAddress.address}} ,
+			            {{ordersDetail.billingAddress.address_1}}<br/>
+			            {{ordersDetail.billingAddress.city}}, {{ordersDetail.billingAddress.state}} <br/>{{ordersDetail.billingAddress.country}}
+			            {{ordersDetail.billingAddress.pin_code}} -->
+			            
+			           <!--  <br/><br/><b>Email address:</b><br/>
+			            sharen.chhor@gmail.com
+			            <br/><b>Phone:</b><br/>
+			            0420538662 -->
+			            {{ordersDetail.shippingAddress.fullname}}
+			            {{ordersDetail.shippingAddress.fullname}}<br/>
+			            {{ordersDetail.shippingAddress.address}} ,
+			            {{ordersDetail.shippingAddress.address_1}}<br/>
+			            {{ordersDetail.shippingAddress.city}}, {{ordersDetail.shippingAddress.state}} <br/>{{ordersDetail.shippingAddress.country}}
+			            {{ordersDetail.shippingAddress.pin_code}}
+			            </p>
+			        </span>
+			        <span class="shipping-sec" *ngIf="ordersDetail.shippingAddress">
+			            <h5>Shipping</h5>
+			            <p>
+			            {{ordersDetail.shippingAddress.fullname}}
+			            {{ordersDetail.shippingAddress.fullname}}<br/>
+			            {{ordersDetail.shippingAddress.address}} ,
+			            {{ordersDetail.shippingAddress.address_1}}<br/>
+			            {{ordersDetail.shippingAddress.city}}, {{ordersDetail.shippingAddress.state}} <br/>{{ordersDetail.shippingAddress.country}}
+			            {{ordersDetail.shippingAddress.pin_code}}
+			            
+			           <!--  <br/><br/><b>Email address:</b><br>/
+			            sharen.chhor@gmail.com
+			            <br/><b>Phone:</b><br/>
+			            0420538662 -->
+			            </p>           
+			      </span>
+		        <span class="order-summary-details" >
+		          <h5>Order Summary</h5>
+		           <div class="osd-inner">
+	        		<ul class="osd-heading">
+	        			<li>Sub Total:</li>
+	        			<li *ngIf="ordersDetail.shipping_fee">Shipping charges:</li>
+	        			<li *ngIf="ordersDetail.donation_amount">Donated Amount</li>
+	        			<li id="osd-total-heading" *ngIf="ordersDetail.total_amount">Grand Total</li>
+	        		</ul>
+	        		<ul class="osd-details">
+	        			
+	        			<li>${{ordersDetail.sub_total_amount | number : '1.2-2'}}</li>
+	        			<li *ngIf="ordersDetail.shipping_fee">${{ordersDetail.shipping_fee}}</li>
+	        			<li *ngIf="ordersDetail.donation_amount">${{ordersDetail.donation_amount}}</li>
+	        			<li id="osd-total-num">${{ordersDetail.total_amount | number : '1.2-2'}}</li>
+	        		</ul>			        		
+	            </div>       
+		        </span>			        
+			    </div>
+
+			     <table   datatable class="row-border hover" *ngIf="ordersDetail != ''" [dtOptions]="dtOptions">
+			    	<thead>
+			    		<tr>
+			    			<th>Image</th>
+				    		<th>Product Title</th>
+				    		<th>Quantity</th>
+				    		<th>Price</th>
+				    		<th>Total Price</th>
+				    		
+			    		</tr>
+			    	</thead>
+			    	<tbody>
+			    		<tr *ngFor="let product of ordersDetail.orderItems ;let i = index">
+			    			<td><img src="{{product.product_images}}" alt="Product images" style="width:15%;" onerror="this.src='assets/images/product.png'"></td>
+				    		<td>{{product.product_title}}
+				    			<div *ngIf="product.variant_option">
+					    			 <p class="mb-2 text-muted text-uppercase small" *ngFor="let options of convert_to_jason(product.variant_option); let itemIndex = index">
+					    				{{options.key}} : {{options.value}}
+					    			</p>
+					    		</div>
+					    	</td>
+				    		<td>{{product.product_quantity}}</td>
+				    		<td>${{product.product_price | number : '1.2-2'}}</td>
+				    		<td>${{product.product_price*product.product_quantity | number : '1.2-2'}}</td>
+				    	</tr>
+			    	</tbody>
+			    </table>
+			</div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+<app-footer></app-footer>

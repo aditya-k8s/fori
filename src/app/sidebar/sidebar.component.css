@@ -1,0 +1,11 @@
+.img-responsive{
+	position: relative;
+    display: block;
+    cursor: pointer;
+    height: 200px;
+    width: 200px;
+}
+
+#profile_imageModal .modal-dialog {
+    max-width: 980px;
+}

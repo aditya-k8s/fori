@@ -1,0 +1,45 @@
+<app-header></app-header>
+  <div class="container">
+      <div class="row profile">
+        <div class="col-md-3">
+          <app-sidebar></app-sidebar>
+        </div>
+        <div class="col-md-9">
+          <div class="profile-content" id="pc-order-list">
+            <div class="card-body">
+              <h3 class="card-title text-center sap-small-headings">My Orders</h3>
+              <div class="card-text">
+               <!--  <div class="sap-med-headings">My Orders</div> -->
+                <table   datatable class="row-border hover" [dtOptions]="dtOptions"*ngIf="orders.length > 0">
+                    <thead>
+                      <tr>
+                        <th>Order ID</th>
+                        <th>Paid Amount</th>
+                        <th>Status</th>
+                        <th>Date</th>
+                        <th>View Order</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                     <tr *ngFor="let order of orders">
+                           <!-- <td><input type="checkbox" [value]="product.node.id" (change)="onChecked(product, $event)"></td> -->
+
+                           <td>{{order.order_id}}</td>
+                           <td>${{order.total_amount | number : '1.2-2'}}</td>
+                           <td>{{order.status}}</td>
+                           <td>{{order.update_date | date:'MMMM dd, yyyy hh:mm a'}}</td>
+                           <td><a [routerLink]="['/track/orders', order.order_id]">View Order</a></td>
+                       </tr>
+                    </tbody>
+                </table>
+
+                <div *ngIf="orders.length == 0" class="empty-text text-center errorz" >
+                    <p>There are no data available</p>
+              </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+<app-footer></app-footer>

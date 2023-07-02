@@ -1,0 +1,12 @@
+.header-search .filter-select {margin: 0;position: absolute;background-color: #fff;width: calc(100% - 32px);
+left: 16px;top: 54px;border: 0;padding: 0;border-radius: 5px;
+max-height: 160px;overflow-y: scroll;}
+.header-search .filter-select li {list-style-type: none;}
+.header-search .filter-select li a {text-decoration: none;color: #7e7e7e;padding: 10px 15px 5px;
+line-height: normal;margin: 0;width: 100%;display: inline-block;}
+.header-search #keyword {font-weight: 500;box-shadow: 0 0;}
+.header-search .filter-select li a:hover {background-color: #f2f2f2;color: #000;}
+.header-search #keyword:focus {border-color: #e4282f !important;}
+.header-search .search-close-btn {position: absolute;top: 17px;right: 17px;
+background-color: #fff;width: 30px;display: flex;align-items: center;justify-content: center;
+height: 36px;color: #e4282f !important;text-decoration: none !important;}

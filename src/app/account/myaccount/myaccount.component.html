@@ -1,0 +1,70 @@
+<app-header></app-header>
+ <div class="container">
+        <div class="row profile">
+            <div class="col-md-3">
+            	<app-sidebar></app-sidebar>
+            </div>
+             <div class="col-md-9">
+                <div class="profile-content" id="pc-my-profile">
+              <div class="card-body">
+                <h3 class="card-title text-center sap-small-headings">Update Profile</h3>
+                <div class="card-text">
+
+                  <form [formGroup]="profileForm" (ngSubmit)="onSubmit(profileForm.value)">
+                    <!-- to error: add class "has-danger" -->
+                    <div class="form-group col-md-6">
+                      <label>First name </label>   
+                       <!--  <input type="text" class="form-control" placeholder=""> -->
+                      <input id="first_name" type="text" class="form-control" formControlName="first_name" [ngClass]="{ 'is-invalid': submitted && f.first_name.errors }" >
+                        <div *ngIf="submitted && f.first_name.errors" class="invalid-feedback">
+                            <span class="for-sub-name" *ngIf="f.first_name.errors.required" >First name required </span>
+                        </div>
+                    </div>
+                  <div class="form-group col-md-6" style="padding-right:0;" *ngIf="user.user_type == 0">
+                    <label>Shopper Name</label>
+                      <!-- <input type="text" class="form-control" placeholder=" "> -->
+                       <input id="shopper_name" type="text" class="form-control" formControlName="shopper_name" [ngClass]="{ 'is-invalid': submitted && f.shopper_name.errors }">
+                        <div *ngIf="submitted && f.shopper_name.errors" class="invalid-feedback">
+                            <span class="for-sub-name" *ngIf="f.shopper_name.errors.required" >Shopper Name required </span>
+                        </div>
+                  </div>
+                    <div class="form-group col-md-6" style="padding-right:0;" *ngIf="user.user_type != 0">
+                      <label>Last name</label>
+                         <input id="last_name" type="text" class="form-control" formControlName="last_name" [ngClass]="{ 'is-invalid': submitted && f.last_name.errors }"  >
+                          <div *ngIf="submitted && f.last_name.errors" class="invalid-feedback">
+                              <span class="for-sub-name" *ngIf="f.last_name.errors.required" >Last name required </span>
+                          </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label>Month | Year</label>
+                        <input id="dob" type="date" class="form-control" formControlName="dob" [ngClass]="{ 'is-invalid': submitted && f.dob.errors }" >
+                        <div *ngIf="submitted && f.dob.errors" class="invalid-feedback">
+                              <span class="for-sub-name" *ngIf="f.dob.errors.required" >Month | Year required </span>
+                          </div>
+                    </div>
+                    <div class="form-group col-md-6" style="padding-right:0;">
+                      <label for="inputState">country</label>
+                      <select id="inputState" class="form-control" formControlName="country" [ngClass]="{ 'is-invalid': submitted && f.country.errors }" >
+                        <option selected="selected" *ngFor ="let country of countries">{{country.name}}</option>
+                      </select>
+
+                      <div *ngIf="submitted && f.country.errors" class="invalid-feedback">
+                              <span class="for-sub-name" *ngIf="f.country.errors.required" >Country required </span>
+                          </div>
+                    </div>
+
+
+
+                    <div class="sap-btn-dark">
+                     <button type="submit" class="btn btn-primary btn-block" [disabled]="loading">Update Profile
+                     <i class="fa fa-spinner fa-spin" *ngIf="loading"></i>
+                     </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<app-footer></app-footer>

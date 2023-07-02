@@ -1,0 +1,95 @@
+<div class="row userslistpage">
+    <div class="col-12">
+        <div class="card">
+            <div class="col-md-12">
+                 <div class="pt-3">
+                    <h4 class="card-title"><span class="lstick"></span>Channels List</h4>
+                 </div>
+				<div class="row mt-2">
+					<div class="col-md-4">
+                        <label for=""> Search</label>
+                        <input [(ngModel)]="search" class="form-control" placeholder="">
+					</div>
+                    <div class="col-md-8">
+                        <form class="date-block" [formGroup]="filterForm" (ngSubmit)="filterDate(filterForm.value)">
+                            <div class="row">
+                                <div class="col-12 col-sm-3">
+                                    <div class="date-block__list">
+                                        <label for=""> From Date</label>
+                                        <input type="date" class="form-control" formControlName="fromDate" placeholder="Streaming content title" [ngClass]="{ 'is-invalid': submitted && f.fromDate.errors }">
+            
+                                        <div *ngIf="submitted && f.fromDate.errors" class="invalid-feedback">
+                                          <span class="for-sub-name" *ngIf="f.fromDate.errors.required" >From Date required </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-sm-3">
+                                    <div class="date-block__list">
+                                        <label for=""> To Date</label>
+                                           <input type="date" class="form-control" formControlName="toDate" placeholder="From Date" [ngClass]="{ 'is-invalid': submitted && f.toDate.errors }">
+               
+                                           <div *ngIf="submitted && f.toDate.errors" class="invalid-feedback">
+                                             <span class="for-sub-name" *ngIf="f.toDate.errors.required" >To Date required </span>
+                                           </div>
+                                      </div>
+                                </div>
+                                <div class="col-12 col-sm-3 align-self-end">
+                                    <button type="submit" class="btn btn-primary btn-block" [disabled]="loading">Filter
+                                        <i class="fa fa-spinner fa-spin" *ngIf="loading"></i>
+                                    </button>
+                                </div>
+                                <div class="ccol-12 col-sm-3 align-self-end">
+                                    <button type="button" class="btn btn-primary btn-block" [disabled]="loading" (click)="ClearFilter()">Clear
+                                        <i class="fa fa-spinner fa-spin" *ngIf="loading"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            
+                            
+                            
+                        </form>
+                    </div>
+				</div>
+			</div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table vm no-th-brd pro-of-month mb-0 v-middle">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>Channel Name</th>
+                                <th>Followers</th>
+                                <th>Channel Logo</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let channel of channel_data | filter : search; let i=index">
+                                <td>{{i+1}}</td>
+                                <td>{{channel.first_name + ' ' + channel.last_name}}</td>
+                                <td>{{channel.channel_name}}</td>
+                                <td>{{channel.followers}}</td>
+                                <td>
+                                    <img src="{{img_url+channel.channel_logo}}" style="height: 100px;width: 100px;">
+                                </td>
+                                <td>
+                                    <div class="btn-group multi-btns">
+                                        <button type="button" (click)="openDetails(channel)" class="btn btn-info btn-xs">View Details</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr *ngIf="isLoading == true">
+                                <td colspan="6" class="text-center"><i class="fa fa-spinner fa-spin fa-2x"></i><br>loading data....</td>
+                            </tr>
+                            <tr *ngIf="isRecord == true">
+                                <td colspan="6" class="text-center">No record found!!</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

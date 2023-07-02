@@ -1,0 +1,249 @@
+<div class="row userdetails">
+    <div class="col-12 m-t-30">
+        <h4 class="card-title">
+      		<span class="lstick"></span>User Details
+    	</h4>
+    </div>
+    <!-- <div class="col-md-4">
+        <div class="card card-inverse text-center">
+            <div class="card-header  bg-info text-white">
+                Users Profile
+            </div>
+            <div class="card-body">
+            	<img src="{{userslist.profile_pic}}" class="img-fluid loading">
+                <h4 class="card-title">{{userslist.username}}</h4>
+                <h3>Channel Name :{{userslist.channel_name}}</h3>
+                <p class="card-text">Followers: {{userslist.followers}}</p>
+                <p class="card-text">Description:{{userslist.description}}</p>
+            </div>
+        </div>
+    </div> -->
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <ngb-tabset>
+                    <ngb-tab>
+                        <ng-template ngbTabTitle>
+                            <div (click)="channelDetails()">Channel List</div>
+                        </ng-template>
+                        <ng-template ngbTabContent>
+                            <div class="row mt-2">
+                                <div class="col-lg-3 col-md-6 m-1" *ngFor="let channel of channel_data" style="border: 1px solid #eee;">
+                                    <div [class.active]="channel.id == select_id" (click)="getBroadCastList(channel)">
+                                        <div class="card-body">
+                                            <img src="{{img_url+channel.channel_logo}}" style="height: 100px; width: 100px;" class="img-fluid loading">
+                                            <h4 class="card-title" [innerHTML]="channel.channel_name"></h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table vm no-th-brd pro-of-month mb-0 v-middle">
+                                    <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Broadcast Name</th>
+                                        <th>Cover image</th>
+                                        <!-- <th>Brodcast Date</th> -->
+                                        <th>Create Date</th>
+                                        <th>Action</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let data of stream_data; let i=index">
+                                            <td>{{i+1}}</td>
+                                            <td>{{data.title}}</td>
+                                            <td><img src="{{img_url+data.channel_logo}}" style="height: 100px; width: 100px;" class="img-fluid loading"></td>
+                                            <!-- <td>{{data.broadcast_time}}</td> -->
+                                            <td>{{data.create_date | date : 'MM/dd/yyyy'}}</td>
+                                            <td>
+                                                <div class="btn-group">
+                                                    <span *ngIf="data.status == '0'">
+                                                        <button type="button" class="btn btn-danger" >Offline</button>
+                                                    </span>
+                                                    <span *ngIf="data.status == '1'">
+                                                        <button type="button" class="btn btn-warning"><i class="fa fa-camera"></i></button>
+                                                    </span> 
+                                                    <span *ngIf="data.status == '2'">
+                                                        <button type="button" class="btn btn-warning">End</button>
+                                                    </span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr *ngIf="!isLoading && stream_data == ''">
+                                            <td colspan="5" class="text-center">No Record Found!!</td>
+                                        </tr>
+                                        <tr *ngIf="isLoading == true">
+                                            <td colspan="5" class="text-center"><i class="fa fa-spinner fa-spin fa-2x"></i><br>loading data....</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </ng-template>
+                    </ngb-tab>
+                    <ngb-tab title="">
+                        <ng-template ngbTabTitle>
+                            <div (click)="getFollowerList()">Followers List</div>
+                        </ng-template>
+                        <ng-template ngbTabContent>
+                            <div class="table-responsive">
+                                <table class="table vm no-th-brd pro-of-month mb-0 v-middle">
+                                    <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Channel Name</th>
+                                        <th>Cover image</th>
+                                        <th>Action</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let data of followe_data; let i=index">
+                                            <td>{{i+1}}</td>
+                                            <td>{{data.channel_name}}</td>
+                                            <td>
+                                                <span *ngIf="data.channel_logo">
+                                                    <img src="{{img_url+data.channel_logo}}"style="width: 90px;height: 90px;" class="img-fluid loading">
+                                                </span>
+                                            </td>
+                                            <td></td>
+                                        </tr>
+                                        <tr *ngIf="!isLoading && followe_data == ''">
+                                            <td colspan="4" class="text-center">No Record Found!!</td>
+                                        </tr>
+                                        <tr *ngIf="isLoading == true">
+                                            <td colspan="4" class="text-center"><i class="fa fa-spinner fa-spin fa-2x"></i><br>loading data....</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </ng-template>
+                    </ngb-tab>
+                    <ngb-tab>
+                        <ng-template ngbTabTitle>
+                            <div (click)="getMoOrder()">Orders List</div>
+                        </ng-template>
+                        <ng-template ngbTabContent>
+                            <div class="table-responsive">
+                                <table class="table vm no-th-brd pro-of-month mb-0 v-middle">
+                                    <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Order Id</th>
+                                        <th>Total Items</th>
+                                        <th>Paid Amount</th>
+                                        <th>Coupon Discount</th>
+                                        <th>Status</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let data of order_data; let i=index">
+                                            <td>{{i+1}}</td>
+                                            <td>{{data.order_id}}</td>
+                                            <td>{{data.total_items}}</td>
+                                            <td>{{data.total_amount}}</td>
+                                            <td>{{data.coupon_discount}}</td>
+                                            <td>{{data.status | titlecase}}</td>
+                                        </tr>
+                                        <tr *ngIf="!isLoading && order_data == ''">
+                                            <td colspan="6" class="text-center">No Record Found!!</td>
+                                        </tr>
+                                        <tr *ngIf="isLoading == true">
+                                            <td colspan="6" class="text-center"><i class="fa fa-spinner fa-spin fa-2x"></i><br>loading data....</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </ng-template>
+                    </ngb-tab>
+                    <ngb-tab>
+                        <ng-template ngbTabTitle>
+                            <div (click)="getShipping()">Shipping Address</div>
+                        </ng-template>
+                        <ng-template ngbTabContent>
+                            <div class="table-responsive">
+                                <table class="table vm no-th-brd pro-of-month mb-0 v-middle">
+                                    <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Address</th>
+                                        <th>City</th>
+                                        <th>State</th>
+                                        <th>Country</th>
+                                        <th>Zip Code</th>
+                                        <th>Contact Number</th>
+                                        <th>Address Type</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let data of address_data; let i=index">
+                                            <td>{{data.fullname | titlecase}}</td>
+                                            <td>{{data.address + ' '+ data.address_1}}</td>
+                                            <td>{{data.city}}</td>
+                                            <td>{{data.state}}</td>
+                                            <td>{{data.country | titlecase}}</td>
+                                            <td>{{data.pin_code}}</td>
+                                            <td>{{data.contact_no}}</td>
+                                            <td>{{data.address_type}}</td>
+                                            <td>{{data.channel_name}}</td>
+                                        </tr>
+                                        <tr *ngIf="!isLoading && address_data == ''">
+                                            <td colspan="8" class="text-center">No Record Found!!</td>
+                                        </tr>
+                                        <tr *ngIf="isLoading == true">
+                                            <td colspan="8" class="text-center"><i class="fa fa-spinner fa-spin fa-2x"></i><br>loading data....</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </ng-template>
+                    </ngb-tab>
+                    <ngb-tab>
+                        <ng-template ngbTabTitle>
+                            <div (click)="getOrderHistory()">Sales History</div>
+                        </ng-template>
+                        <ng-template ngbTabContent>
+                            <div class="table-responsive">
+                                <table class="table vm no-th-brd pro-of-month mb-0 v-middle">
+                                    <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Order Id</th>
+                                        <th>Total Items</th>
+                                        <th>Paid Amount</th>
+                                        <th>Coupon Discount</th>
+                                        <th>Status</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let data of sales_data; let i=index">
+                                            <td>{{i+1}}</td>
+                                            <td>{{data.order_id}}</td>
+                                            <td>{{data.total_items}}</td>
+                                            <td>{{data.total_amount}}</td>
+                                            <td>{{data.coupon_discount}}</td>
+                                            <td>{{data.status | titlecase}}</td>
+                                        </tr>
+                                        <tr *ngIf="!isLoading && sales_data == ''">
+                                            <td colspan="6" class="text-center">No Record Found!!</td>
+                                        </tr>
+                                        <tr *ngIf="isLoading == true">
+                                            <td colspan="6" class="text-center"><i class="fa fa-spinner fa-spin fa-2x"></i><br>loading data....</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </ng-template>
+                    </ngb-tab>
+                </ngb-tabset>
+            </div>
+        </div>
+        <!-- <div class="card card-inverse text-center">
+            <div class="card-header  bg-info text-white">
+               Broadcast List
+            </div>
+            <div class="card-body">
+                
+            </div>
+        </div> -->
+    </div>
+</div>

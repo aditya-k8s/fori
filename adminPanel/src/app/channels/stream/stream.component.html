@@ -1,0 +1,37 @@
+<div class="row userslistpage">
+    <div class="col-12">
+        <div class="card">
+            <div class="col-md-12">
+				<div class="row mt-2">
+					<div class="col-md-3">
+						<h4 class="card-title"><span class="lstick"></span>Live Streaming</h4>
+					</div>
+				</div>
+			</div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-7">
+                        <app-live-stream></app-live-stream>
+                    </div>
+                    <div class="col-md-5">
+                        <div id="roster-message-container" class="d-flex flex-column col-12  h-100">
+                            <div class="bs-component" style="flex: 1 1 auto; overflow-y: auto; height: 50%;">
+                                <div id="viwer" class=""></div>
+                                <div id="live" class="">Like(s) : {{likes_data}}</div>
+                                <ul id="roster" style="display: none;" class="list-group"></ul>
+                            </div>
+                            <!-- <div class="message d-flex flex-column pt-3" style="flex: 1 1 auto; overflow: hidden; height: 50%;">
+                              <div class="list-group receive-message" id="receive-message" style="flex: 1 1 auto; overflow-y: auto;
+                                border: 1px solid rgba(0, 0, 0, 0.125); background-color: #fff"></div>
+                                <div class="input-group send-message" style="display:flex;flex:0 0 auto;margin-top:0.2rem">
+                                <textarea class="form-control shadow-none" id="send-message" rows="1" placeholder="Type a message (markdown supported)" style="display:inline-block; width:100%;
+                                  resize:none; border-color: rgba(0, 0, 0, 0.125); outline: none; padding-left: 1.4rem"></textarea>
+                              </div>
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,40 @@
+div#cdk-step-content-0-2 .ng-star-inserted label:before {
+  content: url("https://cdn1.iconfinder.com/data/icons/windows8_icons_iconpharm/26/checked_checkbox.png");
+}
+
+input[type=checkbox] {
+  display: none;
+}
+/*pure cosmetics:*/
+.productImg {
+  width: 150px;
+  height: 150px;
+}
+label {
+  margin: 10px;
+}
+.mat-step-header{
+	    pointer-events: none !important;
+
+}
+
+.hash-tag-box-form .bootstrap3-info.ng2-tag-input {
+    padding: 0 !important;
+    height: auto !important;
+    box-shadow: 0 0 !important;
+    border: 0 !important;
+    line-height: normal !important;
+    background-color: transparent !important;
+    height: auto !important;
+    min-height: auto !important;
+}
+
+.hash-tag-box-form form{padding:0 !important;}
+
+.hash-tag-box-form .form-control{padding: 4px 12px;}
+
+.hash-tag-box-form .tag-wrapper {
+    align-items: center;
+    line-height: normal;
+    max-height: 29px;
+}

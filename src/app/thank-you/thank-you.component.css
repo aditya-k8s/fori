@@ -1,0 +1,4 @@
+.thank-you-page {display: flex;flex-direction: column;align-items: center;justify-content: center;height: 100vh;margin: 0;}
+.thank-you-page svg {height: 55px;}
+.thank-you-page svg path {fill: #2fc340;}
+.thank-you-page .display-3 {color: #2fc340;font-size: 3.8rem;}

@@ -1,0 +1,25 @@
+<div class="card">
+    <div class="card-body">
+      <div class="d-flex">
+        <h4 class="card-title"><span class="lstick"></span>Latest User(s)</h4>
+      </div>
+      <div class="message-box contact-box">
+        <div class="message-widget contact-widget">
+          <ng-container *ngFor="let user of user_data">
+            <a href="javascript:void(0)">
+              <div class="user-img">
+                <ng-container *ngIf="user.profile_pic != null && user.profile_pic != ''">
+                  <img src="{{user.profile_pic}}" alt="user" class="rounded-circle" />
+                  <span class="profile-status online pull-right"></span>
+                </ng-container>
+              </div>
+              <div class="mail-contnet">
+                <h5 [innerHTML]="user.first_name + ' ' + user.last_name"></h5>
+                <span class="mail-desc" [innerHTML]="user.email"></span>
+              </div>
+            </a>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>

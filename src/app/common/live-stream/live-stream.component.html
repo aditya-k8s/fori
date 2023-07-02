@@ -1,0 +1,31 @@
+<section class="live-sales live_sales-cloned-live-now" *ngIf="live_streaming.length > 0 ">
+    <div class="container">
+      <div class="sap-small-headings"><span><img src="https://fori.kindlebit.com/assets/images/flive-dark.png" alt=""></span> LIVE NOW!</div>
+      <div class="sub-heading">live selling meet social shopping™</div>
+    <div class="thumb-head">
+      <div class="thumb-inner" *ngFor="let stream of live_streaming">
+        <a [routerLink]="['/view-stream', stream.channel_id]" class="thumb-img">  <span class="live-tag" *ngIf="stream.broadcast_status == 1"><div class="red-dot"></div>Live</span>
+          <img src="{{image_url+stream.cover_image}}" alt="Broaadcast" onerror="this.src='assets/images/broadcast-icon.jpg'">
+        </a>
+        <div class="title-head">
+          <a [routerLink]="['/view-stream', stream.channel_id]" class="title-text">{{stream.channel_name}}</a>
+          <!-- <div class="timer">
+            <div class="days">
+              <span *ngIf="stream.timestamp > 86400">
+              <countdown  [config]="{ leftTime:  stream.timestamp - 86400 , format: 'd' }">$!d!:$!h!:$!m!:$!s!</countdown></span>
+              <span *ngIf="stream.timestamp < 86400">
+                0
+              </span>
+              <span>days</span></div>
+            <div class="hours"><span><countdown [config]="{ leftTime:  stream.timestamp, format: 'HH' }">$!d!:$!h!:$!m!:$!s!</countdown></span><span>hours</span></div>
+            <div class="mins"><span><countdown [config]="{ leftTime:  stream.timestamp, format: 'm' }">$!d!:$!h!:$!m!:$!s!</countdown></span><span>mins</span></div>
+            <div class="secs"><span><countdown [config]="{ leftTime:  stream.timestamp, format: 's' }">$!d!:$!h!:$!m!:$!s!</countdown></span><span>secs</span></div>
+          </div> -->
+          <div class="date-num">{{stream.broadcast_time | date:'MMMM dd, yyyy hh:mm a'}}</div>
+          <div class="sap-btn-dark" *ngIf="href"><a>Go Live!</a></div>
+        </div>
+      </div>
+    </div>
+    <div class="sap-btn-dark" *ngIf="totalChannel"><a routerLink="/broadcast/live" >view more</a></div>
+  </div>
+  </section>

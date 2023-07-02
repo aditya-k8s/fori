@@ -1,0 +1,157 @@
+<app-header></app-header>
+  <section class="create-new-product ">
+      <div class="inventory-container">
+
+  	    <form [formGroup]="productForm" (ngSubmit)="onSubmit(productForm.value)">
+
+          <div class="form-title-head">
+            <div class="form-title">details</div>
+          </div>
+
+                      <div *ngIf="sliderImage" class="left-vid-sec-prod-info-head">
+            <owl-carousel-o [options]="customOptions">
+                  <ng-container *ngFor="let pro of sliderImage;let i = index" class="prod-info-inner">
+                    <ng-template class="slide" carouselSlide [id]="pro.product_id">
+                    <div class="prod-info-thumb">
+                      <div class="prod-info-thumb-inner">
+                        <img src="" alt="" src="{{pro.image_url}}" [alt]="pro.product_id" [title]="pro.product_id" class="img-owl-slider" onerror="this.src='assets/images/product.png'">
+                      </div>
+                    </div>
+                </ng-template>
+              </ng-container>
+            </owl-carousel-o> 
+          </div>
+          
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <label>Product Name</label>   
+              <input id="product_title" type="text" class="form-control" formControlName="product_title" [ngClass]="{ 'is-invalid': submitted && f.product_title.errors }" >
+              <div *ngIf="submitted && f.product_title.errors" class="invalid-feedback">
+                  <span class="for-sub-name" *ngIf="f.product_title.errors.required" >Product name required </span>
+              </div>
+            </div>
+
+            
+
+         
+
+            <div class="form-group col-md-6">
+              <label for="">Retail Price <span id="text-red">($)</span></label>   
+              <input id="product_retail_price"  type="text" class="form-control" formControlName="product_retail_price" placeholder="0.00" [ngClass]="{ 'is-invalid': submitted && f.product_retail_price.errors }" value="{{product_date.product_retail_price}}">
+              <small id="" class="form-text text-muted">The price buyers pay.</small>
+              <div *ngIf="submitted && f.product_retail_price.errors" class="invalid-feedback">
+                <span class="for-sub-name" *ngIf="f.product_retail_price.errors.required" >Retail Price required </span>
+                 <span class="for-sub-name" *ngIf="f.product_retail_price.errors.pattern" >Only number allowed </span>
+              </div>
+            </div>
+
+            <div class="form-group col-md-6">
+                <label>Stock</label>   
+                <input id="product_stock" type="text" class="form-control" formControlName="product_stock" [ngClass]="{ 'is-invalid': submitted && f.product_stock.errors }" value="{{product_date.product_stock}}">
+                <div *ngIf="submitted && f.product_stock.errors" class="invalid-feedback">
+                    <span class="for-sub-name" *ngIf="f.product_stock.errors.required" >Product Stock required </span>
+                      <span class="for-sub-name" *ngIf="f.product_stock.errors.pattern" >Only number allowed </span>
+                </div>
+            </div>
+
+             <div class="form-group col-md-6">
+              <label>On Air Price</label>   
+              <input id="on_air_price" type="text" class="form-control" formControlName="on_air_price" [ngClass]="{ 'is-invalid': submitted && f.on_air_price.errors }" value="{{product_date.on_air_price}}" #onAirPrice>
+             <!--  <span *ngIf="onAirPrice.value">You will get {{(onAirPrice.value -(onAirPrice.value *  this.retailerFees)/100)}} onair Price for this product</span> -->
+              
+              <div *ngIf="submitted && f.on_air_price.errors" class="invalid-feedback">
+                        <span class="for-sub-name" *ngIf="f.on_air_price.errors.required" >On air Price required </span>
+                </div>
+            </div>
+
+             <div class="form-group col-md-6">
+              <label>Off Air Price</label>   
+              <input id="off_air_price" type="text" class="form-control" formControlName="off_air_price" [ngClass]="{ 'is-invalid': submitted && f.off_air_price.errors }" value="{{product_date.off_air_price}}" #offAirPrice>
+
+              <!--  <span *ngIf="offAirPrice.value">You will get {{(offAirPrice.value -(offAirPrice.value *  this.retailerFees)/100)}} offair Price for this product</span>
+ -->
+              <div *ngIf="submitted && f.off_air_price.errors" class="invalid-feedback">
+                        <span class="for-sub-name" *ngIf="f.off_air_price.errors.required" >Off air Price required </span>
+                </div>
+            </div>
+
+           <!--  <div class="form-group col-md-6">
+              <label>Discount per Offair</label>   
+              <input id="discount_peroffair" type="text" class="form-control" formControlName="discount_peroffair" [ngClass]="{ 'is-invalid': submitted && f.discount_peroffair.errors }" value="{{product_date.discount_peroffair}}">
+              <div *ngIf="submitted && f.discount_peroffair.errors" class="invalid-feedback">
+                        <span class="for-sub-name" *ngIf="f.discount_peroffair.errors.required" >Discount per Offair required </span>
+                </div>
+            </div> -->
+
+             <!-- <div class="form-group col-md-6">
+              <label>Discount per Onair</label>   
+              <input id="discount_peronair" type="text" class="form-control" formControlName="discount_peronair" [ngClass]="{ 'is-invalid': submitted && f.discount_peronair.errors }" value="{{product_date.discount_peronair}}">
+              <div *ngIf="submitted && f.discount_peronair.errors" class="invalid-feedback">
+                        <span class="for-sub-name" *ngIf="f.discount_peronair.errors.required" >Discount per Onair required </span>
+                </div>
+            </div> -->
+          <div class="form-group col-md-12 hash-tag-box-form" >
+            <label><span>Description</span></label>
+              <ckeditor
+                [data]="editorData"
+                tagName="textarea"
+                id="product_description"
+                formControlName="product_description"
+              ></ckeditor>
+           </div>
+
+
+            <div class="form-group col-md-12 hash-tag-box-form" >
+                <label>Hash Tags for search <span id="text-red">(optional)</span></label>
+                    <tag-input [ngModel]="hashtagValue" class="form-control"[ngModel]=""
+                    [theme]="'bootstrap3-info'"
+                    formControlName="chips" (onAdd)="onItemAdded($event)"  (onRemove)="onItemRemoved($event)" >
+                </tag-input>
+            </div>
+
+            <div class="row edit-prod-variant-loop" *ngFor="let variant of variants; let i = index">
+              <div class="form-group col-md-4" >
+                <label>Variants</label> 
+                <input type="text" class="form-control" readonly [value]="variant.title"  >
+              </div>
+
+              <div class="form-group col-md-2" >
+                <label>Variant Price</label> 
+                <input type="text" class="form-control"  readonly [value]="variant.price" >
+              </div>
+
+              <div class="form-group col-md-2" >
+                <label>Stock</label> 
+                <input type="text" class="form-control"  [(ngModel)]="variants[i].inventoryQuantity" [ngModelOptions]="{standalone: true}" [ngClass]="{ 'is-invalid': variants[i].inventoryQuantity <= 0 }">
+
+                <div *ngIf="variants[i].inventoryQuantity <= 0" class="invalid-feedback">
+                  <span class="for-sub-name">Stock required </span>
+               </div>
+              </div>
+
+               <div class="form-group col-md-2" >
+
+                <label>ON AIR PRICE</label> 
+                <input type="text" class="form-control"    [(ngModel)]="variants[i].on_air_price" [ngModelOptions]="{standalone: true}">
+              </div>
+
+               <div class="form-group col-md-2" >
+                <label>OFF AIR PRICE</label> 
+                <input type="text" class="form-control" [(ngModel)]="variants[i].off_air_price" [ngModelOptions]="{standalone: true}">
+              </div>
+            </div>
+
+
+            <div class="form-group col-md-12 for-foot-button">
+              <div class="sap-btn-dark grey-btn"><a routerLink="/inventory">Exit</a></div>
+              <div class="sap-btn-dark">  <button type="submit" class="btn btn-primary btn-block" [disabled]="loading">Update Product
+              <i class="fa fa-spinner fa-spin" *ngIf="loading"></i></button></div>
+            </div>
+          </div>
+
+        </form> 
+
+     
+      </div>
+  </section>
+<app-footer></app-footer>

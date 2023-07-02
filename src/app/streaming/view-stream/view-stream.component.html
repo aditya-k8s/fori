@@ -1,0 +1,231 @@
+<app-header></app-header>
+<section class="view-bc-page">
+  <div class="container">
+    <div class="sap-small-headings text-center">{{broadcastData.channel_name}}</div>
+    <div class="bc-main">
+      <div class="left-sec">
+        <a href="javascript:void(0)" class="bc-img"><img src="{{image_url+broadcastData.cover_image}}" alt=""  onerror="this.src='assets/images/broadcast-icon.jpg'"></a>
+        <div class="left-sec-des-main">
+          <a href="javascript:void(0)" class="bc-channel-name">{{broadcastData.channel_name}}</a>
+            <a [routerLink]="['/channel', broadcastData.main_channelName]"class="bc-un">{{broadcastData.main_channelName}}</a>
+            <div class="bc-followers-num">{{broadcastData.followers}} Followers</div>
+            <div class="profile-sec-btns" id="bc-sec-btns">
+             <!--  <button  class="follow-btn btn-outline-secondary">Follow</button> -->
+               <button class="follow-btn btn-outline-secondary" (click)="toggleFollowing(broadcastData.user_id,broadcastData.store_id)"  [ngClass]="{ 'disabled': submitted,
+                'btn-outline-secondary': !following,
+                'btn-secondary': following }"
+                > {{ following ? 'Unfollow' : 'Follow' }}</button>
+
+                <button  class="share-btn" data-toggle="modal" data-target="#social-share-pop">Share <i  class="fas fa-share-alt"></i></button>
+            </div>
+          </div>
+        </div>
+        <div class="right-sec">
+          <div class="right-sec-inner-main">
+            <div class="right-sec-inner-bc-left">
+              <div class="bc-title">{{broadcastData.channel_name}}</div>
+              <div class="bc-des">{{broadcastData.description}}</div>
+              <div class="bc-tags" *ngIf="hashtagValue"> 
+                <span *ngFor="let value of hashtagValue;" >{{value}}</span> 
+              </div>
+              <div class="title-head">
+                <div class="timer" *ngIf="broadcastData.broadcast_status == '0'">
+                <div class="days">
+                  <span *ngIf="timestamp > 86400">
+                  <countdown  [config]="{ leftTime:  timestamp - 86400, format: 'd' }">$!d!:$!h!:$!m!:$!s!</countdown>
+                </span>
+                <span *ngIf="timestamp < 86400">0</span>
+                <span>days</span></div>
+
+                  <div class="hours"><span><countdown [config]="{ leftTime:  this.timestamp, format: 'HH' }">$!d!:$!h!:$!m!:$!s!</countdown></span><span>hours</span></div>
+                  <div class="mins"><span><countdown [config]="{ leftTime:  this.timestamp, format: 'm' }">$!d!:$!h!:$!m!:$!s!</countdown></span><span>mins</span></div>
+                  <div class="secs"><span><countdown [config]="{ leftTime:  this.timestamp, format: 's' }">$!d!:$!h!:$!m!:$!s!</countdown></span><span>secs</span></div>
+                </div>
+              </div>
+
+              <div class="sap-btn-dark bc-view-vid-btns"
+                *ngIf="broadcastData.broadcast_status == '1' && userId"
+                >
+
+                <div class="live-img" id="liveimg" style="display: block;"><img  alt="live" src="./assets/images/flive-dark.png" style="width: 6%"></div>
+
+                <a [routerLink]="['/stream', broadcastData.channel_id]"  [queryParams]="{m: broadcastData.broadcast_id}"  (click)="sendPushNotification()" [class.disable]="liveTimeTimestamp > currentDateTimestamp" *ngIf="user_type == 2">go live</a>
+
+                <a [routerLink]="['/stream', broadcastData.channel_id]"  [queryParams]="{m: broadcastData.broadcast_id}"  (click)="sendPushNotification()" [class.disable]="liveTimeTimestamp > currentDateTimestamp" *ngIf="user_type == 0">watch live</a>
+                  
+              </div>
+
+              <div class="sap-btn-dark bc-view-vid-btns"
+              *ngIf="broadcastData.broadcast_status != '1' && url"
+              >
+                <a [routerLink]="['/stream', broadcastData.channel_id]"  [queryParams]="{m: broadcastData.broadcast_id}"  (click)="sendPushNotification()" [class.disable]="liveTimeTimestamp > currentDateTimestamp" *ngIf="userId">Watch Promo</a>
+                
+                <a routerLink="/login" *ngIf="!userId">Watch Promo</a>
+              </div>
+            </div>
+            <div class="right-sec-inner-bc-right" *ngIf="url">
+             
+                <div class="promo-video" >
+                  <iframe width="560" height="315" [src]="url | safe" title="video player" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="replay-video-sec" *ngIf="broadcastData.store_url">
+        <div class="sap-small-headings text-center">Replay Broadcast</div>
+        <video controls
+            [src]="broadcastData.store_url | safe"
+            width="800">
+
+          Sorry, your browser doesn't support embedded videos,
+          but don't worry, you can <a [href]="broadcastData.store_url">download it</a>
+          and watch it with your favorite video player!
+
+        </video>
+
+      </div>
+      <div class="bc-prod-table-head" *ngIf="productList.length > 0">
+        <table class="table bc-prod-table table-responsive" >
+          <thead>
+            <tr>
+              <th>Product Image</th>
+              <th>Product Name</th>
+              <th>Available Stock</th>
+              <th *ngIf="broadcastData.broadcast_status == '1'"> Offair Price</th>
+              <th *ngIf="broadcastData.broadcast_status == '1'"> Onair Price</th>
+               <th *ngIf="broadcastData.broadcast_status != '1'">Offair Price</th> 
+              <th>Choose Options</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container *ngIf="productList">
+
+            
+            <tr *ngFor="let product of productList ;let row = index">
+              {{get_variant(product,row)}} 
+              <td><img src="{{product.image_url}}" alt="Product Image" onerror="this.src='assets/images/product-icon.jpg'"></td>
+              <td>{{product.product_title}}</td>
+              <td>
+                <ng-container *ngIf="product.available_stock > 0 && product['variants'] == ''">
+                  <span *ngIf="product.available_stock <= 5 && product.available_stock > 0" style="color: red;">Only {{product.available_stock}} left</span>
+                  <span *ngIf="product.available_stock > 5" style="color: green;">{{product.available_stock}}</span>
+                  <span *ngIf="product.available_stock <= 0">Out of Stock</span>
+                </ng-container>
+
+                <ng-container *ngIf="product.available_stock > 0 && product['variants'] != ''">
+                  <span *ngIf="variants_stock[row] <= 5 && variants_stock[row] > 0" style="color: red;">Only {{variants_stock[row]}} left</span>
+
+                  <span *ngIf="variants_stock[row] > 5" style="color: green;">{{variants_stock[row]}}</span>
+                  <span *ngIf="variants_stock[row] <= 0">Out of Stock</span>
+                </ng-container>
+                <ng-container *ngIf="product.available_stock <= 0">
+                  <span>Out of Stock</span>
+                </ng-container>
+                <!-- <ng-container *ngIf="avaStock_data != ''">
+                  <ng-container *ngFor="let stock of avaStock_data">
+                    <span *ngIf="stock.product_id == product.product_id">
+                      <span *ngIf="stock.available_stock <= 5" style="color: red;">Only {{stock.available_stock}} left</span>
+                      <span *ngIf="stock.available_stock > 5" style="color: green;">{{stock.available_stock}}</span>
+                      <span *ngIf="stock.available_stock == 0;"> 
+                        <span style="visibility: hidden;">{{outOfStock(stock.available_stock)}}</span> Out of Stock</span>
+                    </span>
+                    <span *ngIf="stock.product_id != product.product_id">
+                      <span *ngIf="product.available_stock <= 5" style="color: red;">Only {{product.available_stock}} left</span>
+                      <span *ngIf="product.available_stock > 5" style="color: green;">{{product.available_stock}}</span>
+                      <span *ngIf="product.available_stock == 0">
+                        <span style="visibility: hidden;">{{outOfStock(product.product_id)}}</span> Out of Stock</span>
+                    </span>
+                  </ng-container>
+                </ng-container> -->
+              </td>
+              <td *ngIf="broadcastData?.broadcast_status == '1'">
+                <del>${{variant_Offprice[row]}}</del>
+              </td>
+              <td *ngIf="broadcastData?.broadcast_status == '1'">
+                <span class="price">${{variant_Onprice[row]}}</span>
+              </td>
+              <td *ngIf="broadcastData?.broadcast_status != '1'">
+                <span class="price">${{variant_Offprice[row]}}</span>
+              </td>
+              <td>
+                <div class="form-group col-md-12" *ngFor="let variant of product.options; let col = index">
+                  <label>{{variant.name}}</label>
+                  <select class="form-control"  [(ngModel)]="variantValues[row+'-'+variant.name]" (change)="changeVariant($event,variant.name,product,row)">
+                      <option *ngFor="let value of convert_to_jason(variant,row); let itemIndex = index" [ngValue]="value" [selected]="itemIndex == 0 ? true : false">{{value}} </option>
+                  </select>
+                </div>
+              </td>
+              
+              <td *ngIf="(user_type == 0 && product.available_stock > 0 && variants_stock[row] > 0) || (user_type == 0 && product.available_stock > 0 && product['variants'] == '')">
+                <div class="sap-btn-dark" *ngIf="broadcastData.broadcast_status != '1'" ><button (click)="_addItemToCart(product,row)" *ngIf="product.off_air_price != 0">add to cart</button></div>
+                <div class="sap-btn-dark" *ngIf="broadcastData.broadcast_status == '1'"><button (click)="_addItemToCart(product,row)" *ngIf="product.on_air_price != 0">add to cart</button></div>
+              </td>
+              <!-- {{get_variant(product,row)}}  -->
+          </tr>
+        </ng-container>
+        </tbody>
+     </table>
+    </div>
+  </div>
+</section>
+
+<!-----------------Live & Upcoming Broadcast slider ---------------->
+<section class="live-sales" *ngIf="streamingList.length > 0 ">
+  <div class="container">
+  <div class="sap-small-headings">live & upcoming</div>
+  <div class="thumb-head">
+    <div class="thumb-inner" *ngFor="let stream of streamingList">
+      <a [routerLink]="['/view-stream', stream.channel_id]" class="thumb-img"><span class="live-tag" *ngIf="stream.broadcast_status == 1"><div class="red-dot"></div>Live</span><img src="{{image_url+stream.cover_image}}" alt=""></a>
+      <div class="title-head">
+        <a [routerLink]="['/view-stream', stream.channel_id]" class="title-text">{{stream.channel_name}}</a>
+        <div class="timer">
+          <div class="days">
+            <span *ngIf="stream.timestamp > 86400">
+            <countdown  [config]="{ leftTime:  stream.timestamp - 86400 , format: 'd' }">$!d!:$!h!:$!m!:$!s!</countdown></span>
+            <span *ngIf="stream.timestamp < 86400">
+              0
+            </span>
+            <span>days</span></div>
+
+          <div class="hours"><span><countdown [config]="{ leftTime:  stream.timestamp, format: 'HH' }">$!d!:$!h!:$!m!:$!s!</countdown></span><span>hours</span></div>
+          <div class="mins"><span><countdown [config]="{ leftTime:  stream.timestamp, format: 'm' }">$!d!:$!h!:$!m!:$!s!</countdown></span><span>mins</span></div>
+          <div class="secs"><span><countdown [config]="{ leftTime:  stream.timestamp, format: 's' }">$!d!:$!h!:$!m!:$!s!</countdown></span><span>secs</span></div>
+        </div>
+        <div class="date-num">{{stream.broadcast_time | date:'MMMM dd, yyyy hh:mm a'}}</div>
+      </div>
+    </div>
+
+  </div>
+  <div class="sap-btn-dark"><a routerLink="/list/streaming" >view more</a></div>
+  </div>
+</section>
+
+<!-----------------Share social icons model---------------->
+<div class="modal fade" id="social-share-pop" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content col-12">
+            <div class="modal-header">
+                <h5 class="modal-title">Share</h5> <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+            </div>
+           <!--  <share-buttons  [url]="'http://fori.kindlebit.com/'"></share-buttons> -->
+            <share-buttons 
+             [include]="['facebook','twitter','linkedin','messenger','whatsapp','email','copy']"
+             
+             [size]="2"
+             [url]="'http://fori.kindlebit.com/'"
+             [image] ="'https://fori.kindlebit.com/assets/images/logo.png'"
+             [autoSetMeta]="false"
+            ></share-buttons>
+     
+            <div class="modal-footer"> <label style="font-weight: 600">Page Link <span class="message"></span></label><br />
+                <div class="row"> <input class="col-10 ur" type="url"  [value]="href" #userinput id="myInput" aria-describedby="inputGroup-sizing-default" style="height: 40px;"> 
+                    <button class="cpy" (click)="copyUrl(userinput)"><i class="far fa-clone"></i></button> 
+                     <p class="text-success">{{copied}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<app-footer></app-footer>
